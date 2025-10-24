@@ -7,9 +7,8 @@ using System.Web.UI.WebControls;
 
 namespace WebApplication3
 {
-    public partial class _Default : Page
+    public partial class Productos : System.Web.UI.Page
     {
-        //comentario prueba
         protected void Page_Load(object sender, EventArgs e)
         {
 

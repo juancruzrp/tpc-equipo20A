@@ -11,7 +11,18 @@ namespace WebApplication3
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Ocultar el menú lateral si la página actual es Login
+            if (Page.AppRelativeVirtualPath.ToLower().Contains("login.aspx"))
+            {
+                pnlNavbar.Visible = false;
+            }
+        }
 
+        protected void btnSalir_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon();
+            Response.Redirect("~/Login.aspx");
         }
     }
 }
