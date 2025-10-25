@@ -43,6 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Categoria.cs" />
+    <Compile Include="DetllaeCompra.cs" />
+    <Compile Include="Compra.cs" />
+    <Compile Include="DetalleVentas.cs" />
+    <Compile Include="Ventas.cs" />
+    <Compile Include="Producto.cs" />
+    <Compile Include="Marca.cs" />
+    <Compile Include="Proveedor.cs" />
+    <Compile Include="Cliente.cs" />
+    <Compile Include="TipoUsuario.cs" />
+    <Compile Include="Usuario.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

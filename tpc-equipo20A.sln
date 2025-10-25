@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36511.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tpc-equipo20A", "WebApplication3\tpc-equipo20A.csproj", "{13C32ECB-CBD5-4C9C-99B9-8D1A9074B3B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominio", "Dominio\Dominio.csproj", "{31FFD48E-960A-492E-A536-D85E375809F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{13C32ECB-CBD5-4C9C-99B9-8D1A9074B3B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13C32ECB-CBD5-4C9C-99B9-8D1A9074B3B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13C32ECB-CBD5-4C9C-99B9-8D1A9074B3B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31FFD48E-960A-492E-A536-D85E375809F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31FFD48E-960A-492E-A536-D85E375809F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31FFD48E-960A-492E-A536-D85E375809F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31FFD48E-960A-492E-A536-D85E375809F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

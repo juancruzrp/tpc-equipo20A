@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace Dominio
 {
-    internal class Class1
+    internal class Cliente
     {
+        public int IDCliente { get; set; }
+        public string Nombre { get; set; }
+        public string Apellido { get; set; }
+        public string Telefono { get; set; }
+        public string Mail { get; set; }
+        public string Direccion { get; set; }
+
     }
 }
