@@ -46,9 +46,9 @@
     <Compile Include="Categoria.cs" />
     <Compile Include="DetalleCompra.cs" />
     <Compile Include="Compra.cs" />
-    <Compile Include="DetalleVentas.cs" />
+    <Compile Include="DetalleVenta.cs" />
     <Compile Include="Imagen.cs" />
-    <Compile Include="Ventas.cs" />
+    <Compile Include="Venta.cs" />
     <Compile Include="Producto.cs" />
     <Compile Include="Marca.cs" />
     <Compile Include="Proveedor.cs" />
