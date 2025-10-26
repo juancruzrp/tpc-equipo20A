@@ -41,29 +41,58 @@
                 <!-- Menú lateral izquierdo -->
             <asp:Panel ID="pnlNavbar" runat="server">
                 <aside class="col-auto bg-dark text-white d-flex flex-column align-items-start p-3 position-fixed top-0 start-0 vh-100" style="width: 220px;">
-                    <a class="navbar-brand text-white mb-4" runat="server" href="~/Inicio">Sistema de Gestión</a>
-                    <ul class="nav nav-pills flex-column mb-auto">
-                        <li class="nav-item mb-2">
-                            <a class="btn btn-outline-secondary" runat="server" href="~/Ventas">Ventas</a>
-                        </li>
-                        <li class="nav-item mb-2">
-                            <a class="btn btn-outline-secondary" runat="server" href="~/Compras">Compras</a>
-                        </li>
-                        <li class="nav-item mb-2">
-                            <a class="btn btn-outline-secondary" runat="server" href="~/Productos">Productos</a>
-                        </li>
-                        <li class="nav-item mb-2">
-                            <a class="btn btn-outline-secondary" runat="server" href="~/Proveedores">Proveedores</a>
-                        </li>
-                                                <li class="nav-item mb-2">
-                            <a class="btn btn-outline-secondary" runat="server" href="~/Clientes">Clientes</a>
-                        </li>
+                    
+                    <a class="btn btn-dark" style="color: white;" aria-current="true" runat="server" href="~/Inicio"
+                       onmouseover="this.style.color='gray';" 
+                       onmouseout="this.style.color='white';">
+                         INICIO 
+                    </a>
+
+                    
+                    <br />
+
+                    <ul class="nav flex-column">
+                       <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;">
+                         <a class="nav-link" style="color: white;" aria-current="true" runat="server" href="~/Ventas"
+                            onmouseover="this.style.color='gray';" 
+                            onmouseout="this.style.color='white';">
+                            Ventas
+                         </a>
+                       </li>
+                       <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;">
+                         <a class="nav-link" style="color: white;" runat="server" href="~/Compras"
+                            onmouseover="this.style.color='gray';" 
+                            onmouseout="this.style.color='white';">
+                            Compras
+                         </a>
+                       </li>
+                       <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;">
+                         <a class="nav-link" style="color: white;" runat="server" href="~/Productos"
+                            onmouseover="this.style.color='gray';" 
+                            onmouseout="this.style.color='white';">
+                            Productos
+                         </a>
+                       </li>
+                       <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;">
+                           <a class="nav-link" style="color: white;" runat="server" href="~/Proveedores"
+                              onmouseover="this.style.color='gray';" 
+                              onmouseout="this.style.color='white';">
+                              Proveedores
+                           </a>
+                       </li>
+                       <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;">
+                           <a class="nav-link" style="color: white;" runat="server" href="~/Clientes"
+                              onmouseover="this.style.color='gray';" 
+                              onmouseout="this.style.color='white';">
+                              Clientes
+                           </a>
+                       </li>
                     </ul>
 
                     <div class="mt-auto w-100">
                         <asp:Button ID="btnSalir" class="btn btn-outline-secondary" runat="server" Text="Salir" OnClick="btnSalir_Click" />
                     </div>
-
+                    
                 </aside>
             </asp:Panel>
 
