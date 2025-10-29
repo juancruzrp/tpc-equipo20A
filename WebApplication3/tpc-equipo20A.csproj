@@ -118,6 +118,7 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Error.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Inicio.aspx" />
@@ -202,6 +203,13 @@
     </Compile>
     <Compile Include="Compras.aspx.designer.cs">
       <DependentUpon>Compras.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Error.aspx.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Error.aspx.designer.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

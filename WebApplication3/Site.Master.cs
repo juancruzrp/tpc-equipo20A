@@ -13,6 +13,11 @@ namespace WebApplication3
         {
             // Ocultar el menú lateral si la página actual es Login
             if (Page.AppRelativeVirtualPath.ToLower().Contains("login.aspx"))
+                
+            {
+                pnlNavbar.Visible = false;
+            }
+            if (Page.AppRelativeVirtualPath.ToLower().Contains("error.aspx"))
             {
                 pnlNavbar.Visible = false;
             }
