@@ -7,15 +7,11 @@ using System.Web.UI.WebControls;
 
 namespace WebApplication3
 {
-    public partial class Inicio : System.Web.UI.Page
+    public partial class AltaUsuarios : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-           if(Session["Usuario"] == null)
-           {
-               Session.Add("Error", "Debe iniciar sesión para acceder al sistema.");
-               Response.Redirect("~/Error.aspx", false);
-           }
+
         }
     }
 }

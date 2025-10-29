@@ -28,12 +28,12 @@ namespace WebApplication3
                     if(negocio.Loguear(usuario))
                     {
                         Session.Add("Usuario", usuario);
-                        Response.Redirect("~/Inicio.aspx");
+                        Response.Redirect("~/Inicio.aspx",false);
                     }
                     else
                     {
                     Session.Add("Error", "Nombre de Usuario o Contraseña incorrectos.");
-                    Response.Redirect("~/Error.aspx");
+                    Response.Redirect("~/Error.aspx",false);
                 }
 
             }
@@ -41,6 +41,7 @@ namespace WebApplication3
             {
 
                 Session.Add("Error", ex.ToString());
+                Response.Redirect("~/Error.aspx");
             }
         }
     }
