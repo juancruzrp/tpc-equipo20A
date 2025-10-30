@@ -126,6 +126,8 @@
     <Content Include="Login.aspx" />
     <Content Include="Productos.aspx" />
     <Content Include="Proveedores.aspx" />
+    <Content Include="ScriptsSql\ScripDeDatos.sql" />
+    <Content Include="ScriptsSql\ScriptBDComercioTPC.sql" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
