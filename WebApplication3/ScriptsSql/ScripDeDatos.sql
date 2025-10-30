@@ -60,3 +60,9 @@ VALUES
 ('Cable eléctrico 2x1.5mm 10m', 'Aislado, uso domiciliario', 6, 5, 4300, 22, 1),
 ('Lámpara LED 12W', 'Rosca E27, luz blanca fría', 6, 5, 1100, 60, 1);
 
+use COMERCIOTPC
+INSERT INTO Usuarios(NombreUsuario,Contraseña,IDTipoUsuario,FechaAlta,FechaBaja,Estado)
+VALUES
+('usuario','usuario',1,GETDATE(),NULL,1),
+('admin','admin',2,GETDATE(),NULL,1);
+
