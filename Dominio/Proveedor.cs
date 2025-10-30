@@ -13,5 +13,6 @@ namespace Dominio
         public string Telefono { get; set; }
         public string Mail { get; set; }
         public string Direccion { get; set; }
+        // nombre por razon social
     }
 }

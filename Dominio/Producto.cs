@@ -8,7 +8,6 @@ namespace Dominio
 {
     public class Producto
     {
-
         public int IDProducto { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
@@ -18,6 +17,8 @@ namespace Dominio
         public int Stock { get; set; }
         public bool Estado { get; set; }
 
-        public string ImagenUrl { get; set; }
+        public string ImagenUrl{ get; set; }
+
+        /// public List <string> ImagenUrl { get; set; }
     }
 }
