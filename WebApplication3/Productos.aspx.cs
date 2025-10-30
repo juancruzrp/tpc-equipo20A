@@ -17,11 +17,14 @@ namespace WebApplication3
 
         private void CargarProductos()
         {
-            ProductoNegocio negocio = new Negocio.ProductoNegocio();
+            ProductoNegocio negocio = new ProductoNegocio();
+            repProductos.DataSource = negocio.listar();
+            repProductos.DataBind();
+            /*ProductoNegocio negocio = new Negocio.ProductoNegocio();
             dgvProductos.DataSource = negocio.listar();
             dgvProductos.DataBind();
+            */
 
-                        
         }
 
     }
