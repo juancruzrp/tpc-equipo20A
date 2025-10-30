@@ -22,6 +22,14 @@ namespace WebApplication3
             UsuarioNegocio negocio = new UsuarioNegocio();
             try
             {
+                if (string.IsNullOrWhiteSpace(txtUsuario.Text) || string.IsNullOrWhiteSpace(txtContraseña.Text))
+                {
+                    lblError.Text = "Debe completar ambos campos."; 
+                    return;
+                }
+
+
+
                 usuario.NombreUsuario = txtUsuario.Text;
                 usuario.Contraseña = txtContraseña.Text;
                 

@@ -11,8 +11,8 @@ namespace Negocio
     public class UsuarioNegocio
     {
         public bool Loguear(Usuario usuario)
-        { 
-           AccesoDatos datos = new AccesoDatos();
+        {
+            AccesoDatos datos = new AccesoDatos();
             try
             {
                 datos.setearConsulta("SELECT IDUsuario, IDTipoUsuario FROM Usuarios where NombreUsuario = @user AND Contraseña = @pass");

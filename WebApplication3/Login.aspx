@@ -9,10 +9,11 @@
        <asp:TextBox ID="txtUsuario" runat="server" class="form-control"></asp:TextBox>
         <br />
         <asp:Label ID="lblcontraseña" runat="server" class="form-label" Text="Contraseña"></asp:Label>
-        <asp:TextBox ID="txtContraseña" runat="server" class="form-control"></asp:TextBox>  
+        <asp:TextBox ID="txtContraseña" runat="server" class="form-control" TextMode="Password"></asp:TextBox>  
           <br />
 
         <asp:Button ID="btnIngresar" runat="server" class="btn btn-primary" OnClick="btnIngresar_Click" Text="Ingresar" />
+        <asp:Label ID="lblError" runat="server" ForeColor="Red"></asp:Label>
     </main>
 
 
