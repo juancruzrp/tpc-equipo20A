@@ -60,9 +60,29 @@ VALUES
 ('Cable eléctrico 2x1.5mm 10m', 'Aislado, uso domiciliario', 6, 5, 4300, 22, 1),
 ('Lámpara LED 12W', 'Rosca E27, luz blanca fría', 6, 5, 1100, 60, 1);
 
-use COMERCIOTPC
+
 INSERT INTO Usuarios(NombreUsuario,Contraseña,IDTipoUsuario,FechaAlta,FechaBaja,Estado)
 VALUES
 ('usuario','usuario',1,GETDATE(),NULL,1),
 ('admin','admin',2,GETDATE(),NULL,1);
 
+INSERT INTO Imagenes (IDProducto, ImagenUrl)
+VALUES
+(1, 'https://arcencohogar.vtexassets.com/arquivos/ids/331341/9008367-1.jpg?v=637963583955930000'),
+(2, 'https://acdn-us.mitiendanube.com/stores/001/229/031/products/diseno-sin-titulo-891-4993f3f0bc3ef7464d16765609980601-1024-1024.png'),
+(3, 'https://argoselectrica.com/wp-content/uploads/2019/10/tornillos-hexagonales-1.png'),
+(4, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYFTZY66QnF-B5vvT9PAS1K3FbykfmpUZECw&s'),
+(5, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiPjVhU1pJHb4VA4o3_sGa7spYbE0g2lJPTA&s');
+
+INSERT INTO Imagenes (IDProducto, ImagenUrl)
+VALUES
+(6, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSL66bsCSk-nYRH-tgohX2OrortMuCQV5h4Eg&s'),
+(7, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFMeKUc-OBTIb8_CcmuuunoNIhCR3z0rISNw&s'),
+(8, 'https://cdn.wurth.com.ar/img/productos/351632-gr-mecha-hss-din-338-d2-5-mm.jpg'),
+(9, 'https://http2.mlstatic.com/D_820351-MLA42314967558_062020-C.jpg'),
+(10, 'https://http2.mlstatic.com/D_NQ_NP_616758-MLA77700361598_072024-O.webp');
+
+INSERT INTO Imagenes (IDProducto, ImagenUrl)
+VALUES
+(11, 'https://http2.mlstatic.com/D_NQ_NP_720599-MLA79237976178_092024-O.webp'),
+(12, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVg9RSB7ZCDxd9WJ-rtLsQyei1zd71GDPHQw&s');
