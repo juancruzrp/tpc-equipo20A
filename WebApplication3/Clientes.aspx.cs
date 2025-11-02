@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Negocio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +12,15 @@ namespace WebApplication3
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+         
+            CargarClientes();
+        }
+
+        private void CargarClientes()
+        {
+            ClientesNegocio negocio = new Negocio.ClientesNegocio();
+            dgvClientes.DataSource = negocio.listar();
+            dgvClientes.DataBind();
 
         }
     }

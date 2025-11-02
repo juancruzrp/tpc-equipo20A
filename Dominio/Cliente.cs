@@ -14,7 +14,8 @@ namespace Dominio
         public string Telefono { get; set; }
         public string Mail { get; set; }
         public string Direccion { get; set; }
-        // agregar cuit/cuil
+
+        public string CUIT_CUIL { get; set; }
 
     }
 }
