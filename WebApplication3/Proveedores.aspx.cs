@@ -18,11 +18,9 @@ namespace WebApplication3
 
         private void CargarProveedores()
         {
-            ProveedoresNegocio negocio = new Negocio.ProveedoresNegocio();
+            ProveedoresNegocio negocio = new ProveedoresNegocio();
             dgvProveedores.DataSource = negocio.listar();
             dgvProveedores.DataBind();
-
-
         }
     }
     

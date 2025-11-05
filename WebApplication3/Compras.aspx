@@ -17,6 +17,7 @@
                  <div class="form-group">
                     <label>CUIT/CUIL del Proveedor:</label>
                     <asp:Label ID="lblProveedorCuitCuil" runat="server" CssClass="form-control-static" Text=""></asp:Label>
+                     <asp:TextBox ID="txtCuit" runat="server" CssClass="form-control"></asp:TextBox>
                 </div>
 
 
