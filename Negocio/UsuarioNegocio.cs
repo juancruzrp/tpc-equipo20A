@@ -49,7 +49,18 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                string consulta = "SELECT IDUsuario, NombreUsuario, Contraseña,IDTipoUsuario,FechaAlta,FechaBaja,Estado FROM Usuarios";
+                string consulta = @"
+                   SELECT 
+                   U.IDUsuario,
+                   U.NombreUsuario,
+                   U.Contraseña,
+                   TU.TipoUsuario as Tipo,
+                   U.FechaAlta,
+                   U.FechaBaja,
+                   U.Estado
+                   FROM Usuarios U
+                   INNER JOIN TiposUsuario TU ON U.IDTipoUsuario = TU.IDTipoUsuario";
+
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
@@ -64,11 +75,9 @@ namespace Negocio
                     if (!(datos.Lector["Contraseña"] is DBNull))
                         aux.Contraseña = (string)datos.Lector["Contraseña"];
 
-                    if (!(datos.Lector["IDTipoUsuario"] is DBNull))
-                    {
-                        aux.TipoUsuario = new TipoUsuario();
-                        aux.TipoUsuario.IDTipoUsuario = (int)(datos.Lector["IDTipoUsuario"]);
-                    }
+                    aux.TipoUsuario = new TipoUsuario();
+                    aux.TipoUsuario.Descripcion = datos.Lector["Tipo"] is DBNull ? "Sin tipo" : (string)datos.Lector["Tipo"];
+
                     if (!(datos.Lector["FechaAlta"] is DBNull))
                         aux.FechaAlta = (DateTime)datos.Lector["FechaAlta"];
 

@@ -12,7 +12,10 @@ namespace WebApplication3
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            CargarUsuarios();
+            if (!IsPostBack)
+            {
+                CargarUsuarios();
+            }
         }
 
         private void CargarUsuarios()
