@@ -128,6 +128,31 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void agregar(Usuario nuevo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("INSERT INTO Usuarios (NombreUsuario, Contraseña, IDTipoUsuario, FechaAlta, Estado) VALUES (@nombre, @contraseña, @idTipo, @fechaAlta, @estado)");
+                datos.setearParametro("@nombre", nuevo.NombreUsuario);
+                datos.setearParametro("@contraseña", nuevo.Contraseña);
+                datos.setearParametro("@idTipo", nuevo.TipoUsuario.IDTipoUsuario);
+                datos.setearParametro("@fechaAlta", nuevo.FechaAlta);
+                datos.setearParametro("@estado", nuevo.Estado);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
     }
 
 }
