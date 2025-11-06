@@ -84,13 +84,44 @@
                                  <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;">
                                  </li>
 
-                          <!-- ------------------------------ -->                        
-                            <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;">
-                                <a class="nav-link" style="color: black;" runat="server" href="~/Compras"
-                                    onmouseover="this.style.color='gray';"
-                                    onmouseout="this.style.color='black';"><strong>Compras</strong>
-                                </a>
-                            </li>
+                                               
+                             <!-- ------------------------------ -->                                    
+         <div class="accordion accordion-flush" id="accordionCompras">
+  <div class="accordion-item">
+    <h2 class="accordion-header">                                     
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseCompras" aria-expanded="false" aria-controls="flush-collapseCompras">
+        <strong>Compras</strong>  
+      </button>
+    </h2>
+
+    <div id="flush-collapseCompras" class="accordion-collapse collapse">
+      <div class="accordion-body">                                                                                           
+        <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/Compras"
+           onmouseover="this.style.color='gray';" onmouseout="this.style.color='black';">
+           <strong>Nueva compra</strong>
+        </a>                                              
+        <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/ComprasListado"
+           onmouseover="this.style.color='gray';" onmouseout="this.style.color='black';">
+           <strong>Listado de compras</strong>
+        </a>                                            
+                                                                     
+                   </div>
+                 </div>
+               </div>
+             </div>
+          <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;">
+          </li>
+
+   <!-- ------------------------------ -->  
+
+
+
+
+
+
+
+
+
                             <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;">
                                 <a class="nav-link" style="color: black;" runat="server" href="~/Productos"
                                     onmouseover="this.style.color='gray';"
