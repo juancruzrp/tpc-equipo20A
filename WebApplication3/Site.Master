@@ -16,6 +16,7 @@
     <webopt:BundleReference runat="server" Path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
+   
 </head>
 <body>
     <form runat="server">
@@ -40,58 +41,86 @@
 
                 <!-- Menú lateral izquierdo -->
                 <asp:Panel ID="pnlNavbar" runat="server">
-                    <aside class="col-auto bg-dark text-white d-flex flex-column align-items-start p-3 position-fixed top-0 start-0 vh-100" style="width: 220px;">
+                    <aside class="col-auto bg-white text-white d-flex flex-column align-items-start p-3 position-fixed top-0 start-0 vh-100" style="width: 220px;">
+
+
+                      <div style="border-right: 2px solid #ccc; height: 100vh; width: 220px; padding: 15px;">
+                             <ul class="nav flex-column">    
 
                         <a class="btn btn-dark" style="color: white;" aria-current="true" runat="server" href="~/Inicio"
                             onmouseover="this.style.color='gray';"
                             onmouseout="this.style.color='white';">INICIO 
                         </a>
+                        
 
+                        <!-- ------------------------------ -->                                    
+                                <div class="accordion accordion-flush" id="accordionFlushExample">
+                                      <div class="accordion-item">
+                                        <h2 class="accordion-header">                                     
+                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                             <strong>Ventas</strong>  
+                                          </button>
+                                       
+                                        </h2>
 
-                        <br />
+                                        <div id="flush-collapseOne" class="accordion-collapse collapse">
+                                          <div class="accordion-body">                                                                                           
+                                              <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/Ventas"
+                                                     onmouseover="this.style.color='gray';"
+                                                     onmouseout="this.style.color='black';"> <strong>Nueva venta</strong> 
+                                               </a>                                              
+                                              <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/Ventas"
+                                                       onmouseover="this.style.color='gray';"
+                                                       onmouseout="this.style.color='black';"> <strong>Buscar ventas</strong> 
+                                               </a>                                              
+                                               <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/Ventas"
+                                                       onmouseover="this.style.color='gray';"
+                                                       onmouseout="this.style.color='black';"> <strong>Historial de ventas</strong> 
+                                               </a>                                              
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                 <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;">
+                                 </li>
 
-                        <ul class="nav flex-column">
+                          <!-- ------------------------------ -->                        
                             <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;">
-                                <a class="nav-link" style="color: white;" aria-current="true" runat="server" href="~/Ventas"
+                                <a class="nav-link" style="color: black;" runat="server" href="~/Compras"
                                     onmouseover="this.style.color='gray';"
-                                    onmouseout="this.style.color='white';">Ventas
+                                    onmouseout="this.style.color='black';"><strong>Compras</strong>
                                 </a>
                             </li>
                             <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;">
-                                <a class="nav-link" style="color: white;" runat="server" href="~/Compras"
+                                <a class="nav-link" style="color: black;" runat="server" href="~/Productos"
                                     onmouseover="this.style.color='gray';"
-                                    onmouseout="this.style.color='white';">Compras
+                                    onmouseout="this.style.color='black';"><strong>Productos</strong>
                                 </a>
                             </li>
                             <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;">
-                                <a class="nav-link" style="color: white;" runat="server" href="~/Productos"
+                                <a class="nav-link" style="color: black;" runat="server" href="~/Proveedores"
                                     onmouseover="this.style.color='gray';"
-                                    onmouseout="this.style.color='white';">Productos
+                                    onmouseout="this.style.color='black';"><strong>Proveedores</strong>
                                 </a>
                             </li>
                             <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;">
-                                <a class="nav-link" style="color: white;" runat="server" href="~/Proveedores"
+                                <a class="nav-link" style="color: black;" runat="server" href="~/Clientes"
                                     onmouseover="this.style.color='gray';"
-                                    onmouseout="this.style.color='white';">Proveedores
-                                </a>
-                            </li>
-                            <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;">
-                                <a class="nav-link" style="color: white;" runat="server" href="~/Clientes"
-                                    onmouseover="this.style.color='gray';"
-                                    onmouseout="this.style.color='white';">Clientes
+                                    onmouseout="this.style.color='black';"><strong>Clientes</strong>
                                 </a>
                             </li>
               
                             <% if (Session["usuario"] != null && ((Dominio.Usuario)Session["usuario"]).TipoUsuario.IDTipoUsuario == 2)
                                 { %>
                             <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;">
-                                <a class="nav-link" style="color: white;" runat="server" href="~/Usuarios"
+                                <a class="nav-link" style="color: black;" runat="server" href="~/Usuarios"
                                     onmouseover="this.style.color='gray';"
-                                    onmouseout="this.style.color='white';">Lista Usuarios
+                                    onmouseout="this.style.color='black';"><strong>Lista Usuarios</strong> 
                                 </a>
                             </li>
                             <% } %>
-                        </ul>
+                        </ul>                             
+                    </div>
 
                         <div class="mt-auto w-100">
                             <asp:Button ID="btnSalir" class="btn btn-outline-secondary" runat="server" Text="Salir" OnClick="btnSalir_Click" />
@@ -116,5 +145,7 @@
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/Scripts/bootstrap.js") %>
     </asp:PlaceHolder>
+
+    
 </body>
 </html>
