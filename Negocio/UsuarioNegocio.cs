@@ -134,7 +134,7 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("INSERT INTO Usuarios (NombreUsuario, Contraseña, IDTipoUsuario, FechaAlta, Estado) VALUES (@nombre, @contraseña, @idTipo, @fechaAlta, @estado)");
+                datos.setearConsulta("INSERT INTO Usuarios (NombreUsuario, Contraseña, IDTipoUsuario, FechaAlta,FechaBaja, Estado) VALUES (@nombre, @contraseña, @idTipo, @fechaAlta,NULL, @estado)");
                 datos.setearParametro("@nombre", nuevo.NombreUsuario);
                 datos.setearParametro("@contraseña", nuevo.Contraseña);
                 datos.setearParametro("@idTipo", nuevo.TipoUsuario.IDTipoUsuario);
