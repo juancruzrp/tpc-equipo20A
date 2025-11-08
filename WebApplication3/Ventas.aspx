@@ -5,48 +5,48 @@
         <h2>Nueva Venta</h2>
         <br />
 
-        <!-- 🔍 Campo de búsqueda -->
-        <asp:Label ID="LabelBuscar" runat="server" Text="Buscar producto:"></asp:Label>
-        <asp:TextBox ID="txtBuscar" runat="server" AutoPostBack="true"
-            OnTextChanged="txtBuscar_TextChanged" CssClass="form-control" Width="300px" />
+        <!-- Campo de búsqueda -->
+        <asp:Label ID="LabelBuscar" runat="server" Text="Buscar producto:" ></asp:Label>
+        <asp:TextBox ID="txtBuscar" runat="server" AutoPostBack="true" placeholder="Ingrese nombre o marca..." OnTextChanged="txtBuscar_TextChanged" CssClass="form-control" Width="300px" />
         <br />
 
-        <!-- 🔄 UpdatePanel principal -->
+        <!-- UpdatePanel principal -->
         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
             <ContentTemplate>
 
                 <div style="display: flex; gap: 20px; align-items: flex-start;">
 
-                    <!-- 🧩 Tabla de productos -->
+                    <!-- Tabla de productos -->
                     <div style="flex: 2;">
-                        <h3>Productos</h3>
+                        <h4>Productos</h4>
                         <asp:GridView ID="dgvProductos" runat="server" CssClass="table table-striped"
                             AutoGenerateColumns="false" OnRowCommand="dgvProductos_RowCommand">
                             <Columns>
                                 <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
-                                <asp:BoundField DataField="Marca.Nombre" HeaderText="Marca" />
+                                <asp:TemplateField HeaderText="Marca">
+                                    <ItemTemplate>
+                                        <%# Eval("Marca.Nombre") %>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:BoundField DataField="Precio" HeaderText="Precio" DataFormatString="{0:C}" />
                                 <asp:BoundField DataField="Stock" HeaderText="Stock" />
 
                                 <asp:TemplateField HeaderText="Cantidad">
                                     <ItemTemplate>
-                                        <asp:TextBox ID="txtCantidad" runat="server" Text="1" CssClass="form-control" Width="60px" />
+                                        <asp:TextBox ID="txtCantidad" runat="server" Text="1" CssClass="form-control" Width="60px" onkeypress="return soloNumeros(event);" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
                                 <asp:TemplateField>
                                     <ItemTemplate>
-                                        <asp:Button ID="btnAgregar" runat="server" Text="Agregar"
-                                            CommandName="AgregarProducto"
-                                            CommandArgument='<%# Eval("IDProducto") %>'
-                                            CssClass="btn btn-success btn-sm" />
+                                        <asp:Button ID="btnAgregar" runat="server" Text="Agregar" CommandName="AgregarProducto" CommandArgument='<%# Eval("IDProducto") %>' CssClass="btn btn-success btn-sm" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>
                         </asp:GridView>
                     </div>
 
-                    <!-- 🧾 Detalle de venta -->
+                    <!-- Detalle de venta -->
                     <div style="flex: 1; border-left: 2px solid #ccc; padding-left: 15px;">
                         <h3>Detalle de Venta</h3>
                         <asp:Panel ID="PanelDetalleVenta" runat="server">
@@ -95,6 +95,16 @@
             __doPostBack('<%= txtBuscar.UniqueID %>', '');
         });
     });
+        </script>
+
+        <script type="text/javascript">
+            function soloNumeros(e) {
+                var key = e.which || e.keyCode;
+                if (key >= 48 && key <= 57 || key === 8 || key === 46) {
+                    return true; // permite números, backspace y punto
+                }
+                return false; // bloquea todo lo demás
+            }
         </script>
 
     </main>

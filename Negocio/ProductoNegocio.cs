@@ -25,13 +25,17 @@ namespace Negocio
                     P.Precio, 
                     P.Stock, 
                     P.Estado,
+                    P.IDMarca,
+                    M.Marca AS NombreMarca,
                     ISNULL(MIN(I.ImagenUrl), 'https://via.placeholder.com/60x60?text=No+Image') AS ImagenUrl
                 FROM 
                     PRODUCTOS P
                 LEFT JOIN 
                     Imagenes I ON P.IDProducto = I.IDProducto
+                LEFT JOIN 
+                        Marcas M ON P.IDMarca = M.IDMarca
                 GROUP BY
-                    P.IDProducto, P.Nombre, P.Descripcion, P.Precio, P.Stock, P.Estado
+                    P.IDProducto, P.Nombre, P.Descripcion, P.Precio, P.Stock, P.Estado, P.IDMarca, M.Marca
             ";
 
                 datos.setearConsulta(consulta);
@@ -62,6 +66,14 @@ namespace Negocio
 
                     aux.ImagenUrl = (string)datos.Lector["ImagenUrl"];
 
+                    aux.Marca = new Marca();
+                    aux.Marca.IDMarca = datos.Lector["IDMarca"] != DBNull.Value
+                        ? Convert.ToInt32(datos.Lector["IDMarca"])
+                        : 0;
+                    aux.Marca.Nombre = datos.Lector["NombreMarca"] != DBNull.Value
+                        ? datos.Lector["NombreMarca"].ToString()
+                        : "Sin marca";
+
                     lista.Add(aux);
                 }
                 return lista;
@@ -75,6 +87,22 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void eliminar(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("DELETE FROM PRODUCTOS WHERE IDProducto = @id");
+                datos.setearParametro("@id", id);
+                datos.ejecutarAccion();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 
 

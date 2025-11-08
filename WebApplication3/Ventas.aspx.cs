@@ -30,9 +30,10 @@ namespace WebApplication3
             if (!string.IsNullOrEmpty(filtro))
             {
                 filtro = filtro.ToLower();
+
                 productos = productos.Where(p =>
-                    p.Nombre.ToLower().Contains(filtro) ||
-                    p.Descripcion.ToLower().Contains(filtro) ||
+                    (p.Nombre != null && p.Nombre.ToLower().Contains(filtro)) ||
+                    (p.Marca != null && p.Marca.Nombre != null && p.Marca.Nombre.ToLower().Contains(filtro)) ||
                     p.IDProducto.ToString().Contains(filtro)
                 ).ToList();
             }
