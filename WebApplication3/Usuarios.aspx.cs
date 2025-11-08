@@ -1,4 +1,5 @@
-﻿using Negocio;
+﻿using Dominio;
+using Negocio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -108,6 +109,10 @@ namespace WebApplication3
             }
             base.RaisePostBackEvent(source, eventArgument);
         }
+
+
+       
+
 
         protected void btnModificar_Click(object sender, EventArgs e)
         {

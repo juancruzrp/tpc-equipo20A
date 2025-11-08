@@ -15,16 +15,22 @@ namespace WebApplication3
         protected void Page_Load(object sender, EventArgs e)
         {
             txtIdUsuario.Enabled = false;
+
             if (!IsPostBack)
             {
                 try
                 {
                     CargarDropDown();
-                    
+
+                    // 🔹 Si viene un id por query, es modificación
+                    if (Request.QueryString["id"] != null)
+                    {
+                        int id = int.Parse(Request.QueryString["id"]);
+                        CargarUsuario(id);
+                    }
                 }
                 catch (Exception ex)
                 {
-
                     Session.Add("Error", ex.ToString());
                     Response.Redirect("Error.aspx");
                 }
@@ -33,11 +39,29 @@ namespace WebApplication3
 
         private void CargarDropDown()
         {
-            // Cargar DropDownList de Tipos de usuario
-            UsuarioNegocio UsuarioNegocio = new UsuarioNegocio();
-            ddlTipoUsuario.DataSource = UsuarioNegocio.listarTipo();
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+            ddlTipoUsuario.DataSource = usuarioNegocio.listarTipo();
+            ddlTipoUsuario.DataTextField = "Descripcion";
+            ddlTipoUsuario.DataValueField = "IDTipoUsuario";
             ddlTipoUsuario.DataBind();
-            ddlTipoUsuario.Items.Insert(0, new ListItem("-- Seleccione un Tipo de usuario --", "0"));
+            ddlTipoUsuario.Items.Insert(0, new ListItem("-- Seleccione un tipo de usuario --", "0"));
+        }
+
+        private void CargarUsuario(int id)
+        {
+            UsuarioNegocio negocio = new UsuarioNegocio();
+            Usuario usuario = negocio.buscarPorId(id);
+
+            if (usuario != null)
+            {
+                txtIdUsuario.Text = usuario.IDUsuario.ToString();
+                txtNombreUsuario.Text = usuario.NombreUsuario;
+                txtContraseña.Text = usuario.Contraseña;
+                ddlTipoUsuario.SelectedValue = usuario.TipoUsuario.IDTipoUsuario.ToString();
+                CheckEstado.Checked = usuario.Estado;
+
+                ViewState["IdUsuario"] = id;
+            }
         }
 
         protected void btnGuardarUsuario_Click(object sender, EventArgs e)
@@ -49,21 +73,32 @@ namespace WebApplication3
 
                 usuario.NombreUsuario = txtNombreUsuario.Text;
                 usuario.Contraseña = txtContraseña.Text;
-
                 usuario.TipoUsuario = new TipoUsuario();
                 usuario.TipoUsuario.IDTipoUsuario = int.Parse(ddlTipoUsuario.SelectedValue);
-
-                usuario.FechaAlta = DateTime.Now;
                 usuario.Estado = CheckEstado.Checked;
-                negocio.agregar(usuario);
-                Response.Redirect("Usuarios.aspx",false);
+                usuario.FechaAlta = DateTime.Now;
+
+                // 🔹 Si existe el ID en ViewState, es una modificación
+                if (ViewState["IdUsuario"] != null)
+                {
+                    usuario.IDUsuario = (int)ViewState["IdUsuario"];
+                    negocio.modificar(usuario);
+                }
+                else
+                {
+                    // 🔹 Si no, es un alta nueva
+                    negocio.agregar(usuario);
+                }
+
+                Response.Redirect("Usuarios.aspx", false);
             }
             catch (Exception ex)
             {
                 Session.Add("Error", ex.ToString());
                 Response.Redirect("Error.aspx");
             }
-             
         }
+
+
     }
 }
