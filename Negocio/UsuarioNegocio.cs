@@ -153,6 +153,72 @@ namespace Negocio
         }
 
 
+        public Usuario buscarPorId(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            Usuario usuario = null;
+            try
+            {
+                datos.setearConsulta(@"SELECT IDUsuario, NombreUsuario, Contraseña, IDTipoUsuario, Estado
+                               FROM Usuarios
+                               WHERE IDUsuario = @id");
+                datos.setearParametro("@id", id);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    usuario = new Usuario();
+                    usuario.IDUsuario = (int)datos.Lector["IDUsuario"];
+                    usuario.NombreUsuario = (string)datos.Lector["NombreUsuario"];
+                    usuario.Contraseña = (string)datos.Lector["Contraseña"];
+                    usuario.TipoUsuario = new TipoUsuario();
+                    usuario.TipoUsuario.IDTipoUsuario = (int)datos.Lector["IDTipoUsuario"];
+                    usuario.Estado = (bool)datos.Lector["Estado"];
+                }
+                return usuario;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void modificar(Usuario usuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(@"
+            UPDATE Usuarios
+            SET NombreUsuario = @nombre,
+                Contraseña = @contraseña,
+                IDTipoUsuario = @idTipo,
+                Estado = @estado
+            WHERE IDUsuario = @idUsuario");
+
+                datos.setearParametro("@nombre", usuario.NombreUsuario);
+                datos.setearParametro("@contraseña", usuario.Contraseña);
+                datos.setearParametro("@idTipo", usuario.TipoUsuario.IDTipoUsuario);
+                datos.setearParametro("@estado", usuario.Estado);
+                datos.setearParametro("@idUsuario", usuario.IDUsuario);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 
 }
