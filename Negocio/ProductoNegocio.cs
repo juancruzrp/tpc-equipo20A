@@ -29,6 +29,8 @@ namespace Negocio
                     P.Estado,
                     P.IDMarca,
                     M.Marca AS NombreMarca,
+                    P.IDCategoria,
+                    C.Categoria AS NombreCategoria,
                     ISNULL(MIN(I.ImagenUrl), 'https://via.placeholder.com/60x60?text=No+Image') AS ImagenUrl
                 FROM 
                     PRODUCTOS P
@@ -36,10 +38,13 @@ namespace Negocio
                     Imagenes I ON P.IDProducto = I.IDProducto
                 LEFT JOIN 
                     Marcas M ON P.IDMarca = M.IDMarca
+                LEFT JOIN 
+                    Categorias C ON P.IDCategoria = C.IDCategoria
                 WHERE 
-                    P.Estado = 1
+                    P.Estado = 1  
                 GROUP BY
-                    P.IDProducto, P.Nombre, P.Descripcion, P.Precio, P.Stock, P.Estado, P.IDMarca, M.Marca";
+                    P.IDProducto, P.Nombre, P.Descripcion, P.Precio, P.Stock, P.Estado,
+                    P.IDMarca, M.Marca, P.IDCategoria, C.Categoria";
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
@@ -69,13 +74,13 @@ namespace Negocio
 
                     aux.ImagenUrl = (string)datos.Lector["ImagenUrl"];
 
+                    aux.Categoria = new Categoria();
+                    aux.Categoria.IDCategoria = datos.Lector["IDCategoria"] != DBNull.Value ? Convert.ToInt32(datos.Lector["IDCategoria"]) : 0;
+                    aux.Categoria.Nombre = datos.Lector["NombreCategoria"] != DBNull.Value ? datos.Lector["NombreCategoria"].ToString() : "Sin categoría";
+
                     aux.Marca = new Marca();
-                    aux.Marca.IDMarca = datos.Lector["IDMarca"] != DBNull.Value
-                        ? Convert.ToInt32(datos.Lector["IDMarca"])
-                        : 0;
-                    aux.Marca.Nombre = datos.Lector["NombreMarca"] != DBNull.Value
-                        ? datos.Lector["NombreMarca"].ToString()
-                        : "Sin marca";
+                    aux.Marca.IDMarca = datos.Lector["IDMarca"] != DBNull.Value ? Convert.ToInt32(datos.Lector["IDMarca"]) : 0;
+                    aux.Marca.Nombre = datos.Lector["NombreMarca"] != DBNull.Value ? datos.Lector["NombreMarca"].ToString() : "Sin marca";
 
                     lista.Add(aux);
                 }
@@ -133,8 +138,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-
-        
+      
         public void agregar(Producto nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -174,6 +178,62 @@ namespace Negocio
             catch (Exception ex)
             {
                 throw new Exception("Error al agregar producto: " + ex.Message, ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void modificar(Producto producto)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                // actualizar los datos del producto
+                datos.setearConsulta(@"
+                UPDATE Productos 
+                SET Nombre = @Nombre,
+                    Descripcion = @Descripcion,
+                    IDCategoria = @IDCategoria,
+                    IDMarca = @IDMarca,
+                    Precio = @Precio,
+                    Stock = @Stock,
+                    Estado = @Estado
+                WHERE IDProducto = @IDProducto
+                ");
+
+                datos.setearParametro("@Nombre", producto.Nombre);
+                datos.setearParametro("@Descripcion", producto.Descripcion);
+                datos.setearParametro("@IDCategoria", producto.Categoria.IDCategoria);
+                datos.setearParametro("@IDMarca", producto.Marca.IDMarca);
+                datos.setearParametro("@Precio", producto.Precio);
+                datos.setearParametro("@Stock", producto.Stock);
+                datos.setearParametro("@Estado", producto.Estado);
+                datos.setearParametro("@IDProducto", producto.IDProducto);
+
+                datos.ejecutarAccion();
+
+                // actualizar la imagen 
+                if (!string.IsNullOrEmpty(producto.ImagenUrl))
+                {
+                    datos.limpiarParametros();
+                    datos.setearConsulta(@"
+                IF EXISTS (SELECT 1 FROM Imagenes WHERE IDProducto = @IDProducto)
+                    UPDATE Imagenes SET ImagenUrl = @ImagenUrl WHERE IDProducto = @IDProducto
+                ELSE
+                    INSERT INTO Imagenes (IDProducto, ImagenUrl)
+                    VALUES (@IDProducto, @ImagenUrl)
+            ");
+                    datos.setearParametro("@IDProducto", producto.IDProducto);
+                    datos.setearParametro("@ImagenUrl", producto.ImagenUrl);
+                    datos.ejecutarAccion();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al modificar producto: " + ex.Message, ex);
             }
             finally
             {

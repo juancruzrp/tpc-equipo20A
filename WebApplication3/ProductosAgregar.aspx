@@ -9,6 +9,7 @@
             <div class="mb-3">
                 <label for="lblId" class="form-label">ID Producto</label>
                 <asp:TextBox ID="txtIDProducto" runat="server" CssClass="form-control" ></asp:TextBox>
+                <asp:HiddenField ID="hfIDProducto" runat="server" />
             </div>
 
             <div class="mb-3">

@@ -33,92 +33,103 @@ namespace WebApplication3
                     ddlMarca.DataTextField = "Nombre";
                     ddlMarca.DataBind();
 
-                    
+                    // si viene un id, se modifica
+                    if (Request.QueryString["id"] != null)
+                    {
+                        int id = int.Parse(Request.QueryString["id"]);
+                        cargarProducto(id);
+                        btnAceptar.Text = "Guardar cambios";
+                    }
                 }
-
-                // config para modificar
-                if (Request.QueryString["id"] != null)
-                {
-                    int id = int.Parse(Request.QueryString["id"]);
-                    //CargarProductos(id);
-                    btnAceptar.Text = "Guardar cambios";
-                }
-
             }
             catch (Exception ex)
             {
-
                 Session.Add("Error", ex);
                 throw;
-                //agregar redireccion?
             }
-
         }
 
-        
-        protected void btnAceptar_Click (object sender, EventArgs e)
+        private void cargarProducto(int id)
+        {
+            ProductoNegocio negocio = new ProductoNegocio();
+            Producto seleccionado = negocio.listar().FirstOrDefault(p => p.IDProducto == id);
+
+            if (seleccionado != null)
+            {
+                hfIDProducto.Value = seleccionado.IDProducto.ToString();
+                txtIDProducto.Text = seleccionado.IDProducto.ToString();
+                txtNombre.Text = seleccionado.Nombre;
+                txtDescripcion.Text = seleccionado.Descripcion;
+                txtPrecio.Text = seleccionado.Precio.ToString("0.00");
+                txtStock.Text = seleccionado.Stock.ToString();
+                ddlCategoria.SelectedValue = seleccionado.Categoria.IDCategoria.ToString();
+                ddlMarca.SelectedValue = seleccionado.Marca.IDMarca.ToString();
+                txtImagenUrl.Text = seleccionado.ImagenUrl;
+                imgPreview.ImageUrl = seleccionado.ImagenUrl;
+                chkEstado.Checked = seleccionado.Estado;
+            }
+        }
+
+
+        protected void btnAceptar_Click(object sender, EventArgs e)
         {
             try
             {
-                Producto nuevo = new Producto();
+                Producto producto = new Producto();
                 ProductoNegocio negocio = new ProductoNegocio();
-                var lista = negocio.listar();
-                if (lista.Any(p => p.Nombre.Equals(nuevo.Nombre, StringComparison.OrdinalIgnoreCase)
-                    && p.Marca.IDMarca == nuevo.Marca.IDMarca))
-                {
-                    lblMensaje.Text = "Este producto ya existe.";
-                    lblMensaje.ForeColor = System.Drawing.Color.Red;
-                    return;
-                }
 
-                nuevo.Nombre = txtNombre.Text;
-                nuevo.Descripcion = txtDescripcion.Text;
-                
+                producto.Nombre = txtNombre.Text;
+                producto.Descripcion = txtDescripcion.Text;
+
                 if (!decimal.TryParse(txtPrecio.Text, out decimal precio))
                 {
                     lblMensaje.Text = "El precio no es válido.";
                     return;
                 }
-                nuevo.Precio = precio;
+                producto.Precio = precio;
 
                 if (!int.TryParse(txtStock.Text, out int stock))
                 {
                     lblMensaje.Text = "El stock no es válido.";
                     return;
                 }
-                nuevo.Stock = stock;
+                producto.Stock = stock;
 
-                nuevo.Categoria = new Categoria();
-                nuevo.Categoria.IDCategoria = int.Parse(ddlCategoria.SelectedValue);
-                                                
-                nuevo.Marca = new Marca();
-                nuevo.Marca.IDMarca = int.Parse(ddlMarca.SelectedValue);
-                
-                nuevo.ImagenUrl = txtImagenUrl.Text;
-                if (string.IsNullOrWhiteSpace(txtImagenUrl.Text))
-                    nuevo.ImagenUrl = "https://us.123rf.com/450wm/koblizeek/koblizeek2208/koblizeek220800128/190320173-no-image-vector-symbol-missing-available-icon-no-gallery-for-this-moment-placeholder.jpg";
+                producto.Categoria = new Categoria();
+                producto.Categoria.IDCategoria = int.Parse(ddlCategoria.SelectedValue);
+
+                producto.Marca = new Marca();
+                producto.Marca.IDMarca = int.Parse(ddlMarca.SelectedValue);
+
+                producto.ImagenUrl = string.IsNullOrWhiteSpace(txtImagenUrl.Text)
+                    ? "https://us.123rf.com/450wm/koblizeek/koblizeek2208/koblizeek220800128/190320173-no-image-vector-symbol-missing-available-icon-no-gallery-for-this-moment-placeholder.jpg"
+                    : txtImagenUrl.Text;
+
+                producto.Estado = chkEstado.Checked;
+
+                // detectar si es modificación o alta
+                if (!string.IsNullOrEmpty(hfIDProducto.Value))
+                {
+                    producto.IDProducto = int.Parse(hfIDProducto.Value);
+                    negocio.modificar(producto);
+
+                    lblMensaje.Text = "Producto modificado correctamente.";
+                    lblMensaje.ForeColor = System.Drawing.Color.Green;
+                }
                 else
-                    nuevo.ImagenUrl = txtImagenUrl.Text;
+                {
+                    negocio.agregar(producto);
 
-                nuevo.Estado = chkEstado.Checked;
+                    lblMensaje.Text = "Producto agregado correctamente.";
+                    lblMensaje.ForeColor = System.Drawing.Color.Green;
+                }
 
-                negocio.agregar(nuevo);
-
-                lblMensaje.Text = "Producto agregado correctamente!";
-                lblMensaje.ForeColor = System.Drawing.Color.Green;
-                                
-                txtNombre.Text = "";
-                txtDescripcion.Text = "";
-                txtPrecio.Text = "";
-                txtStock.Text = "";
-                txtImagenUrl.Text = "";
-                ddlCategoria.SelectedIndex = 0;
-                ddlMarca.SelectedIndex = 0;
-                chkEstado.Checked = true;
+                // redirigir después de guardar
+                Response.Redirect("Productos.aspx");
             }
             catch (Exception ex)
             {
-                lblMensaje.Text = "Error al agregar producto: " + ex.Message;
+                lblMensaje.Text = "Error: " + ex.Message;
                 lblMensaje.ForeColor = System.Drawing.Color.Red;
             }
         }
