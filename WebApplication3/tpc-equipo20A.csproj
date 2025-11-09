@@ -100,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AltaClientes.aspx" />
+    <Content Include="AltaProveedores.aspx" />
     <Content Include="ProductosAgregar.aspx" />
     <Content Include="AltaUsuarios.aspx" />
     <Content Include="Clientes.aspx" />
@@ -201,6 +202,13 @@
     </Compile>
     <Compile Include="AltaClientes.aspx.designer.cs">
       <DependentUpon>AltaClientes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AltaProveedores.aspx.cs">
+      <DependentUpon>AltaProveedores.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AltaProveedores.aspx.designer.cs">
+      <DependentUpon>AltaProveedores.aspx</DependentUpon>
     </Compile>
     <Compile Include="ProductosAgregar.aspx.cs">
       <DependentUpon>ProductosAgregar.aspx</DependentUpon>
