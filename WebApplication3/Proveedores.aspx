@@ -30,10 +30,12 @@
                 <asp:BoundField DataField="Telefono" HeaderText="Teléfono" />
                 <asp:BoundField DataField="Mail" HeaderText="Mail" />
                 <asp:BoundField DataField="Direccion" HeaderText="Dirección" />
+                <asp:CommandField ShowSelectButton="True" SelectText="Seleccionar" />
             </Columns>
         </asp:GridView>
 
         <asp:Button Text="Agregar Proveedor" ID="btnAgregar" runat="server" CssClass="btn btn-outline-primary" OnClick="btnAgregar_Click" />
         <asp:Button Text="Modificar Proveedor" ID="btnModificar" runat="server" CssClass="btn btn-outline-info" OnClick="btnModificar_Click" Enabled="false" />
+        <asp:Button Text="Eliminar Proveedor" ID="btnInactivar" runat="server" CssClass="btn btn-outline-danger" OnClick="btnInactivar_Click" Enabled="false" OnClientClick="return confirm('¿Estás seguro de que quieres inactivar el proveedor seleccionado?');" />
     </main>
 </asp:Content>

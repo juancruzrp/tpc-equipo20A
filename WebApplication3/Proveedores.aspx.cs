@@ -38,6 +38,7 @@ namespace WebApplication3
                 row.CssClass = row.RowIndex == dgvProveedores.SelectedIndex ? "selectedRowHighlight" : "";
 
             btnModificar.Enabled = true;
+            btnInactivar.Enabled = true;
         }
 
         protected void btnAgregar_Click(object sender, EventArgs e)
@@ -60,6 +61,28 @@ namespace WebApplication3
             }
             base.Render(writer);
         }
+
+        protected void btnInactivar_Click(object sender, EventArgs e)
+        {
+            ProveedoresNegocio negocio = new ProveedoresNegocio();
+            try
+            {
+                // Obtener el ID del proveedor seleccionado
+                int idProveedor = Convert.ToInt32(dgvProveedores.SelectedDataKey.Value);
+                negocio.eliminarLogico(idProveedor); // Llama al método de borrado lógico
+
+                // Después de inactivar, recargar la lista para que el proveedor desaparezca
+                // (ya que listar() solo trae activos)
+                CargarGrilla();
+                ScriptManager.RegisterStartupScript(this, GetType(), "alertMessage", "alert('Proveedor inactivado exitosamente.');", true);
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>alert('Error al inactivar proveedor: " + ex.Message + "');</script>");
+            }
+        }
+
+
     }
     
 }
