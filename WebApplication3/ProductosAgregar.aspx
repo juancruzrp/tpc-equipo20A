@@ -14,6 +14,8 @@
             <div class="mb-3">
                 <label for="lblNombre" class="form-label">Nombre</label>
                 <asp:TextBox ID="txtNombre" runat="server" CssClass="form-control" placeholder="Ingrese el nombre del producto"></asp:TextBox>
+
+                <asp:RequiredFieldValidator ID="rfvNombre" runat="server" ControlToValidate="txtNombre" ErrorMessage="El nombre es obligatorio." ForeColor="Red" Display="Dynamic" />
             </div>
 
             <div class="mb-3">
@@ -47,9 +49,7 @@
                 <asp:Image ID="imgPreview" runat="server" CssClass="img-thumbnail mt-3" Width="150px" />
             </div>
 
-            <div class="form-check form-switch mb-4">                
-                <label class="form-check-label" for="chkActivo">Estado</label>
-                <br />
+            <div class="form-check form-switch mb-4">         
                 <asp:CheckBox ID="chkEstado" runat="server" Text="Activo" Checked="true" />
             </div>
 
@@ -59,7 +59,7 @@
 
             <div class="d-flex justify-content-between">
                 
-                <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-success" OnClick="btnAceptar_Click" />
+                <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-success" OnClick="btnAceptar_Click" CausesValidation="true"/>
                 <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" PostBackUrl="~/Productos.aspx" />
             </div>
         </div>

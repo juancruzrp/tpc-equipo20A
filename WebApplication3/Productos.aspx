@@ -11,7 +11,7 @@
     
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
-            <asp:Repeater ID="repProductos" runat="server">
+            <asp:Repeater ID="repProductos" runat="server" OnItemCommand="repProductos_ItemCommand">
                 <ItemTemplate>
                     <div class="card mb-3 shadow-sm border-0">
                         <div class="row g-0 align-items-center">
@@ -52,7 +52,8 @@
             </asp:Repeater>
         </ContentTemplate>
         <Triggers>
-            <asp:AsyncPostBackTrigger ControlID="txtBuscar" EventName="TextChanged" />
+            <asp:AsyncPostBackTrigger ControlID="txtBuscar" EventName="TextChanged" />            
+            <asp:AsyncPostBackTrigger ControlID="repProductos" EventName="ItemCommand" />
         </Triggers>
     </asp:UpdatePanel>     
 
@@ -64,8 +65,8 @@
             timer = setTimeout(function () {
                 __doPostBack('<%= txtBuscar.UniqueID %>', '');
             }, 200); 
+            });
         });
-    });
         </script>
 
 </asp:Content>

@@ -34,7 +34,9 @@ namespace Negocio
                 LEFT JOIN 
                     Imagenes I ON P.IDProducto = I.IDProducto
                 LEFT JOIN 
-                        Marcas M ON P.IDMarca = M.IDMarca
+                    Marcas M ON P.IDMarca = M.IDMarca
+                WHERE 
+                    P.Estado = 1
                 GROUP BY
                     P.IDProducto, P.Nombre, P.Descripcion, P.Precio, P.Stock, P.Estado, P.IDMarca, M.Marca
             ";
@@ -105,6 +107,26 @@ namespace Negocio
             catch (Exception ex)
             {
                 throw new Exception("Error al eliminar producto: " + ex.Message, ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void eliminarLogico(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Productos SET Estado = 0 WHERE IDProducto = @id");
+                datos.setearParametro("@id", id);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al eliminar producto: " + ex.Message);
             }
             finally
             {

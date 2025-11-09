@@ -16,10 +16,10 @@ namespace WebApplication3
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
-                CargarProductos();
+                cargarProductos();
         }
 
-        public void CargarProductos(string filtro = "")
+        public void cargarProductos(string filtro = "")
         {           
 
             ProductoNegocio negocio = new ProductoNegocio();
@@ -40,22 +40,26 @@ namespace WebApplication3
 
         protected void txtBuscar_TextChanged(object sender, EventArgs e)
         {
-            CargarProductos(txtBuscar.Text.Trim());
+            cargarProductos(txtBuscar.Text.Trim());
         }
 
         protected void repProductos_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            if (e.CommandName == "Editar")
+            if (e.CommandName == "Modificar")
             {
                 int idProducto = Convert.ToInt32(e.CommandArgument);
                 Response.Redirect("ProductosAgregar.aspx?id=" + idProducto);
             }
             else if (e.CommandName == "Eliminar")
             {
+                int id = Convert.ToInt32(e.CommandArgument);
                 ProductoNegocio negocio = new ProductoNegocio();
-                negocio.eliminar(Convert.ToInt32(e.CommandArgument));
-                CargarProductos();
+                negocio.eliminarLogico(id);
+                Response.Redirect("Productos.aspx", false);
+
             }
         }
+
+        
     }
 }
