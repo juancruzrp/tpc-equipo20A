@@ -2,50 +2,44 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div class="row">
-        <div class="col-md-6">
-            <h2>Alta de Usuarios</h2>
-            <br />
-            <div class="form-group">
-                <label for="txtIdUsuario">ID del Usuario:</label>
+    <div class="container py-4">
+        <div class="card shadow-sm border-0 p-4 mx-auto" style="max-width: 600px;">
+            <h3 class="text-center mb-4">Agregar nuevo usuario</h3>
+
+            <div class="mb-3">
+                <label for="txtIdUsuario" class="form-label">ID del Usuario:</label>
                 <asp:TextBox ID="txtIdUsuario" runat="server" CssClass="form-control"></asp:TextBox>
             </div>
-            <div class="form-group">
-                <label for="txtNombreUsuario">Nombre de Usuario:</label>
+            <div class="mb-3">
+                <label for="txtNombreUsuario" class="form-label">Nombre de Usuario:</label>
                 <asp:TextBox ID="txtNombreUsuario" runat="server" CssClass="form-control"></asp:TextBox>
             </div>
 
-            <div class="form-group">
-                <label for="txtContraseña">Contraseña:</label>
+            <div class="mb-3">
+                <label for="txtContraseña" class="form-label">Contraseña:</label>
                 <asp:TextBox ID="txtContraseña" runat="server" CssClass="form-control"></asp:TextBox>
             </div>
 
-            <div class="form-group">
-                <label for="ddlTipoUsuario">Tipo de usuario:</label>
+            <div class="mb-3">
+                <label for="ddlTipoUsuario" class="form-label">Tipo de usuario:</label>
                 <asp:DropDownList ID="ddlTipoUsuario" runat="server" CssClass="form-control"
                     DataTextField="Descripcion" DataValueField="IDTipoUsuario">
                 </asp:DropDownList>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="txtFecha">Fecha de Alta:</label>
+            <div class="mb-3">
+                <label for="txtFecha" class="form-label">Fecha de Alta:</label>
                 <asp:TextBox ID="txtFecha" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
             </div>
-        </div>
-        <br />
-        <div class="row">
-            <div class="form-group">
+            <div class="mb-3">
                 <div class="form-check form-switch">
                     <label class="form-check-label" for="CheckEstado">Usuario Activo</label>
                     <input runat="server" class="form-check-input" type="checkbox" id="CheckEstado" checked>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <asp:Button Text="Guardar" ID="btnGuardarUsuario" CssClass="btn btn-outline-primary" runat="server" OnClick="btnGuardarUsuario_Click" />
+            <div class="d-flex justify-content-between">
+                <asp:Button ID="btnGuardarUsuario" runat="server" Text="Guardar" CssClass="btn btn-success" OnClick="btnGuardarUsuario_Click" />
+                <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" PostBackUrl="~/Usuarios.aspx" />
+            </div>
         </div>
     </div>
 </asp:Content>

@@ -19,7 +19,7 @@ namespace WebApplication3
                 CargarProductos();
         }
 
-        private void CargarProductos(string filtro = "")
+        public void CargarProductos(string filtro = "")
         {           
 
             ProductoNegocio negocio = new ProductoNegocio();

@@ -15,5 +15,6 @@ namespace Dominio
         public DateTime FechaAlta { get; set; }
         public DateTime FechaBaja { get; set; }
         public bool Estado { get; set; }
+        public int CUIT_CUIL { get; set; }  
     }
 }
