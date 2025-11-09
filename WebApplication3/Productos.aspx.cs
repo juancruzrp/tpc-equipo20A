@@ -42,5 +42,20 @@ namespace WebApplication3
         {
             CargarProductos(txtBuscar.Text.Trim());
         }
+
+        protected void repProductos_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "Editar")
+            {
+                int idProducto = Convert.ToInt32(e.CommandArgument);
+                Response.Redirect("ProductosAgregar.aspx?id=" + idProducto);
+            }
+            else if (e.CommandName == "Eliminar")
+            {
+                ProductoNegocio negocio = new ProductoNegocio();
+                negocio.eliminar(Convert.ToInt32(e.CommandArgument));
+                CargarProductos();
+            }
+        }
     }
 }

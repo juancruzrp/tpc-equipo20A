@@ -94,9 +94,17 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
+                datos.setearConsulta("DELETE FROM Imagenes WHERE IDProducto = @id");
+                datos.setearParametro("@id", id);
+                datos.ejecutarAccion();
+
                 datos.setearConsulta("DELETE FROM PRODUCTOS WHERE IDProducto = @id");
                 datos.setearParametro("@id", id);
                 datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al eliminar producto: " + ex.Message, ex);
             }
             finally
             {

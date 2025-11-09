@@ -3,21 +3,19 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <h2 class="text-center mb-4">Listado de Productos</h2>
-
-    <!-- Campo de búsqueda -->
+        
     <div class="d-flex justify-content-center mb-4">
         <asp:Label ID="lblBuscar" runat="server" Text="Buscar: " CssClass="me-2 fw-bold"></asp:Label>
         <asp:TextBox ID="txtBuscar" runat="server" AutoPostBack="true" CssClass="form-control w-50" placeholder="Ingrese nombre o marca..." OnTextChanged="txtBuscar_TextChanged" />
     </div>
-
-    <!-- UpdatePanel para actualizar solo el listado -->
+    
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
             <asp:Repeater ID="repProductos" runat="server">
                 <ItemTemplate>
                     <div class="card mb-3 shadow-sm border-0">
                         <div class="row g-0 align-items-center">
-                            <!-- Imagen -->
+                            
                             <div class="col-md-3 text-center">
                                 <img src='<%# Eval("ImagenUrl") %>' 
                                      alt='<%# Eval("Nombre") %>' 
@@ -25,8 +23,7 @@
                                      style="max-height: 150px; object-fit: contain;" 
                                      onerror="this.src='https://via.placeholder.com/150x150?text=Sin+imagen';" />
                             </div>
-
-                            <!-- Datos -->
+                                                       
                             <div class="col-md-9">
                                 <div class="card-body text-start">
                                     <h5 class="card-title mb-1"><%# Eval("Nombre") %></h5>
@@ -34,6 +31,19 @@
                                     <p class="mb-1">Precio: $<%# string.Format("{0:N2}", Eval("Precio")) %></p>
                                     <p class="mb-1">Stock: <%# Eval("Stock") %></p>
                                     <p class="text-success mb-1"><%# (bool)Eval("Estado") ? "Activo" : "Inactivo" %></p>
+
+                                    <div class="d-flex gap-2 mt-2">
+                                        <asp:Button ID="btnModificar" runat="server" Text="Modificar" 
+                                            CommandName="Modificar" 
+                                            CommandArgument='<%# Eval("IDProducto") %>' 
+                                            CssClass="btn btn-warning btn-sm" />
+
+                                        <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" 
+                                            CommandName="Eliminar" 
+                                            CommandArgument='<%# Eval("IDProducto") %>' 
+                                            CssClass="btn btn-danger btn-sm" 
+                                            OnClientClick="return confirm('¿Seguro que desea eliminar este producto?');" />
+                                    </div>
                                 </div>
                             </div>
                         </div>

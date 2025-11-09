@@ -19,6 +19,7 @@ namespace WebApplication3
             {
                 if (!IsPostBack)
                 {
+                    // config inicial de pantalla
                     CategoriaNegocio catNegocio = new CategoriaNegocio();
                     MarcaNegocio marNegocio = new MarcaNegocio();
 
@@ -31,7 +32,18 @@ namespace WebApplication3
                     ddlMarca.DataValueField = "IDMarca";
                     ddlMarca.DataTextField = "Nombre";
                     ddlMarca.DataBind();
+
+                    
                 }
+
+                // config para modificar
+                if (Request.QueryString["id"] != null)
+                {
+                    int id = int.Parse(Request.QueryString["id"]);
+                    cargarProducto(id);
+                    btnAceptar.Text = "Guardar cambios";
+                }
+
             }
             catch (Exception ex)
             {
@@ -43,7 +55,8 @@ namespace WebApplication3
 
         }
 
-        protected void btnAgregar_Click (object sender, EventArgs e)
+        
+        protected void btnAceptar_Click (object sender, EventArgs e)
         {
             try
             {
@@ -82,6 +95,11 @@ namespace WebApplication3
                 nuevo.Marca.IDMarca = int.Parse(ddlMarca.SelectedValue);
                 
                 nuevo.ImagenUrl = txtImagenUrl.Text;
+                if (string.IsNullOrWhiteSpace(txtImagenUrl.Text))
+                    nuevo.ImagenUrl = "https://us.123rf.com/450wm/koblizeek/koblizeek2208/koblizeek220800128/190320173-no-image-vector-symbol-missing-available-icon-no-gallery-for-this-moment-placeholder.jpg";
+                else
+                    nuevo.ImagenUrl = txtImagenUrl.Text;
+
                 nuevo.Estado = chkEstado.Checked;
 
                 negocio.agregar(nuevo);
