@@ -19,7 +19,7 @@ namespace Negocio
 
             try
             {
-                // **CAMBIO AQUÍ: P.Nombre en lugar de P.NombreProveedor**
+         
                 datos.setearConsulta(@"
                     SELECT C.IDCompra, C.Fecha, C.Total,
                            P.IDProveedor, P.Nombre AS NombreProveedor, -- Alias para que coincida con tu propiedad C#
@@ -40,24 +40,22 @@ namespace Negocio
                     aux.Proveedor = new Proveedor
                     {
                         IDProveedor = (int)datos.Lector["IDProveedor"],
-                        // NombreProveedor = (string)datos.Lector["NombreProveedor"] // Esto ya es correcto con el alias
+                        
                     };
-                    // Asegúrate de que la propiedad NombreProveedor exista en tu clase Dominio.Proveedor
+                   
                     aux.Proveedor.NombreProveedor = (string)datos.Lector["NombreProveedor"];
 
 
                     aux.Usuario = new Usuario
                     {
                         IDUsuario = (int)datos.Lector["IDUsuario"],
-                        // NombreUsuario = (string)datos.Lector["NombreUsuario"] // Esto ya es correcto
+                       
                     };
-                    // Asegúrate de que la propiedad NombreUsuario exista en tu clase Dominio.Usuario
+                  
                     aux.Usuario.NombreUsuario = (string)datos.Lector["NombreUsuario"];
 
 
-                    // Carga los detalles de esa compra
-                    // Asegúrate de que DetalleCompraNegocio y ListarPorCompra estén implementados correctamente
-                    // y que la clase Compra tiene una propiedad para la lista de detalles.
+                    
                     DetalleCompraNegocio detalleNegocio = new DetalleCompraNegocio();
                     aux.Detalles = detalleNegocio.ListarPorCompra(aux.IDCompra);
 
