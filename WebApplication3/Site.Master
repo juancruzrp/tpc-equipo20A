@@ -130,18 +130,10 @@
                                  onmouseover="this.style.color='gray';"
                                  onmouseout="this.style.color='black';"> <strong>Lista de productos</strong> 
                            </a>                                              
-                          <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/Productos"
+                          <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/ProductosAgregar"
                                    onmouseover="this.style.color='gray';"
                                    onmouseout="this.style.color='black';"> <strong>Agregar Producto</strong> 
-                           </a>                                              
-                           <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/Productos"
-                                   onmouseover="this.style.color='gray';"
-                                   onmouseout="this.style.color='black';"> <strong>Modificar Producto</strong> 
-                           </a> 
-                          <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/Productos"
-                                  onmouseover="this.style.color='gray';"
-                                  onmouseout="this.style.color='black';"> <strong>Eliminar Producto</strong> 
-                          </a>    
+                           </a>                     
                       </div>
                     </div>
                   </div>

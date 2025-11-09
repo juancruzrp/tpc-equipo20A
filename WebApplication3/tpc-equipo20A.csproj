@@ -99,6 +99,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ProductosAgregar.aspx" />
     <Content Include="AltaUsuarios.aspx" />
     <Content Include="Clientes.aspx" />
     <Content Include="Compras.aspx" />
@@ -193,6 +194,13 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ProductosAgregar.aspx.cs">
+      <DependentUpon>ProductosAgregar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ProductosAgregar.aspx.designer.cs">
+      <DependentUpon>ProductosAgregar.aspx</DependentUpon>
+    </Compile>
     <Compile Include="AltaUsuarios.aspx.cs">
       <DependentUpon>AltaUsuarios.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

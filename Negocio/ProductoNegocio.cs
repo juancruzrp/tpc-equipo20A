@@ -1,10 +1,11 @@
 ﻿using Acceso;
+using Dominio;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dominio;
 
 namespace Negocio
 {
@@ -103,55 +104,53 @@ namespace Negocio
             }
         }
 
-    }
-
-
-
-
-    /*public List<Producto> listar()
-    {
-        List<Producto> lista = new List<Producto>();
-        AccesoDatos datos = new AccesoDatos();
-        try
+        public void agregar(Producto nuevo)
         {
-            string consulta = "SELECT IDProducto, Nombre, Descripcion, Precio, Stock, Estado FROM PRODUCTOS";
+            AccesoDatos datos = new AccesoDatos();
 
-            datos.setearConsulta(consulta);
-            datos.ejecutarLectura();
-            while (datos.Lector.Read())
+            try
             {
-                Producto aux = new Producto();
-                aux.IDProducto = (int)datos.Lector["IDProducto"];
+                datos.setearConsulta(@"
+                    INSERT INTO Productos (Nombre, Descripcion, IDCategoria, IDMarca, Precio, Stock, Estado)
+                    VALUES (@Nombre, @Descripcion, @IDCategoria, @IDMarca, @Precio, @Stock, @Estado);
+                    SELECT SCOPE_IDENTITY();
+                ");
 
-                if (!(datos.Lector["Nombre"] is DBNull))
-                    aux.Nombre = (string)datos.Lector["Nombre"];
+                datos.setearParametro("@Nombre", nuevo.Nombre);
+                datos.setearParametro("@Descripcion", nuevo.Descripcion);
+                datos.setearParametro("@IDCategoria", nuevo.Categoria.IDCategoria);
+                datos.setearParametro("@IDMarca", nuevo.Marca.IDMarca);
+                datos.setearParametro("@Precio", nuevo.Precio);
+                datos.setearParametro("@Stock", nuevo.Stock);
+                datos.setearParametro("@Estado", nuevo.Estado);
 
-                if (!(datos.Lector["Descripcion"] is DBNull))
-                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+                object id = datos.ejecutarScalar();
+                int nuevoID = Convert.ToInt32(id);
 
-                aux.Precio = datos.Lector["Precio"] != DBNull.Value ? Convert.ToDecimal(datos.Lector["Precio"]) : 0;
-
-                aux.Stock = datos.Lector["Stock"] != DBNull.Value ? Convert.ToInt32(datos.Lector["Stock"]) : 0;
-
-                if (!(datos.Lector["Estado"] is DBNull))
-                   aux.Estado = Convert.ToInt32(datos.Lector["Estado"]) == 1;
-                else
-                    aux.Estado = false;
-
-                lista.Add(aux);
+                if (!string.IsNullOrEmpty(nuevo.ImagenUrl))
+                {
+                    datos.limpiarParametros();
+                    datos.setearConsulta(@"
+                        INSERT INTO Imagenes (IDProducto, ImagenUrl)
+                        VALUES (@IDProducto, @ImagenUrl)
+                    ");
+                    datos.setearParametro("@IDProducto", nuevoID);
+                    datos.setearParametro("@ImagenUrl", nuevo.ImagenUrl);
+                    datos.ejecutarAccion();
+                }
+                               
             }
-            return lista;
+            catch (Exception ex)
+            {
+                throw new Exception("Error al agregar producto: " + ex.Message, ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
-        catch (Exception ex)
-        {
 
-            throw ex;
-        }
-        finally
-        {
-            datos.cerrarConexion();
-        }
-    }
-   */
+    }    
+   
 }
 
