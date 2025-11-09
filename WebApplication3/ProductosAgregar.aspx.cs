@@ -122,5 +122,10 @@ namespace WebApplication3
                 lblMensaje.ForeColor = System.Drawing.Color.Red;
             }
         }
+
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Productos.aspx");
+        }
     }
 }

@@ -60,7 +60,7 @@
             <div class="d-flex justify-content-between">
                 
                 <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-success" OnClick="btnAceptar_Click" CausesValidation="true"/>
-                <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" PostBackUrl="~/Productos.aspx" />
+                <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" PostBackUrl="~/Productos.aspx" CausesValidation="false" />
             </div>
         </div>
     </div>
