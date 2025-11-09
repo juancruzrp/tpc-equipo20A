@@ -17,7 +17,7 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                string consulta = "SELECT IDProveedor, Nombre, Telefono, Mail, Direccion FROM PROVEEDORES";
+                string consulta = "SELECT IDProveedor, Nombre, Telefono, Mail, Direccion, CUIT_CUIL FROM PROVEEDORES";
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
@@ -37,6 +37,11 @@ namespace Negocio
 
                     if (!(datos.Lector["Direccion"] is DBNull))
                         aux.Direccion = (string)datos.Lector["Direccion"];
+
+                    if (!(datos.Lector["CUIT_CUIL"] is DBNull))
+                        aux.CUIT_CUIL = (string)datos.Lector["CUIT_CUIL"];
+                    else
+                        aux.CUIT_CUIL = string.Empty;
 
                     lista.Add(aux);
                 }

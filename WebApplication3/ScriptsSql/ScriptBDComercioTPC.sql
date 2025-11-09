@@ -35,6 +35,7 @@ CREATE TABLE Proveedores(
     Telefono VARCHAR(15),
     Mail NVARCHAR(50),
     Direccion VARCHAR(75),
+    CUIT_CUIL VARCHAR(15),
 )
 GO
 CREATE TABLE Marcas(

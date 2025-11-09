@@ -19,9 +19,7 @@ namespace Negocio
 
             try
             {
-                // *** CAMBIO AQUÍ EN LA CONSULTA SQL ***
-                // Ahora seleccionamos P.Nombre y lo mantenemos con el nombre "Nombre"
-                // Ya no necesitamos el alias "AS NombreProveedor"
+              
                 datos.setearConsulta(@"
                     SELECT C.IDCompra, C.Fecha, C.Total,
                            P.IDProveedor, P.Nombre,     -- <<--- ¡QUITAMOS el alias NombreProveedor!
@@ -42,9 +40,7 @@ namespace Negocio
                     aux.Proveedor = new Proveedor
                     {
                         IDProveedor = (int)datos.Lector["IDProveedor"],
-                        // *** CAMBIO AQUÍ EN LA ASIGNACIÓN ***
-                        // Ahora leemos directamente "Nombre" de la base de datos
-                        // y lo asignamos a la propiedad Nombre del objeto Proveedor
+                        
                         Nombre = (string)datos.Lector["Nombre"]
                     };
 
