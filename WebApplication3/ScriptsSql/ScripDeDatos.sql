@@ -86,3 +86,33 @@ INSERT INTO Imagenes (IDProducto, ImagenUrl)
 VALUES
 (11, 'https://http2.mlstatic.com/D_NQ_NP_720599-MLA79237976178_092024-O.webp'),
 (12, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVg9RSB7ZCDxd9WJ-rtLsQyei1zd71GDPHQw&s');
+
+
+INSERT INTO Compras (Fecha, IDProveedor, IDUsuario, Total) VALUES
+('2023-11-01', 1, 2, 12500.00),
+('2023-11-02', 3, 1, 8750.00),  
+('2023-11-03', 2, 2, 15300.00), 
+('2023-11-04', 4, 1, 9800.00),  
+('2023-11-05', 5, 2, 6500.00);  
+
+
+INSERT INTO Detalle_Compra (IDCompra, IDProducto, Cantidad, PrecioUnitario) VALUES
+-- Detalles para Compra 1 (IDCompra = 1)
+(1, 1, 10, 3500.00), 
+(1, 7, 20, 900.00),  
+
+-- Detalles para Compra 2 (IDCompra = 2)
+(2, 5, 5, 7500.00),  
+(2, 9, 8, 2700.00),  
+
+-- Detalles para Compra 3 (IDCompra = 3)
+(3, 3, 30, 1200.00), 
+(3, 8, 10, 3200.00), 
+
+-- Detalles para Compra 4 (IDCompra = 4)
+(4, 2, 15, 4800.00), 
+(4, 6, 25, 1500.00), 
+
+-- Detalles para Compra 5 (IDCompra = 5)
+(5, 11, 12, 4300.00), 
+(5, 12, 40, 1100.00);
