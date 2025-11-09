@@ -23,7 +23,7 @@ namespace Negocio
                 datos.setearConsulta(@"
                     SELECT DC.IDDetalleCompra, DC.IDProducto, DC.Cantidad, DC.PrecioUnitario,
                            P.Nombre AS NombreProducto, P.Descripcion AS DescripcionProducto, P.Precio AS PrecioProducto
-                    FROM Detalle_Compra DC -- <<-- ¡Verifica este nombre!
+                    FROM Detalle_Compra DC
                     INNER JOIN Productos P ON P.IDProducto = DC.IDProducto
                     WHERE DC.IDCompra = @IDCompra");
 

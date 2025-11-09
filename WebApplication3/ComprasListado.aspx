@@ -24,7 +24,7 @@
             <tr>
                 <td><%# Eval("IDCompra") %></td>
                 <td><%# ((DateTime)Eval("Fecha")).ToString("dd/MM/yyyy") %></td>
-                <td><%# Eval("Proveedor.NombreProveedor") %></td>
+                <td><%# Eval("Proveedor.Nombre") %></td> 
                 <td>$<%# Eval("Total") %></td>
                 <td>
                     <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="collapse"
