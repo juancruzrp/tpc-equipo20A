@@ -3,6 +3,7 @@ using Dominio;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,8 +39,7 @@ namespace Negocio
                 WHERE 
                     P.Estado = 1
                 GROUP BY
-                    P.IDProducto, P.Nombre, P.Descripcion, P.Precio, P.Stock, P.Estado, P.IDMarca, M.Marca
-            ";
+                    P.IDProducto, P.Nombre, P.Descripcion, P.Precio, P.Stock, P.Estado, P.IDMarca, M.Marca";
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
@@ -134,6 +134,7 @@ namespace Negocio
             }
         }
 
+        
         public void agregar(Producto nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
