@@ -30,11 +30,9 @@ namespace WebApplication3
             }
             catch (Exception ex)
             {
-                // Manejar el error de forma amigable para el usuario
-                // Por ejemplo, mostrar un mensaje de error en la página o loguearlo
+                
                 Response.Write("<script>alert('Error al cargar las compras: " + ex.Message + "');</script>");
-                // O redirigir a una página de error
-                // Response.Redirect("Error.aspx?msj=" + ex.Message);
+               
             }
         }
     }
