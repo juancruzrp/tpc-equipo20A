@@ -53,7 +53,7 @@
                         </a>
                         
 
-                        <!-- ------------------------------ -->                                    
+                        <!-- -------------- Ventas ---------------- -->                                    
                                 <div class="accordion accordion-flush" id="accordionFlushExample">
                                       <div class="accordion-item">
                                         <h2 class="accordion-header">                                     
@@ -68,12 +68,8 @@
                                               <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/Ventas"
                                                      onmouseover="this.style.color='gray';"
                                                      onmouseout="this.style.color='black';"> <strong>Nueva venta</strong> 
-                                               </a>                                              
-                                              <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/Ventas"
-                                                       onmouseover="this.style.color='gray';"
-                                                       onmouseout="this.style.color='black';"> <strong>Buscar ventas</strong> 
-                                               </a>                                              
-                                               <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/Ventas"
+                                               </a>                                                                                  
+                                               <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/HistorialVentas"
                                                        onmouseover="this.style.color='gray';"
                                                        onmouseout="this.style.color='black';"> <strong>Historial de ventas</strong> 
                                                </a>                                              
@@ -85,7 +81,7 @@
                                  </li>
 
                                                
-                             <!-- ------------------------------ -->                                    
+                             <!-- ---------- Compras -------------------- -->                                    
          <div class="accordion accordion-flush" id="accordionCompras">
             <div class="accordion-item">
                 <h2 class="accordion-header">                                     
@@ -112,7 +108,7 @@
           <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;">
           </li>
 
-   <!-- ------------------------------ -->  
+   <!-- ---------------- Productos -------------- -->  
 
 
             <div class="accordion accordion-flush" id="accordionProductos">
@@ -143,7 +139,7 @@
 
 
 
- <!-- ------------------------------ -->  
+ <!-- ----------------- Proveedores ------------- -->  
 
 
 
@@ -179,7 +175,7 @@
                     </aside>
                 </asp:Panel>
 
-                <!-- Contenido principal -->
+                <!-------------- Contenido principal ---------------->
                 <main class="col p-4" style="margin-left: 220px;">
                     <asp:ContentPlaceHolder ID="MainContent" runat="server" />
                     <hr />
