@@ -103,7 +103,7 @@ namespace WebApplication3
                 usuario.Estado = CheckEstado.Checked;
                 usuario.FechaAlta = DateTime.Now;
 
-                // 🔹 Si existe el ID en ViewState, es una modificación
+                
                 if (ViewState["IdUsuario"] != null)
                 {
                     usuario.IDUsuario = (int)ViewState["IdUsuario"];
@@ -111,7 +111,7 @@ namespace WebApplication3
                 }
                 else
                 {
-                    // 🔹 Si no, es un alta nueva
+                    
                     negocio.agregar(usuario);
                 }
 

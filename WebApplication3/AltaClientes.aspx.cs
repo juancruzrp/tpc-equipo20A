@@ -35,7 +35,70 @@ namespace WebApplication3
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
+
+
         {
+            lblError.Text = "";
+
+           
+            if (string.IsNullOrWhiteSpace(txtCUITCUIL.Text) ||
+                string.IsNullOrWhiteSpace(txtNombreCliente.Text) ||
+                string.IsNullOrWhiteSpace(txtApellidoCliente.Text) ||
+                string.IsNullOrWhiteSpace(txtTelefono.Text) ||
+                string.IsNullOrWhiteSpace(txtMail.Text) ||
+                string.IsNullOrWhiteSpace(txtDireccion.Text))
+            {
+                lblError.Text = "Todos los campos son obligatorios.";
+                return;
+            }
+
+            if (txtCUITCUIL.Text.Length != 11 || !txtCUITCUIL.Text.All(char.IsDigit))
+            {
+                lblError.Text = "El CUIT/CUIL debe tener exactamente 11 dígitos numéricos.";
+                return;
+            }
+
+            if (txtNombreCliente.Text.Length < 2 || !txtNombreCliente.Text.All(c => char.IsLetter(c) || char.IsWhiteSpace(c)))
+            {
+                lblError.Text = "El nombre debe tener al menos 2 letras y no puede contener números ni símbolos.";
+                return;
+            }
+
+            
+            if (txtApellidoCliente.Text.Length < 2 || !txtApellidoCliente.Text.All(c => char.IsLetter(c) || char.IsWhiteSpace(c)))
+            {
+                lblError.Text = "El apellido debe tener al menos 2 letras y no puede contener números ni símbolos.";
+                return;
+            }
+
+
+            
+            if (txtTelefono.Text.Length < 8 || txtTelefono.Text.Length > 15 || !txtTelefono.Text.All(char.IsDigit))
+            {
+                lblError.Text = "El teléfono debe tener entre 8 y 15 dígitos numéricos.";
+                return;
+            }
+
+           
+            if (!txtMail.Text.Contains("@") || !txtMail.Text.Contains("."))
+            {
+                lblError.Text = "El correo electrónico no tiene un formato válido.";
+                return;
+            }
+
+            if (txtDireccion.Text.Length < 5)
+            {
+                lblError.Text = "La dirección debe tener al menos 5 caracteres.";
+                return;
+            }
+
+            if (!System.Text.RegularExpressions.Regex.IsMatch(txtDireccion.Text, @"^[a-zA-Z0-9\s\.,°-]+$"))
+            {
+                lblError.Text = "La dirección contiene caracteres inválidos. Solo se permiten letras, números, espacios y .,°-";
+                return;
+            }
+
+
             Cliente nuevo = new Cliente();
             ClientesNegocio negocio = new ClientesNegocio();
 
