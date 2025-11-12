@@ -110,7 +110,7 @@ namespace WebApplication3
             nuevo.Direccion = txtDireccion.Text;
             try
             {
-                // 🔹 Si existe el ID en ViewState, es una modificación
+                
                 if (ViewState["IdCliente"] != null)
                 {
                     nuevo.IDCliente = (int)ViewState["IdCliente"];
@@ -118,7 +118,7 @@ namespace WebApplication3
                 }
                 else
                 {
-                    // 🔹 Si no, es un alta nueva
+                    
                     negocio.agregar(nuevo);
                 }
                 Response.Redirect("Clientes.aspx", false);

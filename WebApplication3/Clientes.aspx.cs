@@ -73,7 +73,7 @@ namespace WebApplication3
             }
             else
             {
-                // Si no hay fila seleccionada
+               
                 foreach (GridViewRow row in dgvClientes.Rows)
                 {
                     if (row.CssClass == "selectedRowHighlight")
@@ -85,7 +85,6 @@ namespace WebApplication3
         }
 
 
-        // Sobreescribimos el método RaisePostBackEvent para capturar evento "RowClick$"
         protected override void RaisePostBackEvent(IPostBackEventHandler source, string eventArgument)
         {
             if (source == dgvClientes)
@@ -96,8 +95,7 @@ namespace WebApplication3
 
                     dgvClientes.SelectedIndex = rowIndex;
 
-                    // Dispara manualmente el evento SelectedIndexChanged del GridView
-                    // habilita el botón y llama a AplicarResaltadoFilaSeleccionada()
+                  
                     dgvClientes_SelectedIndexChanged(dgvClientes, EventArgs.Empty);
 
                     return;
