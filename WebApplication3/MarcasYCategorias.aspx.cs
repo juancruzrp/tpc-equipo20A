@@ -222,7 +222,7 @@ namespace WebApplication3
 
 
         }
-    
+
 
         protected void btnModificarCat_Click(object sender, EventArgs e)
         {
