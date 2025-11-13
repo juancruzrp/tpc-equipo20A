@@ -30,17 +30,27 @@ namespace WebApplication3
                 CargarCategoria(idCategoria);
                 ViewState["IdCategoria"] = idCategoria;
             }
+
+            if (!IsPostBack)
+            {
+                if (Request.QueryString["id"] != null)
+                {
+                    int idCategoria = int.Parse(Request.QueryString["id"]);
+                    CargarCategoria(idCategoria);
+                    ViewState["IdCategoria"] = idCategoria;
+                }
+            }
         }
 
-        private void CargarCategoria(int idMarca)
-        {
-            MarcaNegocio negocio = new MarcaNegocio();
-            Marca marca = negocio.obtenerPorId(idMarca);
+        private void CargarCategoria(int idCategoria)
+        {            
+            CategoriaNegocio negocio = new CategoriaNegocio();
+            Categoria categoria = negocio.obtenerPorId(idCategoria);
 
-            if (marca != null)
+            if (categoria != null)
             {
-                txtIdCategoria.Text = marca.IDMarca.ToString();
-                txtNombreCategoria.Text = marca.Nombre;
+                txtIdCategoria.Text = categoria.IDCategoria.ToString();
+                txtNombreCategoria.Text = categoria.Nombre;
             }
         }
 
@@ -56,6 +66,7 @@ namespace WebApplication3
                 CategoriaNegocio negocio = new CategoriaNegocio();
 
                 categoria.Nombre = txtNombreCategoria.Text;
+                categoria.Estado = chkEstadoCategoria.Checked;
 
                 if (ViewState["IdCategoria"] != null)
                 {
