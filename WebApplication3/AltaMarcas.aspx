@@ -3,16 +3,24 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container py-4">
         <div class="card shadow-sm border-0 p-4 mx-auto" style="max-width: 600px;">
-            <h3 class="text-center mb-4">Agregar nueva Marca</h3>
+            <h3 class="text-center mb-4">Marca</h3>
 
-            <div class="mb-3">
-                <label for="txtIdCategoria" class="form-label">ID de la Marca:</label>
-                <asp:TextBox ID="txtIdMarca" runat="server" CssClass="form-control"></asp:TextBox>
+            <!-- ID -->
+            <div id="divIdMarca" runat="server" visible="false" class="mb-3">
+                <label for="lblIdMarca" class="form-label">ID de la Marca:</label>
+                <asp:TextBox ID="txtIdMarca" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
             </div>
+
+            <!-- Nombre -->
             <div class="mb-3">
                 <label for="txtNombreMarca" class="form-label">Nombre de la Marca:</label>
                 <asp:TextBox ID="txtNombreMarca" runat="server" CssClass="form-control"></asp:TextBox>
+            </div>
 
+            <!-- Estado -->
+            <div class="mb-3">
+                <label class="form-label">Estado:</label><br />
+                <asp:CheckBox ID="chkEstadoMarca" runat="server" Checked="true" Text=" Activo" />
             </div>
 
             <div class="mb-3">
@@ -20,8 +28,9 @@
                     <asp:Button ID="btnGuardarMarca" runat="server" Text="Guardar" CssClass="btn btn-success" OnClick="btnGuardarMarca_Click" />
                     <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" PostBackUrl="~/MarcasYCategorias.aspx" />
                 </div>
+
                 <asp:Label ID="lblError" runat="server" CssClass="text-danger mt-3"></asp:Label>
             </div>
         </div>
-        </div>
+    </div>
 </asp:Content>

@@ -34,6 +34,25 @@ namespace WebApplication3
                 CargarMarca(idMarca);
                 ViewState["IdMarca"] = idMarca;
             }
+
+            if (!IsPostBack)
+            {                
+                if (int.TryParse(Request.QueryString["id"], out int idMarca))
+                {
+                    ViewState["IdMarca"] = idMarca;
+                    
+                    divIdMarca.Visible = false;  
+                    txtIdMarca.Enabled = false;
+
+                    CargarMarca(idMarca);
+                }
+                else
+                {                    
+                    divIdMarca.Visible = false;
+                    
+                    chkEstadoMarca.Checked = true;
+                }
+            }
         }
 
         private void CargarMarca(int idMarca)
@@ -56,6 +75,7 @@ namespace WebApplication3
                 MarcaNegocio negocio = new MarcaNegocio();
 
                 marca.Nombre = txtNombreMarca.Text;
+                marca.Estado = chkEstadoMarca.Checked;
 
                 if (ViewState["IdMarca"] != null)
                 {
