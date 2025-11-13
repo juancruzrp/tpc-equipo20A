@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="Proveedores" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Proveedores.aspx.cs" Inherits="WebApplication3.Proveedores" %>
+
 <%@ Import Namespace="WebApplication3.Helpers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -31,7 +32,9 @@
                 <asp:BoundField DataField="Telefono" HeaderText="Teléfono" />
                 <asp:BoundField DataField="Mail" HeaderText="Mail" />
                 <asp:BoundField DataField="Direccion" HeaderText="Dirección" />
-                <asp:CommandField ShowSelectButton="True" SelectText="Seleccionar" />
+                <asp:BoundField DataField="Estado" HeaderText="Estado" />
+                <asp:CommandField ShowSelectButton="True" SelectText="Seleccionar"
+                    HeaderStyle-CssClass="d-none" ItemStyle-CssClass="d-none" />
             </Columns>
         </asp:GridView>
         <%if (SesionHelper.EsUsuarioAdmin(Session))

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using WebApplication3.Helpers;
 
 namespace WebApplication3
 {
@@ -25,6 +26,11 @@ namespace WebApplication3
 
             ProductoNegocio negocio = new ProductoNegocio();
             listaProductos = negocio.listar();
+
+            if (!SesionHelper.EsUsuarioAdmin(Session))
+            {
+                listaProductos = listaProductos.Where(p => p.Estado).ToList();
+            }
 
             if (!string.IsNullOrEmpty(filtro))
             {

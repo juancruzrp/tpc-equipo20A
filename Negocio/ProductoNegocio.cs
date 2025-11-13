@@ -39,9 +39,7 @@ namespace Negocio
                 LEFT JOIN 
                     Marcas M ON P.IDMarca = M.IDMarca
                 LEFT JOIN 
-                    Categorias C ON P.IDCategoria = C.IDCategoria
-                WHERE 
-                    P.Estado = 1  
+                    Categorias C ON P.IDCategoria = C.IDCategoria 
                 GROUP BY
                     P.IDProducto, P.Nombre, P.Descripcion, P.Precio, P.Stock, P.Estado,
                     P.IDMarca, M.Marca, P.IDCategoria, C.Categoria";

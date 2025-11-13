@@ -17,7 +17,7 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                string consulta = "SELECT IDProveedor, Nombre, Telefono, Mail, Direccion, CUIT_CUIL,  Estado FROM PROVEEDORES WHERE Estado = 1";
+                string consulta = "SELECT IDProveedor, Nombre, Telefono, Mail, Direccion, CUIT_CUIL,  Estado FROM PROVEEDORES";
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();

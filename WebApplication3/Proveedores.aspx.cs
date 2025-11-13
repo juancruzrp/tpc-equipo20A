@@ -1,10 +1,12 @@
-﻿using Negocio;
+﻿using Dominio;
+using Negocio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using WebApplication3.Helpers;
 
 namespace WebApplication3
 {
@@ -24,7 +26,15 @@ namespace WebApplication3
         private void CargarGrilla()
         {
             ProveedoresNegocio negocio = new ProveedoresNegocio();
-            dgvProveedores.DataSource = negocio.listar();
+            List<Proveedor> lista = negocio.listar();
+
+            // Si el usuario NO es administrador, mostrar solo proveedores activos
+            if (!SesionHelper.EsUsuarioAdmin(Session))
+            {
+                lista = lista.Where(p => p.Estado).ToList();
+            }
+
+            dgvProveedores.DataSource = lista;
             dgvProveedores.DataBind();
         }
 

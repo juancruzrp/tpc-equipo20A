@@ -13,6 +13,23 @@
         .table tr[style*="cursor:pointer"]:hover {
             background-color: #e0e0e0 !important;
         }
+
+        .grid-container {
+            display: flex;
+            gap: 40px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .grid-box {
+            flex: 1;
+            min-width: 400px;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
     </style>
 
 
@@ -33,12 +50,13 @@
                 <asp:BoundField DataField="FechaAlta" HeaderText="Fecha Alta" DataFormatString="{0:dd/MM/yyyy}" />
                 <asp:BoundField DataField="FechaBaja" HeaderText="Fecha Baja" DataFormatString="{0:dd/MM/yyyy}" />
                 <asp:CheckBoxField DataField="Estado" HeaderText="Activo" />
+                <asp:CommandField ShowSelectButton="True" SelectText="Seleccionar"
+                    HeaderStyle-CssClass="d-none" ItemStyle-CssClass="d-none" />
             </Columns>
         </asp:GridView>
-        <asp:Button Text="Agregar Usuario" ID="btnAgregar" runat="server" class="btn btn-outline-primary" OnClick="btnAgregar_Click" />
+        <asp:Button Text="Agregar Usuario" ID="btnAgregar" runat="server" CssClass="btn btn-outline-primary" OnClick="btnAgregar_Click" />
 
-        <asp:Button Text="Modificar Usuario" ID="btnModificar" runat="server"
-            class="btn btn-outline-info" OnClick="btnModificar_Click" Enabled="false" />
+        <asp:Button Text="Modificar Usuario" ID="btnModificar" runat="server" CssClass="btn btn-outline-info" OnClick="btnModificar_Click" Enabled="false" />
 
     </main>
 </asp:Content>

@@ -16,7 +16,11 @@ namespace WebApplication3
             {
                 CargarClientes();
             }
-            AplicarResaltadoFilaSeleccionada();
+            if (Session["Usuario"] == null)
+            {
+                Session.Add("Error", "Debe iniciar sesión para acceder al sistema.");
+                Response.Redirect("~/Error.aspx", false);
+            }
         }
 
         private void CargarClientes()
@@ -34,76 +38,27 @@ namespace WebApplication3
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                e.Row.Attributes["onclick"] = ClientScript.GetPostBackClientHyperlink(dgvClientes, "RowClick$" + e.Row.RowIndex);
-                e.Row.Attributes["style"] = "cursor:pointer;";
-
-                // visuales de hover
-                e.Row.Attributes["onmouseover"] = "this.originalstyle=this.style.backgroundColor;this.style.backgroundColor='#e0e0e0';";
-                e.Row.Attributes["onmouseout"] = "this.style.backgroundColor=this.originalstyle;";
+                e.Row.Attributes["onclick"] = Page.ClientScript.GetPostBackClientHyperlink(dgvClientes, "Select$" + e.Row.RowIndex);
+                e.Row.Style["cursor"] = "pointer";
             }
         }
 
         protected void dgvClientes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            btnModificar.Enabled = true;
-            // aplicamos el resaltado
-            AplicarResaltadoFilaSeleccionada();
+            foreach (GridViewRow row in dgvClientes.Rows)
+                row.CssClass = row.RowIndex == dgvClientes.SelectedIndex ? "selectedRowHighlight" : "";
+
+           btnModificar.Enabled = true;
+
         }
-
-
-        private void AplicarResaltadoFilaSeleccionada()
+        protected override void Render(HtmlTextWriter writer)
         {
-            if (dgvClientes.SelectedIndex >= 0 && dgvClientes.Rows.Count > 0)
+            foreach (GridViewRow row in dgvClientes.Rows)
             {
-                foreach (GridViewRow row in dgvClientes.Rows)
-                {
-                    if (row.RowIndex == dgvClientes.SelectedIndex)
-                    {
-                        row.CssClass = "selectedRowHighlight"; //  clase CSS 
-                    }
-                    else
-                    {
-                        // importante para que solo una fila esté resaltada a la vez
-                        if (row.CssClass == "selectedRowHighlight")
-                        {
-                            row.CssClass = "";
-                        }
-                    }
-                }
+                Page.ClientScript.RegisterForEventValidation(dgvClientes.UniqueID, "Select$" + row.RowIndex);
             }
-            else
-            {
-               
-                foreach (GridViewRow row in dgvClientes.Rows)
-                {
-                    if (row.CssClass == "selectedRowHighlight")
-                    {
-                        row.CssClass = "";
-                    }
-                }
-            }
+            base.Render(writer);
         }
-
-
-        protected override void RaisePostBackEvent(IPostBackEventHandler source, string eventArgument)
-        {
-            if (source == dgvClientes)
-            {
-                if (eventArgument.StartsWith("RowClick$"))
-                {
-                    int rowIndex = int.Parse(eventArgument.Replace("RowClick$", ""));
-
-                    dgvClientes.SelectedIndex = rowIndex;
-
-                  
-                    dgvClientes_SelectedIndexChanged(dgvClientes, EventArgs.Empty);
-
-                    return;
-                }
-            }
-            base.RaisePostBackEvent(source, eventArgument);
-        }
-
 
 
 
