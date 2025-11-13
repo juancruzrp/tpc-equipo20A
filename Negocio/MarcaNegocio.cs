@@ -109,10 +109,7 @@ namespace Negocio
             {
                 datos.cerrarConexion();
             }
-<<<<<<< HEAD
-        }        
-=======
-        }
+        }                 
 
         public Marca obtenerPorId(int id)
         {
@@ -142,10 +139,8 @@ namespace Negocio
             {
                 datos.cerrarConexion();
             }
-        }
+        }    
 
-       
->>>>>>> 8a39f7095c8df8e998c601e7a202371c5ac313bb
 
     }
 }

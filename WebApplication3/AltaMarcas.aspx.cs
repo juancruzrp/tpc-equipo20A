@@ -25,11 +25,8 @@ namespace WebApplication3
             {
                 Session.Add("Error", "No tienes permisos para acceder a esta sección.");
                 Response.Redirect("Error.aspx");
-<<<<<<< HEAD
-            }            
 
-=======
-            }
+            }                              
 
             if (Request.QueryString["id"] != null)
             {
@@ -37,7 +34,6 @@ namespace WebApplication3
                 CargarMarca(idMarca);
                 ViewState["IdMarca"] = idMarca;
             }
->>>>>>> 8a39f7095c8df8e998c601e7a202371c5ac313bb
         }
 
         private void CargarMarca(int idMarca)
@@ -51,10 +47,6 @@ namespace WebApplication3
                 txtNombreMarca.Text = marca.Nombre;
             }
         }
-
-
-
-
 
         protected void btnGuardarMarca_Click(object sender, EventArgs e)
         {
