@@ -32,16 +32,10 @@ namespace WebApplication3
             {
                 CargarDropdowns();
                 CargarUsuarioActual();
-               /* ActualizarTotalCompra();
-                BindDetalleCompraGrid();*/
+               
                 txtFecha.Text = DateTime.Today.ToString("yyyy-MM-dd"); // Establecer fecha actual
             }
-            else
-            {
-                // Si es un postback, recalcula el total por si se cambió la cantidad de un producto
-                /*ActualizarSubtotalDetalle();
-                ActualizarTotalCompra();*/
-            }
+           
         }
 
         private void CargarDropdowns()

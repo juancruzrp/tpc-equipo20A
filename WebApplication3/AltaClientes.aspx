@@ -16,6 +16,7 @@
             <div class="mb-3">
                 <label for="txtNombreCliente" class="form-label">Nombre del cliente:</label>
                 <asp:TextBox ID="txtNombreCliente" runat="server" CssClass="form-control"></asp:TextBox>
+                
             </div>
 
             <div class="mb-3">
@@ -42,6 +43,8 @@
                 <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-success" OnClick="btnGuardar_Click" />
                 <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" PostBackUrl="~/Clientes.aspx" />
             </div>
+
+            <asp:Label ID="lblError" runat="server" CssClass="text-danger mt-3"></asp:Label>
         </div>
     </div>
 </asp:Content>

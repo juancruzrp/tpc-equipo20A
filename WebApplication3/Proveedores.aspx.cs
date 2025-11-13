@@ -57,7 +57,7 @@ namespace WebApplication3
             Response.Redirect("AltaProveedores.aspx?id=" + id);
         }
 
-        // 🔒 Método que registra los postbacks válidos (soluciona el error)
+       
         protected override void Render(HtmlTextWriter writer)
         {
             foreach (GridViewRow row in dgvProveedores.Rows)
@@ -72,12 +72,11 @@ namespace WebApplication3
             ProveedoresNegocio negocio = new ProveedoresNegocio();
             try
             {
-                // Obtener el ID del proveedor seleccionado
+                
                 int idProveedor = Convert.ToInt32(dgvProveedores.SelectedDataKey.Value);
                 negocio.eliminarLogico(idProveedor); // Llama al método de borrado lógico
 
-                // Después de inactivar, recargar la lista para que el proveedor desaparezca
-                // (ya que listar() solo trae activos)
+               
                 CargarGrilla();
                 ScriptManager.RegisterStartupScript(this, GetType(), "alertMessage", "alert('Proveedor inactivado exitosamente.');", true);
             }

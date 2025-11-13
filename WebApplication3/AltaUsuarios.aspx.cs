@@ -77,6 +77,31 @@ namespace WebApplication3
 
         protected void btnGuardarUsuario_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(txtFecha.Text))
+            {
+                lblError.Text = "Debe ingresar una fecha de alta.";
+                return;
+            }
+
+            DateTime fechaAlta;
+            if (!DateTime.TryParse(txtFecha.Text, out fechaAlta))
+            {
+                lblError.Text = "La fecha de alta no es válida.";
+                return;
+            }
+
+            if (fechaAlta.Date < DateTime.Now.Date)
+            {
+                lblError.Text = "La fecha de alta no puede ser anterior a la actual.";
+                return;
+            }
+
+            if (ddlTipoUsuario.SelectedValue == "0")
+            {
+                lblError.Text = "Debe seleccionar un tipo de usuario válido.";
+                return;
+            }
+
             try
             {
                 Usuario usuario = new Usuario();
@@ -89,7 +114,7 @@ namespace WebApplication3
                 usuario.Estado = CheckEstado.Checked;
                 usuario.FechaAlta = DateTime.Now;
 
-                // 🔹 Si existe el ID en ViewState, es una modificación
+                
                 if (ViewState["IdUsuario"] != null)
                 {
                     usuario.IDUsuario = (int)ViewState["IdUsuario"];
@@ -97,7 +122,7 @@ namespace WebApplication3
                 }
                 else
                 {
-                    // 🔹 Si no, es un alta nueva
+                    
                     negocio.agregar(usuario);
                 }
 
