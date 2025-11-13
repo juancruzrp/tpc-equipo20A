@@ -24,7 +24,29 @@ namespace WebApplication3
                 Session.Add("Error", "No tienes permisos para acceder a esta sección.");
                 Response.Redirect("Error.aspx");
             }
+            if (Request.QueryString["id"] != null)
+            {
+                int idCategoria = int.Parse(Request.QueryString["id"]);
+                CargarCategoria(idCategoria);
+                ViewState["IdCategoria"] = idCategoria;
+            }
         }
+
+        private void CargarCategoria(int idMarca)
+        {
+            MarcaNegocio negocio = new MarcaNegocio();
+            Marca marca = negocio.obtenerPorId(idMarca);
+
+            if (marca != null)
+            {
+                txtIdCategoria.Text = marca.IDMarca.ToString();
+                txtNombreCategoria.Text = marca.Nombre;
+            }
+        }
+
+
+
+
 
         protected void btnGuardarCategoria_Click(object sender, EventArgs e)
         {
