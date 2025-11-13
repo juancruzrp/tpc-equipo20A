@@ -97,7 +97,7 @@ namespace Negocio
 
                 datos.setearParametro("@nombre", marca.Nombre);
                 datos.setearParametro("@estado", marca.Estado);
-                datos.setearParametro("@idUsuario", marca.IDMarca);
+                datos.setearParametro("@idMarca", marca.IDMarca);
 
                 datos.ejecutarAccion();
             }
@@ -109,7 +109,43 @@ namespace Negocio
             {
                 datos.cerrarConexion();
             }
+<<<<<<< HEAD
         }        
+=======
+        }
+
+        public Marca obtenerPorId(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            Marca marca = null;
+            try
+            {
+                datos.setearConsulta("SELECT IDMarca, Marca AS Nombre, Estado FROM Marcas WHERE IDMarca = @idMarca");
+                datos.setearParametro("@idMarca", id);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    marca = new Marca();
+                    marca.IDMarca = (int)datos.Lector["IDMarca"];
+                    marca.Nombre = (string)datos.Lector["Nombre"];
+                    marca.Estado = (bool)datos.Lector["Estado"];
+                }
+
+                return marca;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+       
+>>>>>>> 8a39f7095c8df8e998c601e7a202371c5ac313bb
 
     }
 }

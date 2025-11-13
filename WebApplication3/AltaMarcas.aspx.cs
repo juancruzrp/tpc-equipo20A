@@ -15,6 +15,7 @@ namespace WebApplication3
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+
             if (Session["Usuario"] == null)
             {
                 Session.Add("Error", "Debe iniciar sesión para acceder al sistema.");
@@ -24,9 +25,36 @@ namespace WebApplication3
             {
                 Session.Add("Error", "No tienes permisos para acceder a esta sección.");
                 Response.Redirect("Error.aspx");
+<<<<<<< HEAD
             }            
 
+=======
+            }
+
+            if (Request.QueryString["id"] != null)
+            {
+                int idMarca = int.Parse(Request.QueryString["id"]);
+                CargarMarca(idMarca);
+                ViewState["IdMarca"] = idMarca;
+            }
+>>>>>>> 8a39f7095c8df8e998c601e7a202371c5ac313bb
         }
+
+        private void CargarMarca(int idMarca)
+        {
+            MarcaNegocio negocio = new MarcaNegocio();
+            Marca marca = negocio.obtenerPorId(idMarca);
+
+            if (marca != null)
+            {
+                txtIdMarca.Text = marca.IDMarca.ToString();
+                txtNombreMarca.Text = marca.Nombre;
+            }
+        }
+
+
+
+
 
         protected void btnGuardarMarca_Click(object sender, EventArgs e)
         {
@@ -56,5 +84,7 @@ namespace WebApplication3
                 Response.Redirect("Error.aspx");
             }
         }
+
+
     }
 }

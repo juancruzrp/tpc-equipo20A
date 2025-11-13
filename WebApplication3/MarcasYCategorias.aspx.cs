@@ -121,6 +121,11 @@ namespace WebApplication3
         protected void btnModificar_Click(object sender, EventArgs e)
         {
 
+            if (dgvMarcas.SelectedIndex >= 0)
+            {
+                int idMarca = Convert.ToInt32(dgvMarcas.DataKeys[dgvMarcas.SelectedIndex].Value);
+                Response.Redirect("AltaMarcas.aspx?id=" + idMarca);
+            }
         }
 
         protected void btnAgregar_Click(object sender, EventArgs e)
