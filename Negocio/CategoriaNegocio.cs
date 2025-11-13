@@ -97,7 +97,7 @@ namespace Negocio
 
                 datos.setearParametro("@nombre", categoria.Nombre);
                 datos.setearParametro("@estado", categoria.Estado);
-                datos.setearParametro("@idUsuario", categoria.IDCategoria);
+                datos.setearParametro("@idCategoria", categoria.IDCategoria);
 
                 datos.ejecutarAccion();
             }
@@ -110,5 +110,37 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+
+        public Categoria obtenerPorId(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            Categoria categoria = null;
+            try
+            {
+                datos.setearConsulta("SELECT IDCategoria, Categoria AS Nombre, Estado FROM Categorias WHERE IDCategoria = @idCategoria");
+                datos.setearParametro("@idCategoria", id);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    categoria = new Categoria();
+                    categoria.IDCategoria = (int)datos.Lector["IDCategoria"];
+                    categoria.Nombre = (string)datos.Lector["Nombre"];
+                    categoria.Estado = (bool)datos.Lector["Estado"];
+                }
+
+                return categoria;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

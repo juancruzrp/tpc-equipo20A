@@ -222,11 +222,16 @@ namespace WebApplication3
 
 
         }
-    
+
 
         protected void btnModificarCat_Click(object sender, EventArgs e)
         {
-
+            if (dgvCategorias.SelectedIndex >= 0)
+            {
+                int idCategoria = Convert.ToInt32(dgvCategorias.DataKeys[dgvMarcas.SelectedIndex].Value);
+                Response.Redirect("AltaCategorias.aspx?id=" + idCategoria);
+            }
+        
         }
 
         protected void btnAgregarCat_Click(object sender, EventArgs e)
