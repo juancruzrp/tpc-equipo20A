@@ -1,4 +1,5 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="WebApplication3.SiteMaster" %>
+<%@ Import Namespace="WebApplication3.Helpers" %>
 
 <!DOCTYPE html>
 
@@ -125,11 +126,14 @@
                           <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/Productos"
                                  onmouseover="this.style.color='gray';"
                                  onmouseout="this.style.color='black';"> <strong>Lista de productos</strong> 
-                           </a>                                              
+                           </a>        
+                          <%if (SesionHelper.EsUsuarioAdmin(Session))
+                              { %>
                           <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/ProductosAgregar"
                                    onmouseover="this.style.color='gray';"
                                    onmouseout="this.style.color='black';"> <strong>Agregar Producto</strong> 
-                           </a>                     
+                           </a> 
+                          <%} %>
                       </div>
                     </div>
                   </div>
@@ -156,7 +160,7 @@
                                 </a>
                             </li>
               
-                            <% if (Session["usuario"] != null && ((Dominio.Usuario)Session["usuario"]).TipoUsuario.IDTipoUsuario == 2)
+                            <% if (SesionHelper.EsUsuarioAdmin(Session))
                                 { %>
                             <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;">
                                 <a class="nav-link" style="color: black;" runat="server" href="~/Usuarios"

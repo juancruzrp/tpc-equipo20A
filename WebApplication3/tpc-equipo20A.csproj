@@ -211,6 +211,7 @@
     <Compile Include="AltaProveedores.aspx.designer.cs">
       <DependentUpon>AltaProveedores.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="HistorialVentas.aspx.cs">
       <DependentUpon>HistorialVentas.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
