@@ -24,7 +24,8 @@ namespace WebApplication3
             {
                 Session.Add("Error", "No tienes permisos para acceder a esta sección.");
                 Response.Redirect("Error.aspx");
-            }
+            }            
+
         }
 
         protected void btnGuardarMarca_Click(object sender, EventArgs e)

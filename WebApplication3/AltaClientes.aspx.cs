@@ -18,8 +18,7 @@ namespace WebApplication3
             if (!IsPostBack)
             {
                 try
-                {
-                 
+                {                 
                     // 🔹 Si viene un id por query, es modificación
                     if (Request.QueryString["id"] != null)
                     {
