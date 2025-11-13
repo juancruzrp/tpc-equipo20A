@@ -15,6 +15,15 @@ namespace WebApplication3
     {
 
         /// <summary>
+        /// Control updMarcas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel updMarcas;
+
+        /// <summary>
         /// Control dgvMarcas.
         /// </summary>
         /// <remarks>
@@ -49,6 +58,15 @@ namespace WebApplication3
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnInactivar;
+
+        /// <summary>
+        /// Control updCategorias.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel updCategorias;
 
         /// <summary>
         /// Control dgvCategorias.

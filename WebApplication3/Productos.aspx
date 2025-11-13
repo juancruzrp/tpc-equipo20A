@@ -41,17 +41,19 @@
                                             CommandArgument='<%# Eval("IDProducto") %>'
                                             CssClass="btn btn-warning btn-sm" />
 
-                                        <asp:Button ID="btnEliminar" runat="server" Text="Eliminar"
+                                        <asp:Button ID="btnEliminar" runat="server"
+                                            Text='<%# (bool)Eval("Estado") ? "Inactivar" : "Activar" %>'
                                             CommandName="Eliminar"
                                             CommandArgument='<%# Eval("IDProducto") %>'
-                                            CssClass="btn btn-danger btn-sm"
-                                            OnClientClick="return confirm('¿Seguro que desea eliminar este producto?');" />
+                                            CssClass='<%# (bool)Eval("Estado") ? "btn btn-danger btn-sm" : "btn btn-success btn-sm" %>'
+                                            OnClientClick='<%# (bool)Eval("Estado") 
+                                            ? "return confirm(\"¿Seguro que desea inactivar este producto?\");" 
+                                            : "return confirm(\"¿Seguro que desea activar este producto?\");" %>' />
+                                        <%} %>
                                     </div>
-                                    <%} %>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </ItemTemplate>
             </asp:Repeater>
         </ContentTemplate>
@@ -65,12 +67,12 @@
         $(document).ready(function () {
             let timer;
             $('#<%= txtBuscar.ClientID %>').on('input', function () {
-                    clearTimeout(timer);
-                    timer = setTimeout(function () {
-                        __doPostBack('<%= txtBuscar.UniqueID %>', '');
-            }, 200);
-                });
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    __doPostBack('<%= txtBuscar.UniqueID %>', '');
+                }, 200);
             });
+        });
     </script>
 
 </asp:Content>

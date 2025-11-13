@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dominio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -20,6 +21,14 @@ namespace WebApplication3
             if (Page.AppRelativeVirtualPath.ToLower().Contains("error.aspx"))
             {
                 pnlNavbar.Visible = false;
+            }
+            if (Session["Usuario"] != null)
+            {
+                Usuario usuario = (Usuario)Session["Usuario"];
+                if (!usuario.Estado)
+                {
+                    Response.Redirect("~/AccesoDenegado.aspx");
+                }
             }
         }
 

@@ -17,7 +17,7 @@ namespace Negocio
 
             try
             {                
-                datos.setearConsulta("SELECT IDMarca, Marca FROM Marcas");
+                datos.setearConsulta("SELECT IDMarca, Marca, Estado FROM Marcas");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -29,6 +29,7 @@ namespace Negocio
                     aux.Nombre = datos.Lector["Marca"] != DBNull.Value
                         ? datos.Lector["Marca"].ToString()
                         : "Sin marca";
+                    aux.Estado = (bool)datos.Lector["Estado"];
 
                     lista.Add(aux);
                 }
@@ -38,6 +39,71 @@ namespace Negocio
             catch (Exception ex)
             {
                 throw new Exception("Error al listar marcas: " + ex.Message, ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public void CambiarEstado(Marca marca)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("UPDATE Marcas SET Estado = @estado WHERE IDMarca = @id");
+                datos.setearParametro("@estado", marca.Estado);
+                datos.setearParametro("@id", marca.IDMarca);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cambiar estado de la marca: " + ex.Message, ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public void agregar(Marca nuevo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("INSERT INTO Marcas (Marca,Estado) VALUES (@nombre, @estado)");
+                datos.setearParametro("@nombre", nuevo.Nombre);
+                datos.setearParametro("@estado", nuevo.Estado);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public void modificar(Marca marca)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(@"
+            UPDATE Marcas
+            SET Marca = @nombre,
+                Estado = @estado
+            WHERE IDMarca = @idMarca");
+
+                datos.setearParametro("@nombre", marca.Nombre);
+                datos.setearParametro("@estado", marca.Estado);
+                datos.setearParametro("@idUsuario", marca.IDMarca);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
             finally
             {

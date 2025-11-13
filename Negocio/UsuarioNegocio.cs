@@ -15,7 +15,7 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("SELECT IDUsuario, IDTipoUsuario FROM Usuarios where NombreUsuario = @user AND Contraseña = @pass");
+                datos.setearConsulta("SELECT IDUsuario, IDTipoUsuario, Estado FROM Usuarios where NombreUsuario = @user AND Contraseña = @pass");
 
 
                 datos.setearParametro("@user", usuario.NombreUsuario);
@@ -27,6 +27,7 @@ namespace Negocio
                     usuario.IDUsuario = (int)datos.Lector["IDUsuario"];
                     usuario.TipoUsuario = new TipoUsuario();
                     usuario.TipoUsuario.IDTipoUsuario = Convert.ToInt32(datos.Lector["IDTipoUsuario"]);
+                    usuario.Estado = (bool)datos.Lector["Estado"];
                     return true;
                 }
                 return false;

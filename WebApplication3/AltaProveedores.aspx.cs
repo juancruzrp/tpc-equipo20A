@@ -59,6 +59,7 @@ namespace WebApplication3
             proveedor.Telefono = txtTelefono.Text;
             proveedor.Mail = txtMail.Text;
             proveedor.Direccion = txtDireccion.Text;
+            proveedor.Estado = true;
 
             if (string.IsNullOrEmpty(txtIdProveedor.Text))
                 negocio.agregar(proveedor);

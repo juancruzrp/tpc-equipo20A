@@ -18,7 +18,11 @@ namespace WebApplication3
         {
             if (!IsPostBack)
                 cargarProductos();
-
+            if (Session["Usuario"] == null)
+            {
+                Session.Add("Error", "Debe iniciar sesión para acceder al sistema.");
+                Response.Redirect("~/Error.aspx", false);
+            }
         }
 
         public void cargarProductos(string filtro = "")
@@ -61,7 +65,7 @@ namespace WebApplication3
             {
                 int id = Convert.ToInt32(e.CommandArgument);
                 ProductoNegocio negocio = new ProductoNegocio();
-                negocio.eliminarLogico(id);
+                negocio.CambiarEstado(id);
                 Response.Redirect("Productos.aspx", false);
 
             }

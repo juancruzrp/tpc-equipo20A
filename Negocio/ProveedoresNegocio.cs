@@ -161,13 +161,14 @@ namespace Negocio
             }
         }
 
-        public void eliminarLogico(int id) 
+        public void CambiarEstado(Proveedor proveedor) 
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("UPDATE Proveedores SET Estado = 0 WHERE IDProveedor = @id"); // Cambia Estado a 0 (inactivo)
-                datos.setearParametro("@id", id);
+                datos.setearConsulta("UPDATE Proveedores SET Estado = @estado WHERE IDProveedor = @id"); // Cambia Estado a 0 (inactivo)
+                datos.setearParametro("@Estado", proveedor.Estado);
+                datos.setearParametro("@id", proveedor.IDProveedor);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)

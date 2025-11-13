@@ -24,7 +24,7 @@ namespace WebApplication3
             {
                 if (string.IsNullOrWhiteSpace(txtUsuario.Text) || string.IsNullOrWhiteSpace(txtContraseña.Text))
                 {
-                    lblError.Text = "Debe completar ambos campos."; 
+                    lblError.Text = "Debe completar ambos campos.";
                     return;
                 }
 
@@ -32,20 +32,26 @@ namespace WebApplication3
 
                 usuario.NombreUsuario = txtUsuario.Text;
                 usuario.Contraseña = txtContraseña.Text;
-                
-                    if(negocio.Loguear(usuario))
+
+                if (negocio.Loguear(usuario))
+                {
+                    if (!usuario.Estado)
                     {
-                        Session.Add("Usuario", usuario);
-                        Response.Redirect("~/Inicio.aspx",false);
+                        lblError.Text = "Tu cuenta está inactiva. Contactá al administrador.";
+                        Response.Redirect("~/AccesoDenegado.aspx", false);
                     }
-                    else
-                    {
-                    Session.Add("Error", "Nombre de Usuario o Contraseña incorrectos.");
-                    Response.Redirect("~/Error.aspx",false);
+                    Session.Add("Usuario", usuario);
+                    Response.Redirect("~/Inicio.aspx", false);
                 }
+                else
+                {
+                    Session.Add("Error", "Nombre de Usuario o Contraseña incorrectos.");
+                    Response.Redirect("~/Error.aspx", false);
+                }
+                
 
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
 
                 Session.Add("Error", ex.ToString());

@@ -32,7 +32,7 @@
                 <asp:BoundField DataField="Telefono" HeaderText="Teléfono" />
                 <asp:BoundField DataField="Mail" HeaderText="Mail" />
                 <asp:BoundField DataField="Direccion" HeaderText="Dirección" />
-                <asp:BoundField DataField="Estado" HeaderText="Estado" />
+                <asp:CheckBoxField DataField="Estado" HeaderText="Activo" />
                 <asp:CommandField ShowSelectButton="True" SelectText="Seleccionar"
                     HeaderStyle-CssClass="d-none" ItemStyle-CssClass="d-none" />
             </Columns>
@@ -41,7 +41,7 @@
             { %>
         <asp:Button Text="Agregar Proveedor" ID="btnAgregar" runat="server" CssClass="btn btn-outline-primary" OnClick="btnAgregar_Click" />
         <asp:Button Text="Modificar Proveedor" ID="btnModificar" runat="server" CssClass="btn btn-outline-info" OnClick="btnModificar_Click" Enabled="false" />
-        <asp:Button Text="Eliminar Proveedor" ID="btnInactivar" runat="server" CssClass="btn btn-outline-danger" OnClick="btnInactivar_Click" Enabled="false" OnClientClick="return confirm('¿Estás seguro de que quieres inactivar el proveedor seleccionado?');" />
+        <asp:Button Text="Inactivar Proveedor" ID="btnInactivar" runat="server" CssClass="btn btn-outline-danger" OnClick="btnInactivar_Click" Enabled="false" OnClientClick="return confirm('¿Estás seguro de que quieres inactivar el proveedor seleccionado?');" />
         <%} %>
     </main>
 </asp:Content>

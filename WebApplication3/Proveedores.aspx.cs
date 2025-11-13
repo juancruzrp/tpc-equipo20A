@@ -54,6 +54,24 @@ namespace WebApplication3
 
             btnModificar.Enabled = true;
             btnInactivar.Enabled = true;
+
+            int idProveedor = Convert.ToInt32(dgvProveedores.SelectedDataKey.Value);
+
+
+            ProveedoresNegocio negocio = new ProveedoresNegocio();
+            List<Proveedor> listaProveedores = negocio.listar();
+
+            // Buscar el proveedor
+            Proveedor seleccionado = listaProveedores.Find(p => p.IDProveedor == idProveedor);
+
+            if (seleccionado != null)
+            {
+                btnInactivar.Text = seleccionado.Estado ? "Inactivar Proveedor" : "Activar Proveedor";
+                btnInactivar.CssClass = seleccionado.Estado ? "btn btn-outline-danger" : "btn btn-outline-success";
+                btnInactivar.OnClientClick = seleccionado.Estado
+            ? "return confirm('¿Estás seguro de que quieres inactivar el proveedor seleccionado?');"
+            : "return confirm('¿Estás seguro de que quieres activar el proveedor seleccionado?');";
+            }
         }
 
         protected void btnAgregar_Click(object sender, EventArgs e)
@@ -67,7 +85,7 @@ namespace WebApplication3
             Response.Redirect("AltaProveedores.aspx?id=" + id);
         }
 
-       
+
         protected override void Render(HtmlTextWriter writer)
         {
             foreach (GridViewRow row in dgvProveedores.Rows)
@@ -82,21 +100,41 @@ namespace WebApplication3
             ProveedoresNegocio negocio = new ProveedoresNegocio();
             try
             {
-                
                 int idProveedor = Convert.ToInt32(dgvProveedores.SelectedDataKey.Value);
-                negocio.eliminarLogico(idProveedor); // Llama al método de borrado lógico
 
-               
-                CargarGrilla();
-                ScriptManager.RegisterStartupScript(this, GetType(), "alertMessage", "alert('Proveedor inactivado exitosamente.');", true);
+                // Obtener el proveedor actual
+                List<Proveedor> lista = negocio.listar();
+                Proveedor seleccionado = lista.Find(p => p.IDProveedor == idProveedor);
+
+                if (seleccionado != null)
+                {
+                    bool estadoAnterior = seleccionado.Estado;
+
+                    // Invertir estado
+                    seleccionado.Estado = !estadoAnterior;
+
+                    // Aplicar cambio
+                    negocio.CambiarEstado(seleccionado);
+
+                    // Refrescar grilla
+                    CargarGrilla();
+
+                    // Mostrar mensaje dinámico
+                    string mensaje = estadoAnterior ? "Proveedor inactivado exitosamente." : "Proveedor activado exitosamente.";
+                    ScriptManager.RegisterStartupScript(this, GetType(), "alertMessage", $"alert('{mensaje}');", true);
+
+                    // Resetear botones
+                    btnModificar.Enabled = false;
+                    btnInactivar.Enabled = false;
+                }
             }
             catch (Exception ex)
             {
-                Response.Write("<script>alert('Error al inactivar proveedor: " + ex.Message + "');</script>");
+                throw new Exception("Error al cambiar estado del proveedor: " + ex.Message, ex);
             }
+
+
         }
-
-
     }
-    
+
 }

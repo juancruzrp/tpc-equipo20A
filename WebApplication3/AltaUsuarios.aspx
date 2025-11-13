@@ -54,12 +54,6 @@
                 <label for="txtFecha" class="form-label">Fecha de Alta:</label>
                 <asp:TextBox ID="txtFecha" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
             </div>
-            <div class="mb-3">
-                <div class="form-check form-switch">
-                    <label class="form-check-label" for="CheckEstado">Usuario Activo</label>
-                    <input runat="server" class="form-check-input" type="checkbox" id="CheckEstado" checked>
-                </div>
-            </div>
             <div class="d-flex justify-content-between">
                 <asp:Button ID="btnGuardarUsuario" runat="server" Text="Guardar" CssClass="btn btn-success" OnClick="btnGuardarUsuario_Click" />
                 <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" PostBackUrl="~/Usuarios.aspx" />

@@ -117,26 +117,25 @@ namespace Negocio
             }
         }
 
-        public void eliminarLogico(int id)
+        public void CambiarEstado(int IDProducto)
         {
             AccesoDatos datos = new AccesoDatos();
-
             try
             {
-                datos.setearConsulta("UPDATE Productos SET Estado = 0 WHERE IDProducto = @id");
-                datos.setearParametro("@id", id);
+                datos.setearConsulta("UPDATE Productos SET Estado = CASE WHEN Estado = 1 THEN 0 ELSE 1 END WHERE IDProducto = @id"); ; // Cambia Estado a 0 (inactivo)
+                datos.setearParametro("@id",IDProducto);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al eliminar producto: " + ex.Message);
+                throw new Exception("Error al cambiar estado del producto: " + ex.Message, ex);
             }
             finally
             {
                 datos.cerrarConexion();
             }
         }
-      
+
         public void agregar(Producto nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
