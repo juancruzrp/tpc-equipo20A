@@ -14,6 +14,11 @@ namespace WebApplication3
         {
             if (!IsPostBack)
                 CargarGrilla();
+            if (Session["Usuario"] == null)
+            {
+                Session.Add("Error", "Debe iniciar sesión para acceder al sistema.");
+                Response.Redirect("~/Error.aspx", false);
+            }
         }
 
         private void CargarGrilla()

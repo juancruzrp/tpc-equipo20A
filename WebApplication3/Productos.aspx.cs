@@ -17,6 +17,7 @@ namespace WebApplication3
         {
             if (!IsPostBack)
                 cargarProductos();
+
         }
 
         public void cargarProductos(string filtro = "")

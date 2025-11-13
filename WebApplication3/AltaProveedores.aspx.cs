@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using WebApplication3.Helpers;
 
 namespace WebApplication3
 {
@@ -34,7 +35,18 @@ namespace WebApplication3
                         txtDireccion.Text = seleccionado.Direccion;
                     }
                 }
+                if (Session["Usuario"] == null)
+                {
+                    Session.Add("Error", "Debe iniciar sesión para acceder al sistema.");
+                    Response.Redirect("~/Error.aspx", false);
+                }
+                else if (!SesionHelper.EsUsuarioAdmin(Session))
+                {
+                    Session.Add("Error", "No tienes permisos para acceder a esta sección.");
+                    Response.Redirect("Error.aspx");
+                }
             }
+
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using WebApplication3.Helpers;
 
 namespace WebApplication3
 {
@@ -32,6 +33,12 @@ namespace WebApplication3
                     Response.Redirect("Error.aspx");
                 }
             }
+            if (Session["Usuario"] == null)
+            {
+                Session.Add("Error", "Debe iniciar sesión para acceder al sistema.");
+                Response.Redirect("~/Error.aspx", false);
+            }
+           
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
