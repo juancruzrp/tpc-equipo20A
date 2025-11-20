@@ -4,21 +4,25 @@
     <main aria-labelledby="title">
            <h2 id="title">Registrar Nueva Compra</h2>
 
+        <asp:HiddenField ID="hfIDProveedor" runat="server" ClientIDMode="Static" />
+        <asp:Button ID="btnCargarCuit" runat="server" OnClick="btnCargarCuit_Click" Style="display:none;" ClientIDMode="Static" />
+
         <div class="row">
             <div class="col-md-6">
-                <div class="form-group">
-                    <label for="ddlProveedor">Proveedor:</label>
-                    <asp:DropDownList ID="ddlProveedor" runat="server" CssClass="form-control"
-                        DataTextField="Nombre" DataValueField="IDProveedor">
-           
-                    </asp:DropDownList>
-                </div>
+          <div class="dropdown">
+        <!-- Cambiamos el input HTML por un asp:TextBox para que no se borre al recargar -->
+            <asp:TextBox ID="txtBuscarProveedor" runat="server" CssClass="form-control" 
+                         placeholder="Buscar proveedor..." onkeyup="filtrarProveedor()" AutoCompleteType="Disabled"></asp:TextBox>
 
-                 <div class="form-group">
-                    <label>CUIT/CUIL del Proveedor:</label>
-                    <asp:Label ID="lblProveedorCuitCuil" runat="server" CssClass="form-control-static" Text=""></asp:Label>
-                     <asp:TextBox ID="txtCuit" runat="server" CssClass="form-control"></asp:TextBox>
-                </div>
+            <div class="dropdown-menu show w-100" id="listaProveedores" style="max-height: 200px; overflow-y: auto; display:none;">
+                <asp:Literal ID="litProveedores" runat="server"></asp:Literal>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>CUIT/CUIL del Proveedor:</label>
+            <asp:TextBox ID="txtCuit" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
+        </div>
 
 
 
@@ -95,5 +99,47 @@
             <asp:Button ID="btnGuardarCompra" runat="server" Text="Guardar Compra" CssClass="btn btn-success btn-lg" />
             <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary btn-lg" CausesValidation="false" PostBackUrl="~/Default.aspx" />
         </div>
+
+
+    <script>
+        var txtBuscar = document.getElementById('<%= txtBuscarProveedor.ClientID %>');
+        var lista = document.getElementById('listaProveedores');
+
+        txtBuscar.addEventListener('focus', function () {
+            lista.style.display = 'block';
+        });
+        document.addEventListener('click', function (e) {
+            if (e.target !== txtBuscar && e.target.parentNode !== lista) {
+                lista.style.display = 'none';
+            }
+        });
+
+        function filtrarProveedor() {
+            let input = txtBuscar.value.toLowerCase();
+            let items = document.querySelectorAll("#listaProveedores .dropdown-item");
+
+            lista.style.display = 'block'; // Asegurar que se vea al escribir
+
+            items.forEach(item => {
+                let texto = item.textContent.toLowerCase();
+                item.style.display = texto.includes(input) ? "block" : "none";
+            });
+        }
+
+        function seleccionarProveedor(id, nombre, cuit) {
+            document.getElementById('<%= txtBuscarProveedor.ClientID %>').value = nombre;
+        
+        document.getElementById('<%= hfIDProveedor.ClientID %>').value = id;
+
+      
+        lista.style.display = 'none';
+
+        // 4. Hacer click en el botón oculto de C# para que busque el CUIT en el servidor
+        // (O si prefieres pasar el CUIT directo desde JS, ver abajo en el CodeBehind)
+        document.getElementById('<%= btnCargarCuit.ClientID %>').click();
+        }
+    </script>
+
+
     </main>
 </asp:Content>

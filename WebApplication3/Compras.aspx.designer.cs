@@ -15,22 +15,40 @@ namespace WebApplication3
     {
 
         /// <summary>
-        /// Control ddlProveedor.
+        /// Control hfIDProveedor.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlProveedor;
+        protected global::System.Web.UI.WebControls.HiddenField hfIDProveedor;
 
         /// <summary>
-        /// Control lblProveedorCuitCuil.
+        /// Control btnCargarCuit.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblProveedorCuitCuil;
+        protected global::System.Web.UI.WebControls.Button btnCargarCuit;
+
+        /// <summary>
+        /// Control txtBuscarProveedor.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtBuscarProveedor;
+
+        /// <summary>
+        /// Control litProveedores.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litProveedores;
 
         /// <summary>
         /// Control txtCuit.

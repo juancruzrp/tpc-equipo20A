@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Dominio; 
+using Negocio;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Dominio; 
-using Negocio;
 
 namespace WebApplication3
 {
@@ -30,39 +31,63 @@ namespace WebApplication3
         {
             if (!IsPostBack)
             {
-                CargarDropdowns();
+                CargarProveedores();
                 CargarUsuarioActual();
                
-                txtFecha.Text = DateTime.Today.ToString("yyyy-MM-dd"); // Establecer fecha actual
+                txtFecha.Text = DateTime.Today.ToString("yyyy-MM-dd"); 
             }
            
         }
 
-        private void CargarDropdowns()
+        private void CargarProveedores()
         {
-            // Cargar DropDownList de Proveedores
-            ProveedoresNegocio proveedorNegocio = new ProveedoresNegocio();
-            ddlProveedor.DataSource = proveedorNegocio.listar();
-            ddlProveedor.DataBind();
-            ddlProveedor.Items.Insert(0, new ListItem("-- Seleccione Proveedor --", "0"));
+            ProveedoresNegocio negocio = new ProveedoresNegocio();
+            List<Proveedor> lista = negocio.listar(); 
+            string html = "";
+            foreach (var item in lista)
+            {
+                html += $"<a href='#' class='dropdown-item' onclick='seleccionarProveedor({item.IDProveedor}, \"{item.Nombre}\", \"{item.CUIT_CUIL}\"); return false;'>{item.Nombre}</a>";
+            }
+            litProveedores.Text = html;
+        }
 
-            // Cargar DropDownList de Productos
-            ProductoNegocio productoNegocio = new ProductoNegocio();
-            ddlProducto.DataSource = productoNegocio.listar();
-            ddlProducto.DataBind();
-            ddlProducto.Items.Insert(0, new ListItem("-- Seleccione Producto --", "0"));
+        protected void btnCargarCuit_Click(object sender, EventArgs e)
+        {
+            string idStr = hfIDProveedor.Value;
 
-            // Cargar precio unitario del primer producto si existe
-            /*ddlProducto_SelectedIndexChanged(null, EventArgs.Empty);*/
+            if (!string.IsNullOrEmpty(idStr))
+            {
+                int id = int.Parse(idStr);
+                ProveedoresNegocio negocio = new ProveedoresNegocio();
+                List<Proveedor> lista = negocio.listar();
+                Proveedor seleccionado = lista.Find(x => x.IDProveedor == id);
+
+                if (seleccionado != null)
+                {
+                    txtCuit.Text = seleccionado.CUIT_CUIL;
+                    ActualizarGrid();
+                }
+            }
+        }
+
+
+
+
+        private void ActualizarGrid()
+        {
+            dgvDetalleCompra.DataSource = CarritoCompras;
+            dgvDetalleCompra.DataBind();
+
+            decimal total = CarritoCompras.Sum(x => x.Cantidad * x.PrecioUnitario);
+            lblTotalCompra.Text = total.ToString("0.00");
         }
 
         private void CargarUsuarioActual()
         {
-            // aca va un check para que tipo de usuario es.
             
-            lblUsuario.Text = "Admin"; // Hardcodeado para el ejemplo
+            lblUsuario.Text = "Admin"; 
          
-            Session["IDUsuarioActual"] = 1; // ID de un usuario de ejemplo
+            Session["IDUsuarioActual"] = 1; 
         }
 
 
