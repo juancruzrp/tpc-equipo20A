@@ -109,3 +109,6 @@ CREATE TABLE Imagenes(
 	ImagenUrl VARCHAR (1000) NOT NULL,
 	FOREIGN KEY(IDProducto) REFERENCES Productos(IDProducto)
 )
+
+ALTER TABLE Productos
+ADD FOREIGN KEY (IDProveedor) REFERENCES Proveedores(IDProveedor);
