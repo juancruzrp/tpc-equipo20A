@@ -22,7 +22,7 @@ namespace Negocio
               
                 datos.setearConsulta(@"
                     SELECT C.IDCompra, C.Fecha, C.Total,
-                           P.IDProveedor, P.Nombre,     -- <<--- ¡QUITAMOS el alias NombreProveedor!
+                           P.IDProveedor, P.Nombre,
                            U.IDUsuario, U.NombreUsuario
                     FROM Compras C
                     INNER JOIN Proveedores P ON P.IDProveedor = C.IDProveedor

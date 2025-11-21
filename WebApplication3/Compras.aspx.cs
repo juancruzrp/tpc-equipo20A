@@ -1,17 +1,18 @@
-﻿using System;
+﻿using Dominio; 
+using Negocio;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Dominio; 
-using Negocio;
 
 namespace WebApplication3
 {
     public partial class Compras : System.Web.UI.Page
     {
-        // Propiedad para almacenar los detalles de la compra en la sesión
+      
        
         private List<DetalleCompra> CarritoCompras
         {
@@ -30,41 +31,155 @@ namespace WebApplication3
         {
             if (!IsPostBack)
             {
-                CargarDropdowns();
+                CargarProveedores();
                 CargarUsuarioActual();
                
-                txtFecha.Text = DateTime.Today.ToString("yyyy-MM-dd"); // Establecer fecha actual
+                txtFecha.Text = DateTime.Today.ToString("yyyy-MM-dd"); 
             }
            
         }
 
-        private void CargarDropdowns()
+        private void CargarProveedores()
         {
-            // Cargar DropDownList de Proveedores
-            ProveedoresNegocio proveedorNegocio = new ProveedoresNegocio();
-            ddlProveedor.DataSource = proveedorNegocio.listar();
-            ddlProveedor.DataBind();
-            ddlProveedor.Items.Insert(0, new ListItem("-- Seleccione Proveedor --", "0"));
-
-            // Cargar DropDownList de Productos
-            ProductoNegocio productoNegocio = new ProductoNegocio();
-            ddlProducto.DataSource = productoNegocio.listar();
-            ddlProducto.DataBind();
-            ddlProducto.Items.Insert(0, new ListItem("-- Seleccione Producto --", "0"));
-
-            // Cargar precio unitario del primer producto si existe
-            /*ddlProducto_SelectedIndexChanged(null, EventArgs.Empty);*/
+            ProveedoresNegocio negocio = new ProveedoresNegocio();
+            List<Proveedor> lista = negocio.listar(); 
+            string html = "";
+            foreach (var item in lista)
+            {
+                html += $"<a href='#' class='dropdown-item' onclick='seleccionarProveedor({item.IDProveedor}, \"{item.Nombre}\", \"{item.CUIT_CUIL}\"); return false;'>{item.Nombre}</a>";
+            }
+            litProveedores.Text = html;
         }
+
+        protected void btnCargarCuit_Click(object sender, EventArgs e)
+        {
+            string idStr = hfIDProveedor.Value;
+
+            if (!string.IsNullOrEmpty(idStr))
+            {
+                int idProveedor = int.Parse(idStr);
+                ProveedoresNegocio negocioProv = new ProveedoresNegocio();
+                List<Proveedor> listaProv = negocioProv.listar();
+                Proveedor seleccionado = listaProv.Find(x => x.IDProveedor == idProveedor);
+
+                if (seleccionado != null)
+                {
+                    txtCuit.Text = seleccionado.CUIT_CUIL;
+
+                    CargarProductosDelProveedor(idProveedor);
+
+                    txtBuscarProducto.Enabled = true;
+                    txtBuscarProducto.Text = "";  
+                    hfIDProducto.Value = "";    
+                    txtPrecioUnitario.Text = ""; 
+                }
+            }
+        }
+
+
+        private void CargarProductosDelProveedor(int idProveedor)
+        {
+            ProductoNegocio negocio = new ProductoNegocio();
+
+            
+            List<Producto> lista = negocio.listarPorProveedor(idProveedor);
+
+            string html = "";
+            foreach (var item in lista)
+            {
+                string precioFormateado = item.Precio.ToString("0.00");
+
+                html += $"<a href='#' class='dropdown-item' onclick='seleccionarProducto({item.IDProducto}, \"{item.Nombre}\", \"{precioFormateado}\"); return false;'>{item.Nombre}</a>";
+            }
+
+            if (string.IsNullOrEmpty(html))
+            {
+                html = "<span class='dropdown-item disabled'>Este proveedor no tiene productos asignados.</span>";
+            }
+
+            litProductos.Text = html;
+        }
+
 
         private void CargarUsuarioActual()
         {
-            // aca va un check para que tipo de usuario es.
             
-            lblUsuario.Text = "Admin"; // Hardcodeado para el ejemplo
+            lblUsuario.Text = "Admin"; 
          
-            Session["IDUsuarioActual"] = 1; // ID de un usuario de ejemplo
+            Session["IDUsuarioActual"] = 1; 
         }
 
+
+        protected void btnAgregarProducto_Click(object sender, EventArgs e)
+        {
+          
+            if (string.IsNullOrEmpty(hfIDProducto.Value))
+            {
+            
+                return;
+            }
+
+            int cantidad;
+            decimal precio;
+
+            if (!int.TryParse(txtCantidad.Text, out cantidad) || cantidad < 1) cantidad = 1;
+
+            if (!decimal.TryParse(txtPrecioUnitario.Text, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out precio))
+            {
+              
+                decimal.TryParse(txtPrecioUnitario.Text, out precio);
+            }
+
+            DetalleCompra detalle = new DetalleCompra();
+            detalle.Producto = new Producto();
+
+            detalle.Producto.IDProducto = int.Parse(hfIDProducto.Value);
+            detalle.Producto.Nombre = txtBuscarProducto.Text; 
+
+            detalle.Cantidad = cantidad;
+            detalle.PrecioUnitario = precio;
+
+            List<DetalleCompra> carrito = CarritoCompras; 
+            carrito.Add(detalle);
+            CarritoCompras = carrito; 
+
+            ActualizarGrilla();
+            LimpiarCamposProducto();
+        }
+
+        private void ActualizarGrilla()
+        {
+            dgvDetalleCompra.DataSource = CarritoCompras;
+            dgvDetalleCompra.DataBind();
+
+            decimal totalCompra = 0;
+            foreach (var item in CarritoCompras)
+            {
+                totalCompra += item.PrecioUnitario * item.Cantidad;
+            }
+
+            lblTotalCompra.Text = totalCompra.ToString("C"); 
+        }
+
+        private void LimpiarCamposProducto()
+        {
+            txtBuscarProducto.Text = "";
+            hfIDProducto.Value = "";
+            txtPrecioUnitario.Text = "";
+            txtCantidad.Text = "1";
+            txtBuscarProducto.Focus();
+        }
+
+        protected void dgvDetalleCompra_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            int index = e.RowIndex;
+
+            List<DetalleCompra> carrito = CarritoCompras;
+            carrito.RemoveAt(index);
+            CarritoCompras = carrito;
+
+            ActualizarGrilla();
+        }
 
 
 
