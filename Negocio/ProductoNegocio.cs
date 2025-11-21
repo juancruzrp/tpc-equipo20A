@@ -94,6 +94,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        
 
         public void eliminar(int id)
         {

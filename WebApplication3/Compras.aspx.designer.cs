@@ -24,8 +24,6 @@ namespace WebApplication3
         protected global::System.Web.UI.WebControls.HiddenField hfIDProveedor;
 
         /// <summary>
-<<<<<<< HEAD
-=======
         /// Control btnCargarCuit.
         /// </summary>
         /// <remarks>
@@ -33,6 +31,15 @@ namespace WebApplication3
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCargarCuit;
+
+        /// <summary>
+        /// Control ddlProveedor.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlProveedor;
 
         /// <summary>
         /// Control txtBuscarProveedor.
@@ -62,7 +69,6 @@ namespace WebApplication3
         protected global::System.Web.UI.WebControls.TextBox txtCuit;
 
         /// <summary>
->>>>>>> ff32712dc8e13227e9153a7d90d97e9129e3c7df
         /// Control txtFecha.
         /// </summary>
         /// <remarks>

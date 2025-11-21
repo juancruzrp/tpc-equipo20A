@@ -9,16 +9,14 @@
 
         <div class="row">
             <div class="col-md-6">
-<<<<<<< HEAD
+
                 <div class="form-group">
                     <label for="ddlProveedor">Proveedor:</label>
                     <asp:DropDownList ID="ddlProveedor" runat="server" CssClass="form-control"
                         DataTextField="Nombre" DataValueField="IDProveedor">           
                     </asp:DropDownList>
                 </div>
-
-                
-=======
+               
           <div class="dropdown">
             <asp:TextBox ID="txtBuscarProveedor" runat="server" CssClass="form-control" 
                          placeholder="Buscar proveedor..." onkeyup="filtrarProveedor()" AutoCompleteType="Disabled"></asp:TextBox>
@@ -32,9 +30,6 @@
             <label>CUIT/CUIL del Proveedor:</label>
             <asp:TextBox ID="txtCuit" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
         </div>
-
-
->>>>>>> ff32712dc8e13227e9153a7d90d97e9129e3c7df
 
                 <div class="form-group">
                     <label for="txtFecha">Fecha de Compra:</label>

@@ -36,7 +36,7 @@ CREATE TABLE Proveedores(
     Mail NVARCHAR(50),
     Direccion VARCHAR(75),
     CUIT_CUIL VARCHAR(15),
-     Estado BIT NOT NULL DEFAULT 1,
+    Estado BIT NOT NULL DEFAULT 1,
 )
 GO
 CREATE TABLE Marcas(
