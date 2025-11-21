@@ -46,14 +46,11 @@
 <asp:HiddenField ID="hfIDProducto" runat="server" ClientIDMode="Static" />
 
 <h3>Detalle de Productos</h3>
-<div class="row align-items-end"> <!-- align-items-end alinea el botón con los inputs -->
-    
-    <!-- COLUMNA 1: PRODUCTO (Buscador estilo Dropdown) -->
+<div class="row align-items-end"> 
     <div class="col-md-4">
         <div class="form-group">
             <label for="txtBuscarProducto">Producto:</label>
             <div class="dropdown">
-                <!-- Este TextBox reemplaza al DropDownList visualmente -->
                 <asp:TextBox ID="txtBuscarProducto" runat="server" CssClass="form-control" 
                              placeholder="-- Seleccione Producto --" 
                              onkeyup="filtrarProducto()" 
@@ -61,7 +58,6 @@
                              AutoCompleteType="Disabled" 
                              Enabled="false"></asp:TextBox>
 
-                <!-- Lista desplegable oculta que aparece al escribir -->
                 <div class="dropdown-menu w-100" id="listaProductos" style="display:none; max-height: 200px; overflow-y: auto;">
                     <asp:Literal ID="litProductos" runat="server"></asp:Literal>
                 </div>
@@ -135,7 +131,7 @@
             let input = txtBuscar.value.toLowerCase();
             let items = document.querySelectorAll("#listaProveedores .dropdown-item");
 
-            lista.style.display = 'block'; // Asegurar que se vea al escribir
+            lista.style.display = 'block'; 
 
             items.forEach(item => {
                 let texto = item.textContent.toLowerCase();
@@ -150,34 +146,26 @@
 
       
         lista.style.display = 'none';
-
-        // 4. Hacer click en el botón oculto de C# para que busque el CUIT en el servidor
-        // (O si prefieres pasar el CUIT directo desde JS, ver abajo en el CodeBehind)
         document.getElementById('<%= btnCargarCuit.ClientID %>').click();
         }
 
-        // --- LÓGICA DE PRODUCTOS ---
-
-        // ==============================
-        // 2. LÓGICA DE PRODUCTOS
-        // ==============================
         var txtBuscarProd = document.getElementById('txtBuscarProducto');
         var listaProd = document.getElementById('listaProductos');
 
         txtBuscarProd.addEventListener('focus', function () {
-            // Mostrar solo si hay contenido y ya se seleccionó un proveedor
+            
             var proveedorID = document.getElementById('<%= hfIDProveedor.ClientID %>').value;
     if (listaProd.innerHTML.trim() !== "" && proveedorID !== "") {
         listaProd.style.display = 'block';
     } else if (proveedorID === "") {
         alert("Primero seleccioná un proveedor.");
-        txtBuscarProd.blur(); // Quita foco para que no se escriba
+        txtBuscarProd.blur(); 
     }
 });
 
         function filtrarProducto() {
             var proveedorID = document.getElementById('<%= hfIDProveedor.ClientID %>').value;
-            if (proveedorID === "") return; // No filtrar si no hay proveedor
+            if (proveedorID === "") return; 
 
             let input = txtBuscarProd.value.toLowerCase();
             let items = listaProd.querySelectorAll('.dropdown-item');
@@ -192,8 +180,6 @@
         function seleccionarProducto(id, nombre, precio) {
             txtBuscarProd.value = nombre;
             document.getElementById('hfIDProducto').value = id;
-
-            // Reemplazar coma por punto para evitar errores numéricos en JS/HTML
             let precioStr = precio.toString().replace(',', '.');
             document.getElementById('txtPrecioUnitario').value = precioStr;
 
