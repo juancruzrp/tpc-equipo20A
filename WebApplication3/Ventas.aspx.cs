@@ -15,14 +15,18 @@ namespace WebApplication3
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             if (!IsPostBack)
             {
-                CargarProductos();
-                Session["DetalleVenta"] = new List<(Producto, int)>();
+                ProductoNegocio productoNegocio = new ProductoNegocio();
+                ddlProductos.DataSource = productoNegocio.listar();
+                ddlProductos.DataBind();
+                ddlProductos.Items.Insert(0, new ListItem("-- Seleccione Producto --", "0"));
+
             }
         }
 
-        private void CargarProductos(string filtro = "")
+        /*private void CargarProductos(string filtro = "")
         {
             ProductoNegocio negocio = new ProductoNegocio();
             productos = negocio.listar();
@@ -124,6 +128,6 @@ namespace WebApplication3
         protected void btnConfirmarVenta_Click(object sender, EventArgs e)
         {
             
-        }
+        }*/
     }
 }

@@ -3,109 +3,91 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <main aria-labelledby="title">
         <h2>Nueva Venta</h2>
-        <br />
+         
+        <div class="row">
+             <div class="col-md-6">
+                 <div class="form-group">
+                     <label for="lblCliente">Cliente:</label>
+                     <asp:DropDownList ID="ddlProveedor" runat="server" CssClass="form-control"
+                         DataTextField="Nombre" DataValueField="IDProveedor">        
+                     </asp:DropDownList>
+                 </div>                                    
 
-        <!-- Campo de búsqueda -->
-        <asp:Label ID="LabelBuscar" runat="server" Text="Buscar producto:" ></asp:Label>
-        <asp:TextBox ID="txtBuscar" runat="server" AutoPostBack="true" placeholder="Ingrese nombre o marca..." OnTextChanged="txtBuscar_TextChanged" CssClass="form-control" Width="300px" />
-        <br />
+                     <div class="form-group">
+                         <label for="txtFecha">Fecha de Compra:</label>
+                         <asp:TextBox ID="txtFecha" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
+                     </div>
+                 </div>
+                 <div class="col-md-6">
+                     <div class="form-group">
+                         <label>Usuario:</label>
+                         <asp:Label ID="lblUsuario" runat="server" CssClass="form-control-static"></asp:Label>
+                     </div>
+                     <div class="form-group">
+                         <label>Total de la Compra:</label>
+                         <asp:Label ID="lblTotalCompra" runat="server" CssClass="form-control-static" Text="0.00"></asp:Label>
+                     </div>
+                 </div>
+             </div>
 
-        <!-- UpdatePanel principal -->
-        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-            <ContentTemplate>
+             <h3>Detalle de Productos</h3>
+             <div class="row">
+                 <div class="col-md-4">
+                     <div class="form-group">
+                         <label for="lblProductos">Producto:</label>
+                         <asp:DropDownList ID="ddlProductos" runat="server" CssClass="form-control"
+                             DataTextField="Nombre" DataValueField="IDProducto">
+                     
+                         </asp:DropDownList>
+                     </div>
+                 </div>
+                 <div class="col-md-2">
+                     <div class="form-group">
+                         <label for="txtPrecioUnitario">Precio Unitario:</label>
+                         <asp:TextBox ID="txtPrecioUnitario" runat="server" CssClass="form-control" TextMode="Number" ReadOnly="true"></asp:TextBox>
+                     </div>
+                 </div>
+                 <div class="col-md-2">
+                     <div class="form-group">
+                         <label for="txtCantidad">Cantidad:</label>
+                         <asp:TextBox ID="txtCantidad" runat="server" CssClass="form-control" TextMode="Number" Text="1"></asp:TextBox>
+                     </div>
+                 </div>
+                 <div class="col-md-2">
+                     <div class="form-group">
+                         <label for="lblSubtotalDetalle">Subtotal:</label>
+                         <asp:Label ID="lblSubtotalDetalle" runat="server" CssClass="form-control-static" Text="0.00"></asp:Label>
+                     </div>
+                 </div>
+                 <div class="col-md-2">
+                     <asp:Button ID="btnAgregarProducto" runat="server" Text="Agregar" CssClass="btn btn-primary mt-4" />
+                 </div>
+             </div>
 
-                <div style="display: flex; gap: 20px; align-items: flex-start;">
+             <asp:GridView ID="dgvDetalleCompra" runat="server" CssClass="table table-bordered mt-3" AutoGenerateColumns="false" ShowFooter="true">
+                 <Columns>
+                     <asp:BoundField DataField="Producto.Nombre" HeaderText="Producto" />
+                     <asp:BoundField DataField="Cantidad" HeaderText="Cantidad" DataFormatString="{0:N0}" />
+                     <asp:BoundField DataField="PrecioUnitario" HeaderText="P. Unitario" DataFormatString="{0:C}" />
+                     <asp:TemplateField HeaderText="Subtotal">
+                         <ItemTemplate>
+                     
+                             <%# (Convert.ToDecimal(Eval("Cantidad")) * Convert.ToDecimal(Eval("PrecioUnitario"))).ToString("C") %>
+                         </ItemTemplate>
+                         <FooterTemplate>
+                             <asp:Label ID="lblFooterTotal" runat="server" Text="Total: 0.00"></asp:Label>
+                         </FooterTemplate>
+                     </asp:TemplateField>
+                     <asp:CommandField ShowDeleteButton="True" ButtonType="Button" DeleteText="Quitar" />
+                 </Columns>
+             </asp:GridView>
 
-                    <!-- Tabla de productos -->
-                    <div style="flex: 2;">
-                        <h4>Productos</h4>
-                        <asp:GridView ID="dgvProductos" runat="server" CssClass="table table-striped"
-                            AutoGenerateColumns="false" OnRowCommand="dgvProductos_RowCommand">
-                            <Columns>
-                                <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
-                                <asp:TemplateField HeaderText="Marca">
-                                    <ItemTemplate>
-                                        <%# Eval("Marca.Nombre") %>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:BoundField DataField="Precio" HeaderText="Precio" DataFormatString="{0:C}" />
-                                <asp:BoundField DataField="Stock" HeaderText="Stock" />
+             <div class="mt-4">
+                 <asp:Button ID="btnGuardarCompra" runat="server" Text="Guardar Compra" CssClass="btn btn-success btn-lg" />
+                 <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary btn-lg" CausesValidation="false" PostBackUrl="~/Default.aspx" />
+             </div>
+         </main>
 
-                                <asp:TemplateField HeaderText="Cantidad">
-                                    <ItemTemplate>
-                                        <asp:TextBox ID="txtCantidad" runat="server" Text="1" CssClass="form-control" Width="60px" onkeypress="return soloNumeros(event);" />
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-
-                                <asp:TemplateField>
-                                    <ItemTemplate>
-                                        <asp:Button ID="btnAgregar" runat="server" Text="Agregar" CommandName="AgregarProducto" CommandArgument='<%# Eval("IDProducto") %>' CssClass="btn btn-success btn-sm" />
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                            </Columns>
-                        </asp:GridView>
-                    </div>
-
-                    <!-- Detalle de venta -->
-                    <div style="flex: 1; border-left: 2px solid #ccc; padding-left: 15px;">
-                        <h3>Detalle de Venta</h3>
-                        <asp:Panel ID="PanelDetalleVenta" runat="server">
-                            <asp:GridView ID="dgvDetalleVenta" runat="server" CssClass="table table-bordered"
-                                AutoGenerateColumns="false" OnRowCommand="dgvDetalleVenta_RowCommand"
-                                ShowHeaderWhenEmpty="true">
-                                <Columns>
-                                    <asp:BoundField DataField="Nombre" HeaderText="Producto" />
-                                    <asp:BoundField DataField="Cantidad" HeaderText="Cant." />
-                                    <asp:BoundField DataField="Precio" HeaderText="Precio" DataFormatString="{0:C}" />
-                                    <asp:BoundField DataField="Subtotal" HeaderText="Subtotal" DataFormatString="{0:C}" />
-
-                                    <asp:TemplateField>
-                                        <ItemTemplate>
-                                            <asp:Button ID="btnQuitar" runat="server" Text="Quitar"
-                                                CommandName="QuitarProducto"
-                                                CommandArgument='<%# Eval("IDProducto") %>'
-                                                CssClass="btn btn-danger btn-sm" />
-                                        </ItemTemplate>
-                                    </asp:TemplateField>
-                                </Columns>
-                            </asp:GridView>
-
-                            <div style="text-align: right; margin-top: 10px;">
-                                <asp:Label ID="lblTotal" runat="server" Font-Bold="true" Font-Size="Large" Text="Total: $0,00"></asp:Label>
-                                <br /><br />
-                                <asp:Button ID="btnConfirmarVenta" runat="server" Text="Confirmar Venta"
-                                    CssClass="btn btn-primary" OnClick="btnConfirmarVenta_Click" />
-                            </div>
-                        </asp:Panel>
-                    </div>
-                </div>
-
-            </ContentTemplate>
-            <Triggers>
-                <asp:AsyncPostBackTrigger ControlID="txtBuscar" EventName="TextChanged" />
-                <asp:AsyncPostBackTrigger ControlID="btnConfirmarVenta" EventName="Click" />
-            </Triggers>
-        </asp:UpdatePanel>
-
-        <script type="text/javascript">
-            $(document).ready(function () {
-                // Detecta cuando el usuario escribe en el textbox
-                $('#<%= txtBuscar.ClientID %>').on('input', function () {
-            // Dispara el postback automático sin Enter
-            __doPostBack('<%= txtBuscar.UniqueID %>', '');
-        });
-    });
-        </script>
-
-        <script type="text/javascript">
-            function soloNumeros(e) {
-                var key = e.which || e.keyCode;
-                if (key >= 48 && key <= 57 || key === 8 || key === 46) {
-                    return true; // permite números, backspace y punto
-                }
-                return false; // bloquea todo lo demás
-            }
-        </script>
-
-    </main>
+        
+            </main>
 </asp:Content>

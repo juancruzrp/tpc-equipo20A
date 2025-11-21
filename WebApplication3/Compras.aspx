@@ -9,18 +9,11 @@
                 <div class="form-group">
                     <label for="ddlProveedor">Proveedor:</label>
                     <asp:DropDownList ID="ddlProveedor" runat="server" CssClass="form-control"
-                        DataTextField="Nombre" DataValueField="IDProveedor">
-           
+                        DataTextField="Nombre" DataValueField="IDProveedor">           
                     </asp:DropDownList>
                 </div>
 
-                 <div class="form-group">
-                    <label>CUIT/CUIL del Proveedor:</label>
-                    <asp:Label ID="lblProveedorCuitCuil" runat="server" CssClass="form-control-static" Text=""></asp:Label>
-                     <asp:TextBox ID="txtCuit" runat="server" CssClass="form-control"></asp:TextBox>
-                </div>
-
-
+                
 
                 <div class="form-group">
                     <label for="txtFecha">Fecha de Compra:</label>
