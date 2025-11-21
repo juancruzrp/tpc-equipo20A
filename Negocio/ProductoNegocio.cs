@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Negocio
 {
@@ -237,6 +238,51 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        // MeTODO PARA FILTRAR POR PROVEEDOR
+        public List<Producto> listarPorProveedor(int idProveedor)
+        {
+            List<Producto> lista = new List<Producto>();
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                string consulta = "SELECT IDProducto, Nombre, Precio, Stock FROM Productos WHERE IDProveedor = @idProv AND Estado = 1";
+
+                datos.setearConsulta(consulta);
+                datos.setearParametro("@idProv", idProveedor);
+
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Producto aux = new Producto();
+                    aux.IDProducto = (int)datos.Lector["IDProducto"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+
+                    if (!(datos.Lector["Precio"] is DBNull))
+                        aux.Precio = Convert.ToDecimal(datos.Lector["Precio"]);
+                    else
+                        aux.Precio = 0;
+
+                    if (!(datos.Lector["Stock"] is DBNull))
+                        aux.Stock = Convert.ToInt32(datos.Lector["Stock"]);
+                    else
+                        aux.Stock = 0;
+
+                    lista.Add(aux);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
 
     }    
    

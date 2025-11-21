@@ -10,7 +10,6 @@
         <div class="row">
             <div class="col-md-6">
           <div class="dropdown">
-        <!-- Cambiamos el input HTML por un asp:TextBox para que no se borre al recargar -->
             <asp:TextBox ID="txtBuscarProveedor" runat="server" CssClass="form-control" 
                          placeholder="Buscar proveedor..." onkeyup="filtrarProveedor()" AutoCompleteType="Disabled"></asp:TextBox>
 
@@ -41,18 +40,36 @@
                     <asp:Label ID="lblTotalCompra" runat="server" CssClass="form-control-static" Text="0.00"></asp:Label>
                 </div>
             </div>
-        </div>
 
-        <h3>Detalle de Productos</h3>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="ddlProducto">Producto:</label>
-                    <asp:DropDownList ID="ddlProducto" runat="server" CssClass="form-control"
-                        DataTextField="Nombre" DataValueField="IDProducto">
-                        
-                    </asp:DropDownList>
+
+
+<asp:HiddenField ID="hfIDProducto" runat="server" ClientIDMode="Static" />
+
+<h3>Detalle de Productos</h3>
+<div class="row align-items-end"> <!-- align-items-end alinea el botón con los inputs -->
+    
+    <!-- COLUMNA 1: PRODUCTO (Buscador estilo Dropdown) -->
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="txtBuscarProducto">Producto:</label>
+            <div class="dropdown">
+                <!-- Este TextBox reemplaza al DropDownList visualmente -->
+                <asp:TextBox ID="txtBuscarProducto" runat="server" CssClass="form-control" 
+                             placeholder="-- Seleccione Producto --" 
+                             onkeyup="filtrarProducto()" 
+                             ClientIDMode="Static" 
+                             AutoCompleteType="Disabled" 
+                             Enabled="false"></asp:TextBox>
+
+                <!-- Lista desplegable oculta que aparece al escribir -->
+                <div class="dropdown-menu w-100" id="listaProductos" style="display:none; max-height: 200px; overflow-y: auto;">
+                    <asp:Literal ID="litProductos" runat="server"></asp:Literal>
                 </div>
+            </div>
+        </div>
+    </div>
+
+
             </div>
             <div class="col-md-2">
                 <div class="form-group">
@@ -138,6 +155,52 @@
         // (O si prefieres pasar el CUIT directo desde JS, ver abajo en el CodeBehind)
         document.getElementById('<%= btnCargarCuit.ClientID %>').click();
         }
+
+        // --- LÓGICA DE PRODUCTOS ---
+
+        // ==============================
+        // 2. LÓGICA DE PRODUCTOS
+        // ==============================
+        var txtBuscarProd = document.getElementById('txtBuscarProducto');
+        var listaProd = document.getElementById('listaProductos');
+
+        txtBuscarProd.addEventListener('focus', function () {
+            // Mostrar solo si hay contenido y ya se seleccionó un proveedor
+            var proveedorID = document.getElementById('<%= hfIDProveedor.ClientID %>').value;
+    if (listaProd.innerHTML.trim() !== "" && proveedorID !== "") {
+        listaProd.style.display = 'block';
+    } else if (proveedorID === "") {
+        alert("Primero seleccioná un proveedor.");
+        txtBuscarProd.blur(); // Quita foco para que no se escriba
+    }
+});
+
+        function filtrarProducto() {
+            var proveedorID = document.getElementById('<%= hfIDProveedor.ClientID %>').value;
+            if (proveedorID === "") return; // No filtrar si no hay proveedor
+
+            let input = txtBuscarProd.value.toLowerCase();
+            let items = listaProd.querySelectorAll('.dropdown-item');
+            listaProd.style.display = 'block';
+
+            items.forEach(item => {
+                let texto = item.textContent.toLowerCase();
+                item.style.display = texto.includes(input) ? "block" : "none";
+            });
+        }
+
+        function seleccionarProducto(id, nombre, precio) {
+            txtBuscarProd.value = nombre;
+            document.getElementById('hfIDProducto').value = id;
+
+            // Reemplazar coma por punto para evitar errores numéricos en JS/HTML
+            let precioStr = precio.toString().replace(',', '.');
+            document.getElementById('txtPrecioUnitario').value = precioStr;
+
+            listaProd.style.display = 'none';
+        }
+
+
     </script>
 
 
