@@ -112,3 +112,45 @@ CREATE TABLE Imagenes(
 
 ALTER TABLE Productos
 ADD FOREIGN KEY (IDProveedor) REFERENCES Proveedores(IDProveedor);
+
+
+ALTER TABLE Productos
+ADD PrecioVenta DECIMAL(18,2) NULL;
+
+
+ALTER TABLE Proveedores
+ADD Porcentaje DECIMAL(5,2) NULL;
+
+--* CREATE TRIGGER TR_ActualizarPrecioVenta_Producto 
+--ON Productos
+--AFTER UPDATE
+--AS 
+--BEGIN
+    -- Solo ejecutar si se modificó Precio o IDProveedor
+--    IF UPDATE(Precio) OR UPDATE(IDProveedor)
+--    BEGIN
+--        UPDATE p
+--        SET p.PrecioVenta = p.Precio + (p.Precio * pr.Porcentaje / 100)
+--        FROM Productos p
+--        INNER JOIN inserted i ON p.IDProducto = i.IDProducto
+--        INNER JOIN Proveedores pr ON p.IDProveedor = pr.IDProveedor;
+--    END
+--  END
+
+
+-- CREATE TRIGGER TR_ActualizarPrecioVenta_Proveedor
+-- ON Proveedores
+-- AFTER UPDATE
+-- AS
+-- BEGIN
+    -- Solo ejecutar si se modificó el Porcentaje
+--    IF UPDATE(Porcentaje)
+--    BEGIN
+--        UPDATE p
+--       SET p.PrecioVenta = p.Precio + (p.Precio * pr.Porcentaje / 100)
+--        FROM Productos p
+--        INNER JOIN Proveedores pr ON p.IDProveedor = pr.IDProveedor
+--        INNER JOIN inserted i ON pr.IDProveedor = i.IDProveedor;
+--    END
+-- END 
+

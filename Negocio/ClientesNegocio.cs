@@ -123,6 +123,28 @@ namespace Negocio
             }
         }
 
+        public List<Cliente> Buscar(string nombre)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            List<Cliente> lista = new List<Cliente>();
+
+            datos.setearConsulta("SELECT IDCliente, Nombre, Apellido, CUIT_CUIL FROM Clientes WHERE Nombre LIKE @nombre + '%' ");
+            datos.setearParametro("@nombre", nombre);
+            datos.ejecutarLectura();
+
+            while (datos.Lector.Read())
+            {
+                Cliente c = new Cliente();
+                c.IDCliente = (int)datos.Lector["IDCliente"];
+                c.Nombre = datos.Lector["Nombre"].ToString();
+                c.Apellido = datos.Lector["Apellido"].ToString();
+                c.CUIT_CUIL = datos.Lector["CUIT_CUIL"].ToString();
+                lista.Add(c);
+            }
+
+            return lista;
+        }
+
         public void modificar(Cliente cliente)
         {
             AccesoDatos datos = new AccesoDatos();

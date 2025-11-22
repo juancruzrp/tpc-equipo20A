@@ -17,5 +17,7 @@ namespace Dominio
 
         public string CUIT_CUIL { get; set; }
 
+        public string NombreCompleto => Nombre + " " + Apellido;
+
     }
 }
