@@ -10,38 +10,32 @@
         <div class="row">
             <div class="col-md-6">
 
-                <div class="form-group">
-                    <label for="ddlProveedor">Proveedor:</label>
-                    <asp:DropDownList ID="ddlProveedor" runat="server" CssClass="form-control"
-                        DataTextField="Nombre" DataValueField="IDProveedor">           
-                    </asp:DropDownList>
-                </div>
-               
           <div class="dropdown">
             <asp:TextBox ID="txtBuscarProveedor" runat="server" CssClass="form-control" 
                          placeholder="Buscar proveedor..." onkeyup="filtrarProveedor()" AutoCompleteType="Disabled"></asp:TextBox>
 
             <div class="dropdown-menu show w-100" id="listaProveedores" style="max-height: 200px; overflow-y: auto; display:none;">
                 <asp:Literal ID="litProveedores" runat="server"></asp:Literal>
+                </div>
             </div>
         </div>
 
         <div class="form-group">
             <label>CUIT/CUIL del Proveedor:</label>
             <asp:TextBox ID="txtCuit" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
-        </div>
+         </div>
 
                 <div class="form-group">
                     <label for="txtFecha">Fecha de Compra:</label>
                     <asp:TextBox ID="txtFecha" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
+                <div class="col-md-6">
+                    <div class="form-group">
                     <label>Usuario:</label>
                     <asp:Label ID="lblUsuario" runat="server" CssClass="form-control-static"></asp:Label>
                 </div>
-                <div class="form-group">
+                    <div class="form-group">
                     <label>Total de la Compra:</label>
                     <asp:Label ID="lblTotalCompra" runat="server" CssClass="form-control-static" Text="0.00"></asp:Label>
                 </div>
@@ -73,7 +67,7 @@
 
 
          <div class="col-md-2">
-    <div class="form-group">
+            <div class="form-group">
         <label for="txtPrecioUnitario">Precio Unitario:</label>
         <asp:TextBox ID="txtPrecioUnitario" runat="server" CssClass="form-control" 
                      TextMode="Number" step="0.01" 
@@ -93,16 +87,6 @@
     </div>
 </div>
 
-
-<div class="col-md-2">
-    <div class="form-group">
-        <label for="lblSubtotalDetalle">Subtotal:</label>
-        <div class="form-control-static">
-            <span id="spanSubtotal">0.00</span>
-            <asp:Label ID="lblSubtotalDetalle" runat="server" Visible="false"></asp:Label> 
-        </div>
-    </div>
-</div>
       
         <div class="col-md-2">
             <label class="form-label">Subtotal:</label>
@@ -135,11 +119,16 @@
          </Columns>
     </asp:GridView>
 
-        <div class="mt-4">
-            <asp:Button ID="btnGuardarCompra" runat="server" Text="Guardar Compra" CssClass="btn btn-success btn-lg" />
-            <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary btn-lg" CausesValidation="false" PostBackUrl="~/Default.aspx" />
-        </div>
-
+       <div class="mt-4">
+    <!-- Agregado OnClick -->
+    <asp:Button ID="btnGuardarCompra" runat="server" Text="Guardar Compra" 
+                CssClass="btn btn-success btn-lg" OnClick="btnGuardarCompra_Click" />
+    
+    <!-- Quitado PostBackUrl, Agregado OnClick -->
+    <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" 
+                CssClass="btn btn-secondary btn-lg" CausesValidation="false" 
+                OnClick="btnCancelar_Click" />
+</div>
 
     <script>
         var txtBuscar = document.getElementById('<%= txtBuscarProveedor.ClientID %>');
@@ -224,7 +213,6 @@
             let inputPrecio = document.getElementById('txtPrecioUnitario');
             inputPrecio.value = precioStr;
 
-            // Ocultar la lista
             document.getElementById('listaProductos').style.display = 'none';
             calcularSubtotal();
 

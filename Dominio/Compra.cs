@@ -14,5 +14,10 @@ namespace Dominio
         public Usuario Usuario { get; set; }
         public decimal Total { get; set; }
         public List<DetalleCompra> Detalles { get; set; }
+
+        public Compra()
+        {
+            Detalles = new List<DetalleCompra>();
+        }
     }
 }
