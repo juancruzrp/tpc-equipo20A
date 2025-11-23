@@ -19,6 +19,10 @@ namespace Acceso
             get { return lector; }
         }
 
+        public SqlConnection Conexion
+        {
+            get { return conexion; }
+        }
 
         public AccesoDatos()
         {

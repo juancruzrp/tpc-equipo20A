@@ -182,6 +182,51 @@ namespace WebApplication3
         }
 
 
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            // Limpia para que no queden productos viejos
+            Session["CarritoCompras"] = null;
+            Response.Redirect("ComprasListado.aspx");
+        }
 
+        protected void btnGuardarCompra_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                
+                if (string.IsNullOrEmpty(hfIDProveedor.Value))
+                {
+                    Response.Write("<script>alert('Debe seleccionar un proveedor.');</script>");
+                    return;
+                }
+
+                if (CarritoCompras == null || CarritoCompras.Count == 0)
+                {
+                    Response.Write("<script>alert('El carrito de compras está vacío.');</script>");
+                    return;
+                }
+
+                Compra nuevaCompra = new Compra();
+
+                nuevaCompra.Proveedor = new Proveedor();
+                nuevaCompra.Proveedor.IDProveedor = int.Parse(hfIDProveedor.Value);
+                nuevaCompra.Usuario = new Usuario();
+                nuevaCompra.Usuario.IDUsuario = Session["IDUsuarioActual"] != null ? (int)Session["IDUsuarioActual"] : 1;
+                nuevaCompra.Fecha = DateTime.Parse(txtFecha.Text);
+                nuevaCompra.Total = CarritoCompras.Sum(x => x.PrecioUnitario * x.Cantidad);
+                nuevaCompra.Detalles = CarritoCompras;
+
+                CompraNegocio negocio = new CompraNegocio();
+                int idGenerado = negocio.Agregar(nuevaCompra);
+                Session["CarritoCompras"] = null;
+                string script = "<script>alert('Compra guardada exitosamente.'); window.location='ComprasListado.aspx';</script>";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", script);
+            }
+            catch (Exception ex)
+            {
+                Session["Error"] = ex.Message;
+                Response.Write("<script>alert('Error: " + ex.Message + "');</script>");
+            }
+        }
     }
 }
