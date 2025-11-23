@@ -25,7 +25,8 @@ namespace Negocio
                     P.IDProducto, 
                     P.Nombre, 
                     P.Descripcion, 
-                    P.Precio, 
+                    P.Precio,
+                    P.PrecioVenta,
                     P.Stock, 
                     P.Estado,
                     P.IDMarca,
@@ -42,7 +43,7 @@ namespace Negocio
                 LEFT JOIN 
                     Categorias C ON P.IDCategoria = C.IDCategoria 
                 GROUP BY
-                    P.IDProducto, P.Nombre, P.Descripcion, P.Precio, P.Stock, P.Estado,
+                    P.IDProducto, P.Nombre, P.Descripcion, P.Precio, P.PrecioVenta, P.Stock, P.Estado,
                     P.IDMarca, M.Marca, P.IDCategoria, C.Categoria";
 
                 datos.setearConsulta(consulta);
@@ -62,7 +63,9 @@ namespace Negocio
                         aux.Descripcion = (string)datos.Lector["Descripcion"];
                     else
                         aux.Descripcion = ""; 
+                    
                     aux.Precio = datos.Lector["Precio"] != DBNull.Value ? Convert.ToDecimal(datos.Lector["Precio"]) : 0;
+                    aux.PrecioVenta = datos.Lector["PrecioVenta"] != DBNull.Value ? Convert.ToDecimal(datos.Lector["PrecioVenta"]) : 0;
                     aux.Stock = datos.Lector["Stock"] != DBNull.Value ? Convert.ToInt32(datos.Lector["Stock"]) : 0;
 
                    

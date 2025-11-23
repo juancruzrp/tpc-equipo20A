@@ -30,7 +30,7 @@
                                 <div class="card-body text-start">
                                     <h5 class="card-title mb-1"><%# Eval("Nombre") %></h5>
                                     <p class="text-muted mb-1">Marca: <%# Eval("Marca.Nombre") %></p>
-                                    <p class="mb-1">Precio: $<%# string.Format("{0:N2}", Eval("Precio")) %></p>
+                                    <p class="mb-1">Precio de venta: $<%# string.Format("{0:N2}", Eval("PrecioVenta")) %></p>
                                     <p class="mb-1">Stock: <%# Eval("Stock") %></p>
                                     <p class="text-success mb-1"><%# (bool)Eval("Estado") ? "Activo" : "Inactivo" %></p>
                                     <%if (SesionHelper.EsUsuarioAdmin(Session))
