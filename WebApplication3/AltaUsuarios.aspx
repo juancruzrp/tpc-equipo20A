@@ -56,7 +56,8 @@
             </div>
             <div class="d-flex justify-content-between">
                 <asp:Button ID="btnGuardarUsuario" runat="server" Text="Guardar" CssClass="btn btn-success" OnClick="btnGuardarUsuario_Click" />
-                <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" PostBackUrl="~/Usuarios.aspx" />
+                <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" 
+        OnClick="btnCancelar_Click" CausesValidation="false" />
             </div>
              <asp:Label ID="lblError" runat="server" CssClass="text-danger mt-3"></asp:Label>
         </div>
