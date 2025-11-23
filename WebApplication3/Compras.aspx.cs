@@ -110,55 +110,63 @@ namespace WebApplication3
         }
 
 
+        private int ObtenerCantidad()
+        {
+            if (int.TryParse(txtCantidad.Text, out int cant) && cant > 0)
+                return cant;
+
+            return 1;
+        }
+
+        private decimal ObtenerPrecio()
+        {
+            string texto = txtPrecioUnitario.Text.Replace(",", ".");
+
+            if (decimal.TryParse(texto,
+                System.Globalization.NumberStyles.Any,
+                System.Globalization.CultureInfo.InvariantCulture,
+                out decimal pre))
+                return pre;
+
+            return 0;
+        }
+
+        private decimal CalcularTotal()
+        {
+            return CarritoCompras.Sum(x => x.PrecioUnitario * x.Cantidad);
+        }
+
+
         protected void btnAgregarProducto_Click(object sender, EventArgs e)
         {
-          
-            if (string.IsNullOrEmpty(hfIDProducto.Value))
-            {
-            
+
+           if (string.IsNullOrEmpty(hfIDProducto.Value))
                 return;
-            }
 
-            int cantidad;
-            decimal precio;
-
-            if (!int.TryParse(txtCantidad.Text, out cantidad) || cantidad < 1) cantidad = 1;
-
-            if (!decimal.TryParse(txtPrecioUnitario.Text, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out precio))
+            DetalleCompra detalle = new DetalleCompra()
             {
-              
-                decimal.TryParse(txtPrecioUnitario.Text, out precio);
-            }
+                Producto = new Producto()
+                {
+                    IDProducto = int.Parse(hfIDProducto.Value),
+                    Nombre = txtBuscarProducto.Text
+                },
+                Cantidad = ObtenerCantidad(),
+                PrecioUnitario = ObtenerPrecio()
+            };
 
-            DetalleCompra detalle = new DetalleCompra();
-            detalle.Producto = new Producto();
-
-            detalle.Producto.IDProducto = int.Parse(hfIDProducto.Value);
-            detalle.Producto.Nombre = txtBuscarProducto.Text; 
-
-            detalle.Cantidad = cantidad;
-            detalle.PrecioUnitario = precio;
-
-            List<DetalleCompra> carrito = CarritoCompras; 
-            carrito.Add(detalle);
-            CarritoCompras = carrito; 
+            CarritoCompras.Add(detalle);
 
             ActualizarGrilla();
             LimpiarCamposProducto();
         }
+
 
         private void ActualizarGrilla()
         {
             dgvDetalleCompra.DataSource = CarritoCompras;
             dgvDetalleCompra.DataBind();
 
-            decimal totalCompra = 0;
-            foreach (var item in CarritoCompras)
-            {
-                totalCompra += item.PrecioUnitario * item.Cantidad;
-            }
-
-            lblTotalCompra.Text = totalCompra.ToString("C"); 
+            lblTotalCompra.Text = CalcularTotal().ToString("C");
         }
 
         private void LimpiarCamposProducto()
@@ -172,12 +180,7 @@ namespace WebApplication3
 
         protected void dgvDetalleCompra_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            int index = e.RowIndex;
-
-            List<DetalleCompra> carrito = CarritoCompras;
-            carrito.RemoveAt(index);
-            CarritoCompras = carrito;
-
+            CarritoCompras.RemoveAt(e.RowIndex);
             ActualizarGrilla();
         }
 
