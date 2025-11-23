@@ -1,226 +1,183 @@
 ﻿<%@ Page Title="Ventas" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Ventas.aspx.cs" Inherits="WebApplication3.Ventas" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    
     <main aria-labelledby="title">
-       <h2 id="title">Nueva Venta</h2>
+    <h2 id="title">Nueva Venta</h2>
 
-        <div class="mb-3">
-            <label>Fecha</label>
-            <asp:TextBox ID="txtFecha" runat="server" CssClass="form-control" TextMode="Date" />
+    <!-- Fecha -->
+    <div class="mb-3">
+        <label>Fecha</label>
+        <asp:TextBox ID="txtFecha" runat="server" CssClass="form-control" TextMode="Date" />
+    </div>
+
+    <!-- Cliente -->
+    <div class="mb-3">
+        <label>Cliente</label>
+        <asp:Label ID="lblError" runat="server" ForeColor="Red"></asp:Label>
+        <asp:DropDownList ID="ddlClientes" runat="server" CssClass="form-control" AutoPostBack="true" 
+            OnSelectedIndexChanged="ddlClientes_SelectedIndexChanged">    
+        </asp:DropDownList>
+        <asp:Label ID="lblMensaje" runat="server" ForeColor="Green"></asp:Label>
+    </div>
+
+    <div class="mb-3">
+        <label>CUIT / CUIL</label>
+        <asp:TextBox ID="txtCUIT" runat="server" CssClass="form-control" ReadOnly="true" />
+    </div>
+
+    <asp:HiddenField ID="hdnIDCliente" runat="server" />
+
+        <!-- -->
+        <div class="mb-3" style="position: relative;">
+            <label>Producto</label>
+            <input type="text" id="txtBuscarProducto" class="form-control" placeholder="Escriba para buscar..." autocomplete="off" />
+            <ul id="listaProductos" class="list-group mt-1" style="position: absolute; width: 100%; max-height: 200px; overflow-y: auto; z-index: 1000;"></ul>
         </div>
 
-         <div class="dropdown mb-3">
-            <asp:TextBox ID="txtBuscarCliente" runat="server" CssClass="form-control" onfocus="mostrarListaClientes()" onclick="mostrarListaClientes()"
-                         placeholder="Buscar cliente..." onkeyup="filtrarCliente()" AutoCompleteType="Disabled"></asp:TextBox>
+        <asp:HiddenField ID="hdnIDProducto" runat="server" />
+        <asp:Literal ID="litProductos" runat="server" />
 
-            <div class="dropdown-menu show" id="listaClientes"
-                 style="max-height: 200px; overflow-y: auto; display:none;">
-                <asp:Literal ID="litClientes" runat="server"></asp:Literal>
-            </div>
-        </div>
-        
-        <div class="mb-3">
-            <label>CUIT / CUIL</label>
-            <asp:TextBox ID="txtCUIT" runat="server" CssClass="form-control" ReadOnly="true" />
-        </div>
-
-        <asp:HiddenField ID="hdnIDCliente" runat="server" />
-
-
-        <!--  -->
-        
-
-        <div class="row mb-3">
-                <div class="col">
-                    <label>Proveedor</label>
-                    <asp:DropDownList ID="ddlProveedor" runat="server" CssClass="form-control" AutoPostBack="false" ClientIDMode="Static"></asp:DropDownList>
-                </div>
-
-                <div class="col">
-                    <label>Categoría</label>
-                    <asp:DropDownList ID="ddlCategoria" runat="server" CssClass="form-control" AutoPostBack="false" ClientIDMode="Static"></asp:DropDownList>
-                </div>
-
-                <div class="col">
-                    <label>Marca</label>
-                    <asp:DropDownList ID="ddlMarca" runat="server" CssClass="form-control" AutoPostBack="false" ClientIDMode="Static"></asp:DropDownList>
-                </div>
-            </div>
-
-
-       <div class="mb-3">
-            <label>Buscar Producto</label>
-            <asp:TextBox ID="txtBuscarProducto" runat="server" CssClass="form-control"
-                         onfocus="mostrarListaProductos()" onclick="mostrarListaProductos()"
-                         placeholder="Buscar producto..." onkeyup="filtrarProductos()"
-                         AutoCompleteType="Disabled"></asp:TextBox>
-
-            <div class="dropdown-menu show" id="listaProductos"
-                 style="max-height: 200px; overflow-y: auto; display:none;">
-                <asp:Literal ID="litProductos" runat="server"></asp:Literal>
-            </div>
-        </div>
-
-        <!-- Tabla de productos agregados -->
-        <h5>Productos agregados a la venta:</h5>
-        <table class="table" id="tablaVenta">
+        <h4>Productos en la venta</h4>
+        <table class="table table-bordered" id="tablaVenta">
             <thead>
                 <tr>
-                    <th>Producto</th>
+                    <th>Nombre</th>
                     <th>Precio</th>
                     <th>Cantidad</th>
-                    <th>Subtotal</th>
-                    <th>Acciones</th>
+                    <th>Stock</th>
+                    <th>Acción</th>
                 </tr>
             </thead>
-            <tbody id="cuerpoTablaVenta">
-                <!-- Aquí se irán agregando los productos -->
+            <tbody>
             </tbody>
         </table>
-
-        <h5>Total: $<span id="totalVenta">0.00</span></h5>
-
-        
         <!-- -->
+        
+       
+      <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              const txtBuscar = document.getElementById("txtBuscarProducto");
+              const listaProductos = document.getElementById("listaProductos");
+              const hdnIDProducto = document.getElementById("<%= hdnIDProducto.ClientID %>");
+              const tablaVenta = document.getElementById("tablaVenta").querySelector("tbody");
+                          
+            let carrito = [];
 
-        <script>
-            function filtrarCliente() {
-                var texto = document.getElementById("<%= txtBuscarCliente.ClientID %>").value.toLowerCase();
-                var lista = document.getElementById("listaClientes");
-             
-                if (texto.trim() === "") {
-                    document.getElementById("<%= txtCUIT.ClientID %>").value = "";
-                    document.getElementById("<%= hdnIDCliente.ClientID %>").value = "";
-                    lista.style.display = "none";
-                    return;
-                }
+            function renderizarProductos(lista) {
+                listaProductos.innerHTML = "";
+                lista.forEach(p => {
+                    const li = document.createElement("li");
+                    li.className = "list-group-item list-group-item-action";
+                    li.textContent = `${p.Nombre} - $${p.Precio.toFixed(2)} (Stock: ${p.Stock})`;
+                    li.dataset.id = p.IDProducto;
 
-                var items = lista.getElementsByTagName("a");
-                var hayCoincidencias = false;
+                    li.addEventListener("click", () => {
+                        agregarAlCarrito(p);
+                        txtBuscar.value = "";
+                        listaProductos.innerHTML = "";
+                    });
 
-                for (var i = 0; i < items.length; i++) {
-                    var itemTexto = items[i].textContent.toLowerCase();
-                    if (itemTexto.includes(texto)) {
-                        items[i].style.display = "block";
-                        hayCoincidencias = true;
-                    } else {
-                        items[i].style.display = "none";
-                    }
-                }
-
-                lista.style.display = hayCoincidencias ? "block" : "none";
+                    listaProductos.appendChild(li);
+                });
+                listaProductos.style.display = lista.length > 0 ? "block" : "none";
             }
 
-            function seleccionarCliente(nombre, cuit, idCliente) {
-                document.getElementById("<%= txtBuscarCliente.ClientID %>").value = nombre;
-                document.getElementById("<%= txtCUIT.ClientID %>").value = cuit;
-                document.getElementById("<%= hdnIDCliente.ClientID %>").value = idCliente;
+            txtBuscar.addEventListener("focus", function () {
+                renderizarProductos(productos);
+            });
 
-                document.getElementById("listaClientes").style.display = "none";
-            }
+            txtBuscar.addEventListener("input", function () {
+                const texto = txtBuscar.value.toLowerCase().trim();
+                const filtrados = productos.filter(p => p.Nombre.toLowerCase().includes(texto));
+                renderizarProductos(filtrados);
+            });
 
-            function mostrarListaClientes() {
-                var lista = document.getElementById("listaClientes");
-
-                var items = lista.getElementsByTagName("a");
-                for (var i = 0; i < items.length; i++) {
-                    items[i].style.display = "block";
-                }
-
-                lista.style.display = "block";
-            }
-
-            document.addEventListener("click", function (event) {
-                var txtBuscar = document.getElementById("<%= txtBuscarCliente.ClientID %>");
-                var lista = document.getElementById("listaClientes");
-                
-                if (!txtBuscar.contains(event.target) && !lista.contains(event.target)) {
-                    lista.style.display = "none";
+            document.addEventListener("click", function (e) {
+                if (!txtBuscar.contains(e.target) && !listaProductos.contains(e.target)) {
+                    listaProductos.style.display = "none";
                 }
             });
 
-            // ------------------------------------------------------------
+            function agregarAlCarrito(p) {
+                  const ddlClientes = document.getElementById("<%= ddlClientes.ClientID %>");
 
-            function mostrarListaProductos() {
-                document.getElementById("listaProductos").style.display = "block";
-            }
-
-            function filtrarProductos() {
-                var texto = document.getElementById("txtBuscarProducto").value.toLowerCase().trim();
-                var items = document.getElementById("listaProductos").getElementsByTagName("a");
-
-                for (var i = 0; i < items.length; i++) {
-                    var nombre = items[i].textContent.toLowerCase();
-                    items[i].style.display = nombre.includes(texto) ? "" : "none";
-                }
-            }
-
-            function seleccionarProductoFromData(a) {
-                var nombre = a.getAttribute("data-nombre");
-                var precio = parseFloat(a.getAttribute("data-precio")) || 0;
-                var id = a.getAttribute("data-id");
-
-                seleccionarProducto(nombre, precio, id);
-            }
-
-            function seleccionarProducto(nombre, precio, id) {
-                var tbody = document.getElementById("cuerpoTablaVenta");
-
-                var cantidadInicial = 1;
-                var subtotalInicial = precio * cantidadInicial;
-
-                var fila = document.createElement("tr");
-                fila.innerHTML = `
-                    <td>${nombre}</td>
-                    <td>${precio.toFixed(2)}</td>
-                    <td><input type="number" value="${cantidadInicial}" min="1" class="form-control cantidad"></td>
-                    <td class="subtotal">${subtotalInicial.toFixed(2)}</td>
-                    <td><button type="button" class="btn btn-danger btn-sm">Eliminar</button></td>`;
-
-                tbody.appendChild(fila);
-
-                var inputCantidad = fila.querySelector("input.cantidad");
-                inputCantidad.addEventListener("input", function () {
-                    actualizarFila(inputCantidad, precio);
-                });
-
-                fila.querySelector("button").addEventListener("click", function () {
-                    eliminarFila(fila);
-                });
-
-                document.getElementById("listaProductos").style.display = "none";
-                document.getElementById("txtBuscarProducto").value = "";
-
-                actualizarTotal();
-            }
-
-            function actualizarFila(input, precio) {
-                var fila = input.closest("tr");
-                var cantidad = parseInt(input.value) || 0;
-
-                fila.cells[3].textContent = (precio * cantidad).toFixed(2);
-
-                actualizarTotal();
-            }
-
-            function eliminarFila(fila) {
-                fila.remove();
-                actualizarTotal();
-            }
-
-            function actualizarTotal() {
-                var total = 0;
-                var filas = document.getElementById("cuerpoTablaVenta").rows;
-
-                for (var i = 0; i < filas.length; i++) {
-                    var subtotal = parseFloat(filas[i].cells[3].textContent) || 0;
-                    total += subtotal;
+                // Verificar que se haya seleccionado un cliente
+                if (!ddlClientes.value) {
+                    alert("Debe seleccionar un cliente antes de agregar productos.");
+                    return;
                 }
 
-                document.getElementById("totalVenta").textContent = total.toFixed(2);
+                // Si ya está en el carrito, no agregar de nuevo
+                if (carrito.find(x => x.IDProducto === p.IDProducto)) return;
+
+                carrito.push({ ...p, cantidad: 1 }); // cantidad inicial 1
+                renderizarCarrito();
             }
 
-        </script> 
+            function renderizarCarrito() {
+                tablaVenta.innerHTML = "";
+                carrito.forEach((p, index) => {
+                    const tr = document.createElement("tr");
 
-    </main>
+                    // Nombre
+                    const tdNombre = document.createElement("td");
+                    tdNombre.textContent = p.Nombre;
+                    tr.appendChild(tdNombre);
+
+                    // Precio (no editable)
+                    const tdPrecio = document.createElement("td");
+                    tdPrecio.textContent = p.Precio.toFixed(2);
+                    tr.appendChild(tdPrecio);
+
+                    const tdCantidad = document.createElement("td");
+                    const inputCantidad = document.createElement("input");
+                    inputCantidad.type = "number";
+                    inputCantidad.value = p.cantidad;
+                    inputCantidad.min = 1;
+                    inputCantidad.max = p.Stock;
+                    inputCantidad.className = "form-control";
+                    inputCantidad.addEventListener("input", () => {
+                        let val = parseInt(inputCantidad.value);
+
+                        if (isNaN(val) || inputCantidad.value === "") val = 1;
+
+                        if (val > p.Stock) val = p.Stock;
+                        if (val < 1) val = 1;
+
+                        p.cantidad = val;
+                        inputCantidad.value = val;
+                    });
+
+                    tdCantidad.appendChild(inputCantidad);
+                    tr.appendChild(tdCantidad);
+
+                    // Stock
+                    const tdStock = document.createElement("td");
+                    tdStock.textContent = p.Stock;
+                    tr.appendChild(tdStock);
+
+                    // Botón quitar
+                    const tdAccion = document.createElement("td");
+                    const btnQuitar = document.createElement("button");
+                    btnQuitar.className = "btn btn-danger btn-sm";
+                    btnQuitar.textContent = "Quitar";
+                    btnQuitar.addEventListener("click", () => {
+                        carrito.splice(index, 1);
+                        renderizarCarrito();
+                    });
+                    tdAccion.appendChild(btnQuitar);
+                    tr.appendChild(tdAccion);
+
+                    tablaVenta.appendChild(tr);
+                });
+            }
+        });
+      </script>
+
+
+      
+
+</main>
+
 </asp:Content>

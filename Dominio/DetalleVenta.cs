@@ -13,6 +13,10 @@ namespace Dominio
         public int IDVenta { get; set; }
         public Producto Producto { get; set; }
         public int Cantidad { get; set; }
-        public decimal PrecioUnitario { get; set; }
+        public decimal PrecioUnitario { get; set; }        
+        public decimal Subtotal => PrecioUnitario * Cantidad;
+
+        public string ProductoNombre => Producto.Nombre;
+        public int Stock => Producto.Stock;
     }
 }

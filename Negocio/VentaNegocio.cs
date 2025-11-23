@@ -47,5 +47,56 @@ namespace Negocio
             }
         }
 
+        public int GuardarVenta(int idCliente, int idUsuario, DateTime fecha, List<DetalleVenta> detalles)
+        {
+            int idVentaGenerado = 0;
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                // 1️⃣ Guardar la venta principal
+                string consultaVenta = "INSERT INTO Ventas (Fecha, IDCliente, IDUsuario, Total) " +
+                                       "VALUES (@Fecha, @IDCliente, @IDUsuario, @Total); SELECT SCOPE_IDENTITY();";
+
+                decimal total = 0;
+                foreach (var det in detalles)
+                    total += det.PrecioUnitario * det.Cantidad;
+
+                datos.setearConsulta(consultaVenta);
+                datos.setearParametro("@Fecha", fecha);
+                datos.setearParametro("@IDCliente", idCliente);
+                datos.setearParametro("@IDUsuario", idUsuario);
+                datos.setearParametro("@Total", total);
+
+                idVentaGenerado = Convert.ToInt32(datos.ejecutarScalar()); 
+                                
+                foreach (var det in detalles)
+                {
+                    datos.limpiarParametros();
+                    datos.setearConsulta("INSERT INTO Detalle_Venta (IDVenta, IDProducto, Cantidad, PrecioUnitario) " +
+                                         "VALUES (@IDVenta, @IDProducto, @Cantidad, @PrecioUnitario)");
+
+                    datos.setearParametro("@IDVenta", idVentaGenerado);
+                    datos.setearParametro("@IDProducto", det.Producto.IDProducto);
+                    datos.setearParametro("@Cantidad", det.Cantidad);
+                    datos.setearParametro("@PrecioUnitario", det.PrecioUnitario);
+
+                    datos.ejecutarAccion();
+                }
+
+                return idVentaGenerado;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
+
     }
 }

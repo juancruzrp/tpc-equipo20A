@@ -14,7 +14,7 @@ namespace Negocio
     public class ProductoNegocio
     {
 
-        public List<Producto> listar()
+        public List<Producto> listar(string filtro = "")
         {
             List<Producto> lista = new List<Producto>();
             AccesoDatos datos = new AccesoDatos(); 
@@ -288,7 +288,7 @@ namespace Negocio
             {
                 datos.cerrarConexion();
             }
-        }
+        }       
 
 
     }    
