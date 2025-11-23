@@ -138,5 +138,59 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+
+        public Compra ObtenerPorID(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta(@"
+            SELECT C.IDCompra, C.Fecha, C.Total,
+                   P.IDProveedor, P.Nombre as NombreProv, P.CUIT_CUIL,
+                   U.IDUsuario, U.NombreUsuario
+            FROM Compras C
+            INNER JOIN Proveedores P ON P.IDProveedor = C.IDProveedor
+            INNER JOIN Usuarios U ON U.IDUsuario = C.IDUsuario
+            WHERE C.IDCompra = @id");
+
+                datos.setearParametro("@id", id);
+                datos.ejecutarLectura();
+
+                Compra compra = null;
+
+                if (datos.Lector.Read())
+                {
+                    compra = new Compra();
+                    compra.IDCompra = (int)datos.Lector["IDCompra"];
+                    compra.Fecha = (DateTime)datos.Lector["Fecha"];
+                    compra.Total = (decimal)datos.Lector["Total"];
+
+                    compra.Proveedor = new Proveedor();
+                    compra.Proveedor.IDProveedor = (int)datos.Lector["IDProveedor"];
+                    compra.Proveedor.Nombre = (string)datos.Lector["NombreProv"];
+                    if (!(datos.Lector["CUIT_CUIL"] is DBNull))
+                        compra.Proveedor.CUIT_CUIL = (string)datos.Lector["CUIT_CUIL"];
+
+                    compra.Usuario = new Usuario();
+                    compra.Usuario.IDUsuario = (int)datos.Lector["IDUsuario"];
+                    compra.Usuario.NombreUsuario = (string)datos.Lector["NombreUsuario"];
+                    DetalleCompraNegocio detalleNegocio = new DetalleCompraNegocio();
+                    compra.Detalles = detalleNegocio.ListarPorCompra(compra.IDCompra);
+                }
+
+                return compra;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
     }
 }

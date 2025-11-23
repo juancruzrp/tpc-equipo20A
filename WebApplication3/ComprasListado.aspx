@@ -50,6 +50,11 @@
                             aria-controls="detalle_<%# Eval("IDCompra") %>">
                         Ver Detalle
                     </button>
+               <a href="VerFactura.aspx?id=<%# Eval("IDCompra") %>" target="_blank" class="btn btn-dark btn-sm ms-1">
+                    📄         
+                    Ver Comprobante
+               </a>
+
                 </td>
             </tr>
             <tr class="collapse" id="detalle_<%# Eval("IDCompra") %>">
