@@ -105,6 +105,7 @@
     <Content Include="AltaMarcas.aspx" />
     <Content Include="AltaProveedores.aspx" />
     <Content Include="HistorialVentas.aspx" />
+    <Content Include="VerFactura.aspx" />
     <Content Include="MarcasYCategorias.aspx" />
     <Content Include="ProductosAgregar.aspx" />
     <Content Include="AltaUsuarios.aspx" />
@@ -243,6 +244,13 @@
     </Compile>
     <Compile Include="HistorialVentas.aspx.designer.cs">
       <DependentUpon>HistorialVentas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VerFactura.aspx.cs">
+      <DependentUpon>VerFactura.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VerFactura.aspx.designer.cs">
+      <DependentUpon>VerFactura.aspx</DependentUpon>
     </Compile>
     <Compile Include="MarcasYCategorias.aspx.cs">
       <DependentUpon>MarcasYCategorias.aspx</DependentUpon>

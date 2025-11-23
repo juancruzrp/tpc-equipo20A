@@ -17,24 +17,18 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
         try
             {
-                // 1. Abrimos la conexión manualmente para poder iniciar la transacción
-                // Asumimos que tu clase AccesoDatos tiene una propiedad pública 'Conexion'
                 datos.Conexion.Open();
 
-                // 2. Iniciamos la transacción
                 SqlTransaction transaccion = datos.Conexion.BeginTransaction();
 
                 try
                 {
-                    // ---------------------------------------------------------
-                    // PASO A: INSERTAR LA CABECERA (TABLA COMPRAS)
-                    // ---------------------------------------------------------
                     SqlCommand cmd = new SqlCommand();
                     cmd.Connection = datos.Conexion;
                     cmd.Transaction = transaccion;
                     cmd.CommandType = System.Data.CommandType.Text;
 
-                    // Usamos OUTPUT INSERTED.IDCompra para recuperar el ID generado automáticamente
+                    // IDCompra  generado automáticamente
                     cmd.CommandText = "INSERT INTO Compras (IDProveedor, IDUsuario, Fecha, Total) " +
                                       "OUTPUT INSERTED.IDCompra " +
                                       "VALUES (@IDProv, @IDUsu, @Fecha, @Total)";
@@ -45,21 +39,15 @@ namespace Negocio
                     cmd.Parameters.AddWithValue("@Fecha", compra.Fecha);
                     cmd.Parameters.AddWithValue("@Total", compra.Total);
 
-                    // Ejecutamos y guardamos el ID de la compra recién creada
+                   
                     int idCompraGenerado = (int)cmd.ExecuteScalar();
 
-                    // ---------------------------------------------------------
-                    // PASO B: INSERTAR LOS DETALLES (RECORRER EL CARRITO)
-                    // ---------------------------------------------------------
                     foreach (var item in compra.Detalles)
                     {
                         SqlCommand cmdDetalle = new SqlCommand();
                         cmdDetalle.Connection = datos.Conexion;
-                        cmdDetalle.Transaction = transaccion; // ¡Importante! Misma transacción
+                        cmdDetalle.Transaction = transaccion; 
                         cmdDetalle.CommandType = System.Data.CommandType.Text;
-
-                        // Asumo que tu tabla de detalles se llama 'DetalleCompras' o 'DetallesCompra'
-                        // Ajusta el nombre de la tabla si es diferente en tu DB
                         cmdDetalle.CommandText = "INSERT INTO Detalle_Compra (IDCompra, IDProducto, Cantidad, PrecioUnitario) " +
                                                  "VALUES (@IDComp, @IDProd, @Cant, @Precio)";
 
@@ -71,13 +59,13 @@ namespace Negocio
                         cmdDetalle.ExecuteNonQuery();
                     }
 
-                    // 3. Si llegó hasta acá sin errores, confirmamos todo en la base de datos
+                    // confirmamos todo en la base de datos
                     transaccion.Commit();
                     return idCompraGenerado;
                 }
                 catch (Exception ex)
                 {
-                    // 4. Si hubo algún error, deshacemos todos los cambios (ni compra ni detalles)
+                   // deshacemos todos los cambios 
                     transaccion.Rollback();
                     throw ex;
                 }
@@ -150,5 +138,59 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+
+        public Compra ObtenerPorID(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta(@"
+            SELECT C.IDCompra, C.Fecha, C.Total,
+                   P.IDProveedor, P.Nombre as NombreProv, P.CUIT_CUIL,
+                   U.IDUsuario, U.NombreUsuario
+            FROM Compras C
+            INNER JOIN Proveedores P ON P.IDProveedor = C.IDProveedor
+            INNER JOIN Usuarios U ON U.IDUsuario = C.IDUsuario
+            WHERE C.IDCompra = @id");
+
+                datos.setearParametro("@id", id);
+                datos.ejecutarLectura();
+
+                Compra compra = null;
+
+                if (datos.Lector.Read())
+                {
+                    compra = new Compra();
+                    compra.IDCompra = (int)datos.Lector["IDCompra"];
+                    compra.Fecha = (DateTime)datos.Lector["Fecha"];
+                    compra.Total = (decimal)datos.Lector["Total"];
+
+                    compra.Proveedor = new Proveedor();
+                    compra.Proveedor.IDProveedor = (int)datos.Lector["IDProveedor"];
+                    compra.Proveedor.Nombre = (string)datos.Lector["NombreProv"];
+                    if (!(datos.Lector["CUIT_CUIL"] is DBNull))
+                        compra.Proveedor.CUIT_CUIL = (string)datos.Lector["CUIT_CUIL"];
+
+                    compra.Usuario = new Usuario();
+                    compra.Usuario.IDUsuario = (int)datos.Lector["IDUsuario"];
+                    compra.Usuario.NombreUsuario = (string)datos.Lector["NombreUsuario"];
+                    DetalleCompraNegocio detalleNegocio = new DetalleCompraNegocio();
+                    compra.Detalles = detalleNegocio.ListarPorCompra(compra.IDCompra);
+                }
+
+                return compra;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
     }
 }
