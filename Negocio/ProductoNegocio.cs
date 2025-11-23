@@ -29,6 +29,7 @@ namespace Negocio
                     P.PrecioVenta,
                     P.Stock, 
                     P.Estado,
+                    P.IDProveedor,
                     P.IDMarca,
                     M.Marca AS NombreMarca,
                     P.IDCategoria,
@@ -43,7 +44,7 @@ namespace Negocio
                 LEFT JOIN 
                     Categorias C ON P.IDCategoria = C.IDCategoria 
                 GROUP BY
-                    P.IDProducto, P.Nombre, P.Descripcion, P.Precio, P.PrecioVenta, P.Stock, P.Estado,
+                    P.IDProducto, P.Nombre, P.Descripcion, P.Precio, P.PrecioVenta, P.Stock, P.Estado, P.IDProveedor,
                     P.IDMarca, M.Marca, P.IDCategoria, C.Categoria";
 
                 datos.setearConsulta(consulta);
@@ -73,6 +74,8 @@ namespace Negocio
                         aux.Estado = (bool)datos.Lector["Estado"]; 
                     else
                         aux.Estado = false;
+                    
+                    aux.IDProveedor = (int)datos.Lector["IDProveedor"];
 
                     aux.ImagenUrl = (string)datos.Lector["ImagenUrl"];
 
