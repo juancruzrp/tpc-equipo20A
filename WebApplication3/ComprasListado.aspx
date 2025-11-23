@@ -4,6 +4,24 @@
     <main aria-labelledby="title">
     <h2 class="mb-4">Listado de Compras</h2>
 
+          <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="form-label">Proveedor:</label>
+            <asp:TextBox ID="txtFiltroProveedor" runat="server" CssClass="form-control" placeholder="Ej: Samsung"></asp:TextBox>
+        </div>
+        
+        <div class="col-md-3">
+            <label class="form-label">Fecha (Mes/Año):</label>
+            <asp:TextBox ID="txtFiltroFecha" runat="server" CssClass="form-control" placeholder="Ej: 09/2022"></asp:TextBox>
+        </div>
+
+        <div class="col-md-5 d-flex align-items-end">
+            <asp:Button ID="btnBuscar" runat="server" Text="Buscar" CssClass="btn btn-primary me-2" OnClick="btnBuscar_Click" />
+            <asp:Button ID="btnLimpiar" runat="server" Text="Limpiar" CssClass="btn btn-secondary" OnClick="btnLimpiar_Click" />
+        </div>
+    </div>
+
+
     
     <asp:Repeater ID="repCompras" runat="server">
         <HeaderTemplate>
@@ -57,7 +75,7 @@
                                    
                                     <td><%# Eval("Producto.Nombre") %></td>
                                     <td><%# Eval("Cantidad") %></td>
-                                    <td>$<%# Eval("PrecioUnitario") %></td>
+                                    <td>$<%# Eval("PrecioUnitario", "{0:0.00}") %></td>
                                  
                                     <td>$<%# (Convert.ToDecimal(Eval("Cantidad")) * Convert.ToDecimal(Eval("PrecioUnitario"))).ToString("0.00") %></td>
                                 </tr>

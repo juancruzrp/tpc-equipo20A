@@ -17,24 +17,18 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
         try
             {
-                // 1. Abrimos la conexión manualmente para poder iniciar la transacción
-                // Asumimos que tu clase AccesoDatos tiene una propiedad pública 'Conexion'
                 datos.Conexion.Open();
 
-                // 2. Iniciamos la transacción
                 SqlTransaction transaccion = datos.Conexion.BeginTransaction();
 
                 try
                 {
-                    // ---------------------------------------------------------
-                    // PASO A: INSERTAR LA CABECERA (TABLA COMPRAS)
-                    // ---------------------------------------------------------
                     SqlCommand cmd = new SqlCommand();
                     cmd.Connection = datos.Conexion;
                     cmd.Transaction = transaccion;
                     cmd.CommandType = System.Data.CommandType.Text;
 
-                    // Usamos OUTPUT INSERTED.IDCompra para recuperar el ID generado automáticamente
+                    // IDCompra  generado automáticamente
                     cmd.CommandText = "INSERT INTO Compras (IDProveedor, IDUsuario, Fecha, Total) " +
                                       "OUTPUT INSERTED.IDCompra " +
                                       "VALUES (@IDProv, @IDUsu, @Fecha, @Total)";
@@ -45,21 +39,15 @@ namespace Negocio
                     cmd.Parameters.AddWithValue("@Fecha", compra.Fecha);
                     cmd.Parameters.AddWithValue("@Total", compra.Total);
 
-                    // Ejecutamos y guardamos el ID de la compra recién creada
+                   
                     int idCompraGenerado = (int)cmd.ExecuteScalar();
 
-                    // ---------------------------------------------------------
-                    // PASO B: INSERTAR LOS DETALLES (RECORRER EL CARRITO)
-                    // ---------------------------------------------------------
                     foreach (var item in compra.Detalles)
                     {
                         SqlCommand cmdDetalle = new SqlCommand();
                         cmdDetalle.Connection = datos.Conexion;
-                        cmdDetalle.Transaction = transaccion; // ¡Importante! Misma transacción
+                        cmdDetalle.Transaction = transaccion; 
                         cmdDetalle.CommandType = System.Data.CommandType.Text;
-
-                        // Asumo que tu tabla de detalles se llama 'DetalleCompras' o 'DetallesCompra'
-                        // Ajusta el nombre de la tabla si es diferente en tu DB
                         cmdDetalle.CommandText = "INSERT INTO Detalle_Compra (IDCompra, IDProducto, Cantidad, PrecioUnitario) " +
                                                  "VALUES (@IDComp, @IDProd, @Cant, @Precio)";
 
@@ -71,13 +59,13 @@ namespace Negocio
                         cmdDetalle.ExecuteNonQuery();
                     }
 
-                    // 3. Si llegó hasta acá sin errores, confirmamos todo en la base de datos
+                    // confirmamos todo en la base de datos
                     transaccion.Commit();
                     return idCompraGenerado;
                 }
                 catch (Exception ex)
                 {
-                    // 4. Si hubo algún error, deshacemos todos los cambios (ni compra ni detalles)
+                   // deshacemos todos los cambios 
                     transaccion.Rollback();
                     throw ex;
                 }

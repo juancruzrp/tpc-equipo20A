@@ -120,11 +120,9 @@
     </asp:GridView>
 
        <div class="mt-4">
-    <!-- Agregado OnClick -->
     <asp:Button ID="btnGuardarCompra" runat="server" Text="Guardar Compra" 
                 CssClass="btn btn-success btn-lg" OnClick="btnGuardarCompra_Click" />
     
-    <!-- Quitado PostBackUrl, Agregado OnClick -->
     <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" 
                 CssClass="btn btn-secondary btn-lg" CausesValidation="false" 
                 OnClick="btnCancelar_Click" />
