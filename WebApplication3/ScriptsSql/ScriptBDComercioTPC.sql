@@ -5,7 +5,7 @@ USE COMERCIOTPC;
 GO
 CREATE TABLE TiposUsuario(
 	IDTipoUsuario INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-	TipoUsuario VARCHAR(35) NOT NULL, 
+	TipoUsuario VARCHAR(35) NOT NULL
 )
 GO
 CREATE TABLE Usuarios (
@@ -26,7 +26,7 @@ CREATE TABLE Clientes(
     Telefono VARCHAR(15),
     Mail NVARCHAR(50),
     Direccion VARCHAR(75),
-    CUIT_CUIL VARCHAR(15),
+    CUIT_CUIL VARCHAR(15)
 )
 GO
 CREATE TABLE Proveedores(
@@ -36,30 +36,35 @@ CREATE TABLE Proveedores(
     Mail NVARCHAR(50),
     Direccion VARCHAR(75),
     CUIT_CUIL VARCHAR(15),
-    Estado BIT NOT NULL DEFAULT 1,
+    Porcentaje DECIMAL (5,2) NOT NULL,
+    Estado BIT NOT NULL DEFAULT 1
 )
 GO
 CREATE TABLE Marcas(
     IDMarca INT PRIMARY KEY IDENTITY(1,1),
     Marca VARCHAR(50) NOT NULL,
-)
+    Estado BIT NOT NULL DEFAULT 1)
 GO
 CREATE TABLE Categorias(
     IDCategoria INT PRIMARY KEY IDENTITY(1,1),
     Categoria VARCHAR(50) NOT NULL,
+    Estado BIT NOT NULL DEFAULT 1
 )
 GO 
 CREATE TABLE Productos(
     IDProducto INT PRIMARY KEY IDENTITY(1,1),
     Nombre VARCHAR(50) NOT NULL,
     Descripcion VARCHAR(200) NULL,
+    IDProveedor INT,
     IDCategoria INT,
     IDMarca INT,
-    Precio MONEY NOT NULL,
+    Precio DECIMAL (8,2) NOT NULL,
+    PrecioVenta DECIMAL (8,2) NULL,
     Stock INT NOT NULL,
     Estado BIT NOT NULL DEFAULT 1,
     FOREIGN KEY (IDCategoria) REFERENCES Categorias(IDCategoria),
     FOREIGN KEY (IDMarca) REFERENCES Marcas(IDMarca),
+    FOREIGN KEY (IDProveedor) REFERENCES Proveedores(IDProveedor)
 )
 GO
 CREATE TABLE Ventas(
@@ -109,48 +114,4 @@ CREATE TABLE Imagenes(
 	ImagenUrl VARCHAR (1000) NOT NULL,
 	FOREIGN KEY(IDProducto) REFERENCES Productos(IDProducto)
 )
-
-ALTER TABLE Productos
-ADD FOREIGN KEY (IDProveedor) REFERENCES Proveedores(IDProveedor);
-
-
-ALTER TABLE Productos
-ADD PrecioVenta DECIMAL(18,2) NULL;
-
-
-ALTER TABLE Proveedores
-ADD Porcentaje DECIMAL(5,2) NULL;
-
---* CREATE TRIGGER TR_ActualizarPrecioVenta_Producto 
---ON Productos
---AFTER UPDATE
---AS 
---BEGIN
-    -- Solo ejecutar si se modificó Precio o IDProveedor
---    IF UPDATE(Precio) OR UPDATE(IDProveedor)
---    BEGIN
---        UPDATE p
---        SET p.PrecioVenta = p.Precio + (p.Precio * pr.Porcentaje / 100)
---        FROM Productos p
---        INNER JOIN inserted i ON p.IDProducto = i.IDProducto
---        INNER JOIN Proveedores pr ON p.IDProveedor = pr.IDProveedor;
---    END
---  END
-
-
--- CREATE TRIGGER TR_ActualizarPrecioVenta_Proveedor
--- ON Proveedores
--- AFTER UPDATE
--- AS
--- BEGIN
-    -- Solo ejecutar si se modificó el Porcentaje
---    IF UPDATE(Porcentaje)
---    BEGIN
---        UPDATE p
---       SET p.PrecioVenta = p.Precio + (p.Precio * pr.Porcentaje / 100)
---        FROM Productos p
---        INNER JOIN Proveedores pr ON p.IDProveedor = pr.IDProveedor
---        INNER JOIN inserted i ON pr.IDProveedor = i.IDProveedor;
---    END
--- END 
 

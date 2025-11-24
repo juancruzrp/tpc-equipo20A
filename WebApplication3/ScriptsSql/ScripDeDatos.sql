@@ -1,118 +1,116 @@
-use COMERCIOTPC
+INSERT INTO TiposUsuario (TipoUsuario) VALUES
+('Administrador'),('Vendedor');
 GO
-SET Dateformat YMD
+INSERT INTO Usuarios (NombreUsuario, Contraseña, IDTipoUsuario) VALUES
+('admin','admin',1),('usuario','usuario',2),('Juan','pass',1),('Ivana','pass1',1),
+('Gonzalo','pass2',1),('Ana','pass3',2),('Sofia','pass4',2),('Miguel','pass5',2);
 GO
-INSERT INTO TiposUsuario(TipoUsuario)
-VALUES
-('Usuario Vendedor'),
-('Usuario Administrador');
-
-INSERT INTO Clientes (Nombre, Apellido, Telefono, Mail, Direccion)
-VALUES
-('Lucía', 'Fernández', '1123456789', 'lucia.fernandez@mail.com', 'Av. Santa Fe 1234'),
-('Martín', 'Gómez', '1134567890', 'martin.gomez@mail.com', 'Calle 9 de Julio 567'),
-('Carla', 'Pérez', '1145678901', 'carla.perez@mail.com', 'Av. Corrientes 789');
-
-INSERT INTO Proveedores (Nombre, Telefono, Mail, Direccion)
-VALUES
-('Hierros del Sur', '1122334455', 'ventas@hierrosdelsur.com', 'Av. Belgrano 1200'),
-('Tornillos Argentinos S.A.', '1133445566', 'contacto@tornillosar.com', 'Calle Rivadavia 450'),
-('Pinturas Delta', '1144556677', 'info@pinturasdelta.com', 'Ruta 8 Km 32'),
-('Ferremax Distribuciones', '1155667788', 'ventas@ferremax.com', 'Av. San Martín 980'),
-('Electricidad Norte', '1166778899', 'soporte@electricidadnorte.com', 'Calle Mitre 210');
-
-INSERT INTO Marcas (Marca)
-VALUES
-('Stanley'),
-('Bahco'),
-('Black+Decker'),
-('3M'),
-('Philips'),
-('Sinteplast'),
-('Bremen'),
-('Irwin'),
-('Voltech');
-
-INSERT INTO Categorias (Categoria)
-VALUES
+INSERT INTO Clientes (Nombre, Apellido, Telefono, Mail, Direccion, CUIT_CUIL) VALUES
+('Juan','Perez','111111111','juan@mail.com','Calle 1 123','20-12345678-9'),
+('Maria','Gomez','222222222','maria@mail.com','Calle 2 234','27-23456789-0'),
+('Pedro','Lopez','333333333','pedro@mail.com','Calle 3 345','20-34567890-1'),
+('Lucia','Martinez','444444444','lucia@mail.com','Calle 4 456','23-45678901-2'),
+('Carlos','Diaz','555555555','carlos@mail.com','Calle 5 567','20-56789012-3'),
+('Ana','Fernandez','666666666','ana@mail.com','Calle 6 678','27-67890123-4'),
+('Sofia','Rodriguez','777777777','sofia@mail.com','Calle 7 789','20-78901234-5'),
+('Miguel','Gonzalez','888888888','miguel@mail.com','Calle 8 890','23-89012345-6'),
+('Laura','Torres','999999999','laura@mail.com','Calle 9 901','20-90123456-7'),
+('Diego','Ramirez','1010101010','diego@mail.com','Calle 10 101','27-01234567-8'),
+('Martina','Suarez','1212121212','martina@mail.com','Calle 11 112','20-11234567-9'),
+('Fernando','Castro','1313131313','fernando@mail.com','Calle 12 123','23-12345678-0'),
+('Valentina','Vega','1414141414','valentina@mail.com','Calle 13 134','20-13456789-1'),
+('Tomas','Rojas','1515151515','tomas@mail.com','Calle 14 145','27-14567890-2'),
+('Agustina','Morales','1616161616','agustina@mail.com','Calle 15 156','20-15678901-3'),
+('Nicolas','Santos','1717171717','nicolas@mail.com','Calle 16 167','23-16789012-4'),
+('Camila','Alvarez','1818181818','camila@mail.com','Calle 17 178','20-17890123-5'),
+('Facundo','Ramos','1919191919','facundo@mail.com','Calle 18 189','27-18901234-6'),
+('Carolina','Mendez','2020202020','carolina@mail.com','Calle 19 190','20-19012345-7'),
+('Bruno','Herrera','2121212121','bruno@mail.com','Calle 20 201','23-20123456-8');
+GO
+INSERT INTO Proveedores (Nombre, Telefono, Mail, Direccion, CUIT_CUIL, Porcentaje) VALUES
+('Ferretera Norte','341-5551234','contacto@ferreteranorte.com','Calle Rivadavia 123','30-71234567-8',50.50),
+('Herramientas Buenos Aires','11-45678901','ventas@herramientasba.com','Av. Corrientes 456','30-82345678-9',45.00),
+('Suministros El Sur','291-2345678','info@elsur.com','Calle San Martín 890','30-93456789-0',50.00),
+('Materiales Central','351-3456789','ventas@materialescentral.com','Av. Mitre 234','30-04567890-1',48.00),
+('Comercial Hierro y Acero','297-4567890','contacto@hierroyacero.com','Calle Belgrano 567','30-15678901-2',58.50),
+('Distribuidora Tornillos','261-5678901','ventas@tornillos.com','Av. Roca 678','30-26789012-3',56.75),
+('Insumos Ferreteros Capital','11-67890123','info@insumoscapital.com','Calle Florida 123','30-37890123-4',49.00),
+('Mayorista Ferretera Oeste','261-78901234','ventas@mayferoeste.com','Calle Independencia 456','30-48901234-5',51.00),
+('Proveedora Construcción','351-89012345','contacto@proveedora.com','Av. Pellegrini 789','30-59012345-6',50.00),
+('Almacén de Herramientas','341-90123456','info@norteherramientas.com','Calle Tucumán 234','30-60123456-7',57.50),
+('Ferretería del Litoral','341-11234567','ventas@ferrelitoral.com','Av. Libertad 567','30-71234567-8',55.00),
+('Distribuidora Materiales Cuyo','262-21234567','contacto@materialescuyo.com','Calle San Juan 890','30-82345678-9',46.25),
+('Mayorista Hierros y Tornillos','341-31345678','info@mayherros.com','Av. Pellegrini 123','30-93456789-0',49.50),
+('Suministros Construcción Centro','341-41456789','ventas@sumcentro.com','Calle Moreno 456','30-04567890-1',52.00),
+('Ferretería Austral','297-51567890','contacto@ferreaustral.com','Av. Rivadavia 789','30-15678901-2',47.25),
+('Distribuidora Norte','381-61678901','info@disnonorte.com','Calle San Martín 123','30-26789012-3',50.00),
+('Insumos Ferreteros Patagonia','290-71789012','ventas@patagoniaferre.com','Calle San Martín 234','30-37890123-4',52.50),
+('Almacén de Materiales Litoral','341-81890123','contacto@almacenlitoral.com','Av. Alem 234','30-48901234-5',51.75),
+('Comercial Mendoza Ferretera','261-91901234','info@mendozaferr.com','Calle Sarmiento 567','30-59012345-6',49.80),
+('Distribuidora Norte Grande','341-20234567','ventas@nortegrande.com','Av. Belgrano 890','30-60123456-7',61.90);
+GO
+INSERT INTO Marcas (Marca) VALUES
+('Bosch'), ('Black & Decker'), ('Stanley'), ('Makita'), ('DeWalt'), 
+('Skil'), ('Truper'), ('Fischer'), ('Tigre'), ('Portland'), 
+('Sika'), ('3M'), ('Crecchio'), ('Durlock'), ('Ferrum'), ('Acindar'), 
+('Bremen'), ('Poxipol'), ('TF3'), ('Awaduct');
+GO
+INSERT INTO Categorias (Categoria) VALUES
 ('Herramientas manuales'),
 ('Herramientas eléctricas'),
-('Fijaciones y tornillería'),
-('Pinturas y revestimientos'),
-('Seguridad y protección'),
-('Electricidad'),
+('Tornillería y fijaciones'),
+('Pinturas y accesorios'),
+('Plomería y cañerías'),
+('Materiales de construcción'),
+('Electricidad y cables'),
 ('Iluminación'),
-('Medición y precisión');
-
-
-INSERT INTO Productos (Nombre, Descripcion, IDCategoria, IDMarca, Precio, Stock, Estado)
-VALUES
-('Martillo de carpintero', 'Cabeza de acero y mango de madera', 1, 1, 3500, 25, 1),
-('Llave inglesa 10"', 'Ajustable, acero cromado', 1, 2, 4800, 15, 1),
-('Caja de tornillos 4mm x 50mm', 'Caja con 100 unidades, acero zincado', 2, 3, 1200, 40, 1),
-('Taladro eléctrico 650W', 'Velocidad variable, incluye brocas', 3, 4, 28000, 10, 1),
-('Pintura látex blanca 4L', 'Interior/exterior, lavable', 4, 5, 7500, 20, 1),
-('Cinta métrica 5m', 'Retráctil, carcasa plástica', 1, 2, 1500, 30, 1),
-('Destornillador plano 6"', 'Mango ergonómico, punta magnética', 1, 1, 900, 50, 1),
-('Brocas para metal x5', 'Juego de brocas de acero rápido', 3, 4, 3200, 18, 1),
-('Sierra manual para madera', 'Hoja de acero templado, mango plástico', 1, 2, 2700, 12, 1),
-('Guantes de trabajo reforzados', 'Cuero sintético, talla única', 5, 5, 2200, 35, 1),
-('Cable eléctrico 2x1.5mm 10m', 'Aislado, uso domiciliario', 6, 5, 4300, 22, 1),
-('Lámpara LED 12W', 'Rosca E27, luz blanca fría', 6, 5, 1100, 60, 1);
-
-
-INSERT INTO Usuarios(NombreUsuario,Contraseña,IDTipoUsuario,FechaAlta,FechaBaja,Estado)
-VALUES
-('usuario','usuario',1,GETDATE(),NULL,1),
-('admin','admin',2,GETDATE(),NULL,1);
-
-INSERT INTO Imagenes (IDProducto, ImagenUrl)
-VALUES
-(1, 'https://arcencohogar.vtexassets.com/arquivos/ids/331341/9008367-1.jpg?v=637963583955930000'),
-(2, 'https://acdn-us.mitiendanube.com/stores/001/229/031/products/diseno-sin-titulo-891-4993f3f0bc3ef7464d16765609980601-1024-1024.png'),
-(3, 'https://argoselectrica.com/wp-content/uploads/2019/10/tornillos-hexagonales-1.png'),
-(4, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYFTZY66QnF-B5vvT9PAS1K3FbykfmpUZECw&s'),
-(5, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiPjVhU1pJHb4VA4o3_sGa7spYbE0g2lJPTA&s');
-
-INSERT INTO Imagenes (IDProducto, ImagenUrl)
-VALUES
-(6, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSL66bsCSk-nYRH-tgohX2OrortMuCQV5h4Eg&s'),
-(7, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFMeKUc-OBTIb8_CcmuuunoNIhCR3z0rISNw&s'),
-(8, 'https://cdn.wurth.com.ar/img/productos/351632-gr-mecha-hss-din-338-d2-5-mm.jpg'),
-(9, 'https://http2.mlstatic.com/D_820351-MLA42314967558_062020-C.jpg'),
-(10, 'https://http2.mlstatic.com/D_NQ_NP_616758-MLA77700361598_072024-O.webp');
-
-INSERT INTO Imagenes (IDProducto, ImagenUrl)
-VALUES
-(11, 'https://http2.mlstatic.com/D_NQ_NP_720599-MLA79237976178_092024-O.webp'),
-(12, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVg9RSB7ZCDxd9WJ-rtLsQyei1zd71GDPHQw&s');
-
-
-INSERT INTO Compras (Fecha, IDProveedor, IDUsuario, Total) VALUES
-('2023-11-01', 1, 2, 12500.00),
-('2023-11-02', 3, 1, 8750.00),  
-('2023-11-03', 2, 2, 15300.00), 
-('2023-11-04', 4, 1, 9800.00),  
-('2023-11-05', 5, 2, 6500.00);  
-
-
-INSERT INTO Detalle_Compra (IDCompra, IDProducto, Cantidad, PrecioUnitario) VALUES
--- Detalles para Compra 1 (IDCompra = 1)
-(1, 1, 10, 3500.00), 
-(1, 7, 20, 900.00),  
-
--- Detalles para Compra 2 (IDCompra = 2)
-(2, 5, 5, 7500.00),  
-(2, 9, 8, 2700.00),  
-
--- Detalles para Compra 3 (IDCompra = 3)
-(3, 3, 30, 1200.00), 
-(3, 8, 10, 3200.00), 
-
--- Detalles para Compra 4 (IDCompra = 4)
-(4, 2, 15, 4800.00), 
-(4, 6, 25, 1500.00), 
-
--- Detalles para Compra 5 (IDCompra = 5)
-(5, 11, 12, 4300.00), 
-(5, 12, 40, 1100.00);
+('Ferretería general'),
+('Jardinería y riego'),
+('Seguridad y protección'),
+('Adhesivos y selladores'),
+('Sanitarios'),
+('Equipamiento industrial'),
+('Otros');
+GO
+INSERT INTO Productos (Nombre, Descripcion, IDProveedor, IDCategoria, IDMarca, Precio, Stock) VALUES
+('Taladro Percutor','Taladro eléctrico 500W',4,2,4,15000,15),
+('Destornillador 10 pcs','Set de destornilladores de acero',1,1,3,2500,50),
+('Martillo Carpintero 500g','Martillo con mango de madera y cabeza de acero',5,1,3,1200,30),
+('Sierra Circular 185mm','Sierra eléctrica',4,2,4,18000,10),
+('Tornillo M6x50 100u','Tornillos de acero',6,3,7,3500,100),
+('Cinta Métrica 5m','Cinta de medición en acero con funda plástica',1,1,3,800,40),
+('Alicate Universal 200mm','Alicate multiuso para electricidad',7,1,3,2200,25),
+('Llave Inglesa 12"','Llave ajustable de acero cromo-vanadio',5,1,3,3500,20),
+('Lámpara LED 12W','Lámpara de iluminación con bajo consumo',8,8,11,4500,35),
+('Cable Eléctrico 2x1.5mm','Rollo de cable para instalaciones',7,7,11,7000,50),
+('Adhesivo Epoxi 50ml','Pegamento de alta resistencia para metal',17,12,19,1200,60),
+('Pintura Látex Interior 4L','Pintura blanca para interiores',14,4,11,6500,40),
+('Tubo PVC 50mm x 4m','Tubo para desagües y conducciones de agua',5,5,9,3500,30),
+('Grifo Monocomando Cocina','Grifo cromado para cocina con cierre cerámico',13,13,15,12000,12),
+('Taladro Atornillador Inalámbrico','Taladro portátil con batería recargable',4,2,4,22000,8),
+('Escalera Plegable 4 escalones','Escalera de aluminio ligera y resistente',16,14,17,9500,20),
+('Guantes de Seguridad','Guantes de cuero para protección industrial',11,11,17,1800,50),
+('Broca HSS 5mm 10 pcs','Set de brocas para taladro en acero rápido',6,3,7,2500,60),
+('Regadera Plástica 10L','Regadera para riego de jardines y plantas',10,10,20,1200,25);
+GO
+INSERT INTO Imagenes (IDProducto, ImagenUrl) VALUES
+(1, 'https://http2.mlstatic.com/D_NQ_NP_624413-MLA50333612506_062022-O.webp'), -- taladro percutor
+(2, 'https://http2.mlstatic.com/D_NQ_NP_792803-MLA80855698027_112024-O.webp'), -- destornillador
+(3, 'https://http2.mlstatic.com/D_NQ_NP_873212-MLA95153127402_102025-O.webp'), -- martillo
+(4, 'https://makita.com.ar/wp-content/uploads/2024/01/1561406195-82221.jpg'), -- sierra circular
+(5, 'https://http2.mlstatic.com/D_NQ_NP_816834-MLA42013343271_052020-O.webp'), -- tornillos
+(6, 'https://http2.mlstatic.com/D_NQ_NP_760886-MLA45940199290_052021-O.webp'), -- cinta métrica
+(7, 'https://http2.mlstatic.com/D_NQ_NP_616720-MLA51537536366_092022-O.webp'), -- alicate
+(8, 'https://cdn2.ridgid.com/resources/images/aa8afb1c-a931-40f4-8140-f7a0af3cb6af'), -- llave inglesa
+(9, 'https://arcencohogar.vtexassets.com/arquivos/ids/287667/1232630.jpg?v=637651663983800000'), -- lámpara LED
+(10, 'https://www.ropelato.com.ar/8117-medium_default/1052567-Cable-rojo---1-x-6-0mm---Rollo-x-100m.jpg'), -- cable eléctrico
+(11, 'https://www.anaerobicos.com/advf/imagenes/2016/07/578fd368e7054_600x628.jpg'), -- adhesivo epoxi
+(12, 'https://http2.mlstatic.com/D_Q_NP_729326-MLA94462203375_102025-O.webp'), -- pintura
+(13, 'https://http2.mlstatic.com/D_NQ_NP_978683-MLA74993035810_032024-O.webp'), -- tubo PVC / plomería
+(14, 'https://pintureriasagitario.com.ar/wp-content/uploads/2025/03/15-2302-1.jpg'), -- grifo cocina
+(15, 'https://www.bosch-professional.com/ar/es/ocsmedia/386784-54/application-image/1434x828/taladro-percutor-atornillador-inalambrico-gsb-183-li-06019k91e6.png'), -- taladro inalámbrico
+(16, 'https://seguridadglobal.com.ar/wp-content/uploads/2015/03/Escalera-de-PRFV-tijera-simple-FIBRA-DE-VIDRIO.jpg'), -- escalera
+(17, 'https://arcencohogar.vtexassets.com/arquivos/ids/354930-800-800?v=638209824515830000&width=800&height=800&aspect=true'), -- guantes
+(18, 'https://http2.mlstatic.com/D_NQ_NP_855503-MLA84427866860_052025-O.webp'), -- brocas HSS
+(19, 'https://arcencohogar.vtexassets.com/arquivos/ids/362331-800-800?v=638322035988300000&width=800&height=800&aspect=true'); -- regadera
+GO

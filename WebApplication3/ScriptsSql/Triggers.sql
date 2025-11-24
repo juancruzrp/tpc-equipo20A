@@ -1,0 +1,37 @@
+CREATE TRIGGER TR_ActualizarPrecioVenta_Producto
+ON Productos
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Actualizar PrecioVenta solo para los productos afectados
+    UPDATE p
+    SET p.PrecioVenta = p.Precio + (p.Precio * pr.Porcentaje / 100.0)
+    FROM Productos p
+    INNER JOIN Proveedores pr ON p.IDProveedor = pr.IDProveedor
+    INNER JOIN inserted i ON p.IDProducto = i.IDProducto    
+END
+GO
+
+------------------------------------------------------
+
+ CREATE TRIGGER TR_ActualizarPrecioVenta_Proveedor
+ON Proveedores
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Solo ejecutar si se modificó el Porcentaje
+    IF UPDATE(Porcentaje)
+    BEGIN
+        UPDATE p
+        SET p.PrecioVenta = p.Precio + (p.Precio * pr.Porcentaje / 100.0)
+        FROM Productos p
+        INNER JOIN Proveedores pr ON p.IDProveedor = pr.IDProveedor
+        INNER JOIN inserted i ON pr.IDProveedor = i.IDProveedor        
+    END
+END
+GO
+
