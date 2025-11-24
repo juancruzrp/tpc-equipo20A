@@ -27,7 +27,38 @@
     </div>
 
     <asp:HiddenField ID="hdnIDCliente" runat="server" />
+        <!-- -->
+        <asp:UpdatePanel ID="updFiltros" runat="server" UpdateMode="Conditional">
+            <ContentTemplate>
 
+        <div class="row mb-3">
+            <div class="col">
+                <label>Proveedor</label>
+                <asp:DropDownList ID="ddlProveedor" runat="server" CssClass="form-control"
+                    AutoPostBack="true" OnSelectedIndexChanged="Filtros_Changed"
+                    DataTextField="Nombre" DataValueField="IDProveedor"></asp:DropDownList>
+            </div>
+
+            <div class="col">
+                <label>Categoría</label>
+                <asp:DropDownList ID="ddlCategoria" runat="server" CssClass="form-control"
+                    AutoPostBack="true" OnSelectedIndexChanged="Filtros_Changed"
+                    DataTextField="Nombre" DataValueField="IDCategoria"></asp:DropDownList>
+            </div>
+
+            <div class="col">
+                <label>Marca</label>
+                <asp:DropDownList ID="ddlMarca" runat="server" CssClass="form-control"
+                    AutoPostBack="true" OnSelectedIndexChanged="Filtros_Changed"
+                    DataTextField="Nombre" DataValueField="IDMarca"></asp:DropDownList>
+            </div>
+        </div>
+
+        <asp:Literal ID="litProductos" runat="server" />
+            </ContentTemplate>
+        </asp:UpdatePanel>
+
+        
         <!-- -->
         <div class="mb-3" style="position: relative;">
             <label>Producto</label>
@@ -36,7 +67,6 @@
         </div>
 
         <asp:HiddenField ID="hdnIDProducto" runat="server" />
-        <asp:Literal ID="litProductos" runat="server" />
 
         <h4>Productos en la venta</h4>
         <table class="table table-bordered" id="tablaVenta">
@@ -46,134 +76,157 @@
                     <th>Precio</th>
                     <th>Cantidad</th>
                     <th>Stock</th>
+                    <th>Subtotal</th>
                     <th>Acción</th>
                 </tr>
             </thead>
             <tbody>
             </tbody>
         </table>
+
+        <h4>Total: $ <span id="lblTotal">0.00</span></h4>
         <!-- -->
-        
+
+        <asp:Button ID="btnConfirmar" runat="server" CssClass="btn btn-success"
+            Text="Confirmar Venta"  />
        
       <script>
-            document.addEventListener("DOMContentLoaded", function () {
-              const txtBuscar = document.getElementById("txtBuscarProducto");
-              const listaProductos = document.getElementById("listaProductos");
-              const hdnIDProducto = document.getElementById("<%= hdnIDProducto.ClientID %>");
-              const tablaVenta = document.getElementById("tablaVenta").querySelector("tbody");
-                          
-            let carrito = [];
+          document.addEventListener("DOMContentLoaded", () => {
 
-            function renderizarProductos(lista) {
-                listaProductos.innerHTML = "";
-                lista.forEach(p => {
-                    const li = document.createElement("li");
-                    li.className = "list-group-item list-group-item-action";
-                    li.textContent = `${p.Nombre} - $${p.Precio.toFixed(2)} (Stock: ${p.Stock})`;
-                    li.dataset.id = p.IDProducto;
+              const txt = document.getElementById("txtBuscarProducto");
+              const lista = document.getElementById("listaProductos");
+              const tabla = document.querySelector("#tablaVenta tbody");
+              const lblTotal = document.getElementById("lblTotal");
 
-                    li.addEventListener("click", () => {
-                        agregarAlCarrito(p);
-                        txtBuscar.value = "";
-                        listaProductos.innerHTML = "";
-                    });
+              lista.style.display = "none";
 
-                    listaProductos.appendChild(li);
-                });
-                listaProductos.style.display = lista.length > 0 ? "block" : "none";
-            }
+              txt.addEventListener("focus", () => mostrar(txt.value));
+              txt.addEventListener("input", () => mostrar(txt.value));
 
-            txtBuscar.addEventListener("focus", function () {
-                renderizarProductos(productos);
-            });
+              function mostrar(filtro) {
+                  const f = filtro.toLowerCase().trim();
+                  lista.innerHTML = "";
 
-            txtBuscar.addEventListener("input", function () {
-                const texto = txtBuscar.value.toLowerCase().trim();
-                const filtrados = productos.filter(p => p.Nombre.toLowerCase().includes(texto));
-                renderizarProductos(filtrados);
-            });
+                  const prov = document.getElementById("<%= ddlProveedor.ClientID %>").value;
+                  const cat = document.getElementById("<%= ddlCategoria.ClientID %>").value;
+                  const marca = document.getElementById("<%= ddlMarca.ClientID %>").value;
 
-            document.addEventListener("click", function (e) {
-                if (!txtBuscar.contains(e.target) && !listaProductos.contains(e.target)) {
-                    listaProductos.style.display = "none";
-                }
-            });
+                  const filtrados = productos.filter(p => {
+                      const cumpleTexto = p.Nombre.toLowerCase().includes(f);
+                      const cumpleProv = !prov || p.IDProveedor.toString() === prov;
+                      const cumpleCat = !cat || p.Categoria.IDCategoria.toString() === cat;
+                      const cumpleMarca = !marca || p.Marca.IDMarca.toString() === marca;
+                      return cumpleTexto && cumpleProv && cumpleCat && cumpleMarca;
+                  });
 
-            function agregarAlCarrito(p) {
+                  if (!filtrados.length) { lista.style.display = "none"; return; }
+
+                  filtrados.forEach(p => {
+                      const a = document.createElement("a");
+                      a.className = "list-group-item list-group-item-action";
+                      a.textContent = `${p.Nombre} - $${p.PrecioVenta.toFixed(2)}`;
+                      a.onclick = () => seleccionar(p);
+                      lista.appendChild(a);
+                  });
+
+                  lista.style.display = "block";
+              }
+
+              function seleccionar(p) {
                   const ddlClientes = document.getElementById("<%= ddlClientes.ClientID %>");
+                  if (!ddlClientes.value || ddlClientes.value === "0") {
+                      alert("Debe seleccionar un cliente antes de agregar productos.");
+                      return;
+                  }
 
-                // Verificar que se haya seleccionado un cliente
-                if (!ddlClientes.value) {
-                    alert("Debe seleccionar un cliente antes de agregar productos.");
-                    return;
-                }
+                  if ([...tabla.querySelectorAll("tr")].some(tr => tr.dataset.id == p.IDProducto)) {
 
-                // Si ya está en el carrito, no agregar de nuevo
-                if (carrito.find(x => x.IDProducto === p.IDProducto)) return;
+                      // ocultar la lista desplegable
+                      lista.style.display = "none";
 
-                carrito.push({ ...p, cantidad: 1 }); // cantidad inicial 1
-                renderizarCarrito();
-            }
+                      // limpiar el campo de búsqueda
+                      txt.value = "";
 
-            function renderizarCarrito() {
-                tablaVenta.innerHTML = "";
-                carrito.forEach((p, index) => {
-                    const tr = document.createElement("tr");
+                      // mensaje
+                      alert("Este producto ya fue agregado a la venta.");
 
-                    // Nombre
-                    const tdNombre = document.createElement("td");
-                    tdNombre.textContent = p.Nombre;
-                    tr.appendChild(tdNombre);
+                      return;
+                  }
 
-                    // Precio (no editable)
-                    const tdPrecio = document.createElement("td");
-                    tdPrecio.textContent = p.Precio.toFixed(2);
-                    tr.appendChild(tdPrecio);
+                  lista.style.display = "none";
+                  txt.value = "";
 
-                    const tdCantidad = document.createElement("td");
-                    const inputCantidad = document.createElement("input");
-                    inputCantidad.type = "number";
-                    inputCantidad.value = p.cantidad;
-                    inputCantidad.min = 1;
-                    inputCantidad.max = p.Stock;
-                    inputCantidad.className = "form-control";
-                    inputCantidad.addEventListener("input", () => {
-                        let val = parseInt(inputCantidad.value);
+                  const fila = document.createElement("tr");
+                  fila.dataset.id = p.IDProducto;
 
-                        if (isNaN(val) || inputCantidad.value === "") val = 1;
+                  fila.innerHTML = `
+                    <td>${p.Nombre}</td>
+                    <td class="text-center">${p.PrecioVenta.toFixed(2)}</td>
+                    <td><input type="number" class="form-control cantidad" value="1" min="1" max="${p.Stock}"></td>
+                    <td class="text-center">${p.Stock}</td>
+                    <td class="text-center subtotal">${p.PrecioVenta.toFixed(2)}</td>
+                    <td><button class="btn btn-danger btn-sm">Quitar</button></td>`;
 
-                        if (val > p.Stock) val = p.Stock;
-                        if (val < 1) val = 1;
+                  fila.querySelector(".cantidad").oninput = () => actualizarSubtotal(fila, p.PrecioVenta);
 
-                        p.cantidad = val;
-                        inputCantidad.value = val;
-                    });
+                  fila.querySelector("button").onclick = () => { fila.remove(); actualizarTotal(); };
 
-                    tdCantidad.appendChild(inputCantidad);
-                    tr.appendChild(tdCantidad);
+                  tabla.appendChild(fila);
+                  actualizarTotal();
+              }
 
-                    // Stock
-                    const tdStock = document.createElement("td");
-                    tdStock.textContent = p.Stock;
-                    tr.appendChild(tdStock);
+              function actualizarSubtotal(fila, precio) {
+                  const input = fila.querySelector(".cantidad");
+                  let cant = parseInt(input.value) || 1;
+                  const stock = parseInt(input.max);  
 
-                    // Botón quitar
-                    const tdAccion = document.createElement("td");
-                    const btnQuitar = document.createElement("button");
-                    btnQuitar.className = "btn btn-danger btn-sm";
-                    btnQuitar.textContent = "Quitar";
-                    btnQuitar.addEventListener("click", () => {
-                        carrito.splice(index, 1);
-                        renderizarCarrito();
-                    });
-                    tdAccion.appendChild(btnQuitar);
-                    tr.appendChild(tdAccion);
+                  if (cant > stock) cant = stock;  
+                  if (cant < 1) cant = 1;
 
-                    tablaVenta.appendChild(tr);
+                  input.value = cant;
+
+                  const sub = (cant * precio).toFixed(2);
+                  fila.querySelector(".subtotal").textContent = sub;
+
+                  actualizarTotal();
+              }
+
+              function actualizarTotal() {
+                  let total = 0;
+                  tabla.querySelectorAll(".subtotal").forEach(s => {
+                      total += parseFloat(s.textContent);
+                  });
+                  lblTotal.textContent = total.toFixed(2);
+              }
+
+              document.addEventListener("click", function (e) {
+                  const esClickDentroDeTxt = e.target === txt;
+                  const esClickDentroDeLista = lista.contains(e.target);
+
+                  if (!esClickDentroDeTxt && !esClickDentroDeLista) {
+                      lista.style.display = "none";
+                  }
+              });
+
+          });
+      </script>
+
+        <script>            
+            if (typeof (Sys) !== "undefined") {
+                Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () {
+                    
+                    const event = new Event('DOMContentLoaded');
+                    document.dispatchEvent(event);
                 });
             }
-        });
-      </script>
+        </script>
+
+
+
+
+
+
+
 
 
       

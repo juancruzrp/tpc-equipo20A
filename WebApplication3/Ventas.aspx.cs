@@ -34,11 +34,13 @@ namespace WebApplication3
             {
                 txtFecha.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 CargarClientes();
-                
+                CargarFiltros();
+
                 ProductoNegocio negocio = new ProductoNegocio();
                 var productos = negocio.listar();
-                
+
                 litProductos.Text = $"<script>const productos = {Newtonsoft.Json.JsonConvert.SerializeObject(productos)};</script>";
+
             }
         }
 
@@ -83,7 +85,46 @@ namespace WebApplication3
             }
         }
 
-       
+        protected void Filtros_Changed(object sender, EventArgs e)
+        {
+            ProductoNegocio negocio = new ProductoNegocio();
+            var lista = negocio.listar();
+
+            if (!string.IsNullOrEmpty(ddlProveedor.SelectedValue))
+                lista = lista.Where(p => p.IDProveedor.ToString() == ddlProveedor.SelectedValue).ToList();
+
+            if (!string.IsNullOrEmpty(ddlCategoria.SelectedValue))
+                lista = lista.Where(p => p.Categoria.IDCategoria.ToString() == ddlCategoria.SelectedValue).ToList();
+
+            if (!string.IsNullOrEmpty(ddlMarca.SelectedValue))
+                lista = lista.Where(p => p.Marca.IDMarca.ToString() == ddlMarca.SelectedValue).ToList();
+
+            // actualizar el array productos de JavaScript
+            litProductos.Text = $"<script>const productos = {Newtonsoft.Json.JsonConvert.SerializeObject(lista)};</script>";
+        }
+
+        private void CargarFiltros()
+        {
+            ProveedoresNegocio provNeg = new ProveedoresNegocio();
+            CategoriaNegocio catNeg = new CategoriaNegocio();
+            MarcaNegocio marcaNeg = new MarcaNegocio();
+
+            ddlProveedor.DataSource = provNeg.listar();
+            ddlProveedor.DataBind();
+            ddlProveedor.Items.Insert(0, new ListItem("Todos los proveedores", ""));
+
+            ddlCategoria.DataSource = catNeg.listar();
+            ddlCategoria.DataBind();
+            ddlCategoria.Items.Insert(0, new ListItem("Todas las categorias", ""));
+
+            ddlMarca.DataSource = marcaNeg.listar();
+            ddlMarca.DataBind();
+            ddlMarca.Items.Insert(0, new ListItem("Todas las marcas", ""));
+        }
+
+
+
+
     }
 
 
