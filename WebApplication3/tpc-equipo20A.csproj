@@ -111,7 +111,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AccesoDenegado.aspx" />
     <Content Include="AltaCategorias.aspx" />
     <Content Include="AltaClientes.aspx" />
     <Content Include="AltaMarcas.aspx" />
@@ -216,13 +215,6 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccesoDenegado.aspx.cs">
-      <DependentUpon>AccesoDenegado.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="AccesoDenegado.aspx.designer.cs">
-      <DependentUpon>AccesoDenegado.aspx</DependentUpon>
-    </Compile>
     <Compile Include="AltaCategorias.aspx.cs">
       <DependentUpon>AltaCategorias.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

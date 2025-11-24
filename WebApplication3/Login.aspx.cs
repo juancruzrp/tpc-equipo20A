@@ -37,11 +37,13 @@ namespace WebApplication3
                 {
                     if (!usuario.Estado)
                     {
-                        lblError.Text = "Tu cuenta está inactiva. Contactá al administrador.";
-                        Response.Redirect("~/AccesoDenegado.aspx", false);
+                        Session.Add("Error","Tu cuenta está inactiva. Contactá al administrador.");
+                        Response.Redirect("~/Error.aspx", false);
+                        return;
                     }
                     Session.Add("Usuario", usuario);
                     Response.Redirect("~/Inicio.aspx", false);
+                    return;
                 }
                 else
                 {
