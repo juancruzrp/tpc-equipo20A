@@ -160,7 +160,7 @@ namespace Negocio
             Usuario usuario = null;
             try
             {
-                datos.setearConsulta(@"SELECT IDUsuario, NombreUsuario, Contraseña, IDTipoUsuario, Estado
+                datos.setearConsulta(@"SELECT IDUsuario, NombreUsuario, Contraseña, IDTipoUsuario,FechaAlta,FechaBaja, Estado
                                FROM Usuarios
                                WHERE IDUsuario = @id");
                 datos.setearParametro("@id", id);
@@ -175,6 +175,9 @@ namespace Negocio
                     usuario.TipoUsuario = new TipoUsuario();
                     usuario.TipoUsuario.IDTipoUsuario = (int)datos.Lector["IDTipoUsuario"];
                     usuario.Estado = (bool)datos.Lector["Estado"];
+
+                    usuario.FechaAlta = (DateTime)datos.Lector["FechaAlta"];
+                    usuario.FechaBaja = datos.Lector["FechaBaja"] != DBNull.Value ? (DateTime)datos.Lector["FechaBaja"] : (DateTime?)null;
                 }
                 return usuario;
             }

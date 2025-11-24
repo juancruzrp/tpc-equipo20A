@@ -6,7 +6,7 @@
         <div class="card shadow-sm border-0 p-4 mx-auto" style="max-width: 600px;">
             <h3 class="text-center mb-4">Agregar nuevo usuario</h3>
 
-             <asp:ValidationSummary ID="ValidationSummary1" runat="server" 
+            <asp:ValidationSummary ID="ValidationSummary1" runat="server"
                 CssClass="alert alert-danger"
                 HeaderText="Por favor, corrija los siguientes errores:" />
 
@@ -56,10 +56,11 @@
             </div>
             <div class="d-flex justify-content-between">
                 <asp:Button ID="btnGuardarUsuario" runat="server" Text="Guardar" CssClass="btn btn-success" OnClick="btnGuardarUsuario_Click" />
-                <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" 
-        OnClick="btnCancelar_Click" CausesValidation="false" />
+                <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary"
+                    OnClick="btnCancelar_Click" CausesValidation="false"
+                    OnClientClick="return confirm('¿Seguro desea cancelar esta operación?');" />
             </div>
-             <asp:Label ID="lblError" runat="server" CssClass="text-danger mt-3"></asp:Label>
+            <asp:Label ID="lblError" runat="server" CssClass="text-danger mt-3"></asp:Label>
         </div>
     </div>
 </asp:Content>

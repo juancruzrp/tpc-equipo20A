@@ -69,6 +69,7 @@ namespace WebApplication3
                 txtNombreUsuario.Text = usuario.NombreUsuario;
                 txtContraseña.Text = usuario.Contraseña;
                 ddlTipoUsuario.SelectedValue = usuario.TipoUsuario.IDTipoUsuario.ToString();
+                txtFecha.Text = usuario.FechaAlta.ToString("yyyy-MM-dd");
 
                 ViewState["IdUsuario"] = id;
             }
@@ -110,7 +111,7 @@ namespace WebApplication3
                 usuario.Contraseña = txtContraseña.Text;
                 usuario.TipoUsuario = new TipoUsuario();
                 usuario.TipoUsuario.IDTipoUsuario = int.Parse(ddlTipoUsuario.SelectedValue);
-                usuario.FechaAlta = DateTime.Now;
+                usuario.FechaAlta = DateTime.Parse(txtFecha.Text);
 
                 
                 if (ViewState["IdUsuario"] != null)
