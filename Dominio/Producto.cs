@@ -18,7 +18,6 @@ namespace Dominio
         public int Stock { get; set; }
         public bool Estado { get; set; }
         public int IDProveedor { get; set; }
-        public string ImagenUrl{ get; set; }
-        public string NombreProducto { get; set; }
+        public string ImagenUrl{ get; set; }       
     }
 }

@@ -20,8 +20,18 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT IDVenta, Fecha, IDCliente, IDUsuario, Total FROM Ventas");
-                
+                datos.setearConsulta(@"
+                    SELECT v.IDVenta,
+                           v.Fecha,
+                           c.Nombre AS NombreCliente,
+                           c.Apellido AS ApellidoCliente,
+                           u.NombreUsuario AS NombreUsuario,
+                           v.Total
+                    FROM Ventas v
+                    INNER JOIN Clientes c ON v.IDCliente = c.IDCliente
+                    INNER JOIN Usuarios u ON v.IDUsuario = u.IDUsuario
+                    ORDER BY v.Fecha DESC");
+
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -30,7 +40,17 @@ namespace Negocio
 
                     venta.IDVenta = (int)datos.Lector["IDVenta"];
                     venta.Fecha = (DateTime)datos.Lector["Fecha"];
-                    venta.Total = (decimal)datos.Lector["Total"];                                                            
+                    venta.Total = (decimal)datos.Lector["Total"];
+                    venta.Cliente = new Cliente
+                    {
+                        Nombre = (string)datos.Lector["NombreCliente"],
+                        Apellido = (string)datos.Lector["ApellidoCliente"]
+                    };
+
+                    venta.Usuario = new Usuario
+                    {
+                        NombreUsuario = (string)datos.Lector["NombreUsuario"]
+                    };
 
                     lista.Add(venta);
                 }
@@ -54,7 +74,7 @@ namespace Negocio
 
             try
             {
-                // 1️⃣ Guardar la venta principal
+                //Guardar la venta principal
                 string consultaVenta = "INSERT INTO Ventas (Fecha, IDCliente, IDUsuario, Total) " +
                                        "VALUES (@Fecha, @IDCliente, @IDUsuario, @Total); SELECT SCOPE_IDENTITY();";
 

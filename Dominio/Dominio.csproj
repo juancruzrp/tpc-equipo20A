@@ -65,6 +65,7 @@
     <Compile Include="DetalleCompra.cs" />
     <Compile Include="Compra.cs" />
     <Compile Include="DetalleVenta.cs" />
+    <Compile Include="ProductoVenta.cs" />
     <Compile Include="Venta.cs" />
     <Compile Include="Producto.cs" />
     <Compile Include="Marca.cs" />

@@ -122,6 +122,54 @@ namespace WebApplication3
             ddlMarca.Items.Insert(0, new ListItem("Todas las marcas", ""));
         }
 
+        protected void btnConfirmar_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(hdnIDCliente.Value))
+            {
+                lblError.Text = "Debe seleccionar un cliente.";
+                return;
+            }
+
+            int idCliente = int.Parse(hdnIDCliente.Value);
+
+            int idUsuario = 1;
+
+            DateTime fecha = DateTime.Now;
+
+            List<ProductoVenta> productosVenta = new List<ProductoVenta>();
+            if (!string.IsNullOrEmpty(hdnProductosVenta.Value))
+            {
+                productosVenta = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ProductoVenta>>(hdnProductosVenta.Value);
+            }
+
+            if (productosVenta.Count == 0)
+            {
+                lblError.Text = "Debe agregar al menos un producto a la venta.";
+                return;
+            }
+
+            // lista de detalles de venta
+            List<DetalleVenta> detalles = productosVenta.Select(p => new DetalleVenta
+            {
+                Producto = new Producto { IDProducto = p.IDProducto },
+                Cantidad = p.Cantidad,
+                PrecioUnitario = p.Precio
+            }).ToList();
+
+            // Guardar venta en la base de datos
+            VentaNegocio ventasNeg = new VentaNegocio();
+            int idVenta = ventasNeg.GuardarVenta(idCliente, idUsuario, fecha, detalles);
+
+            
+
+            
+            hdnProductosVenta.Value = "";
+
+            string script = "alert('Venta registrada con éxito.');";
+            ClientScript.RegisterStartupScript(this.GetType(), "VentaExitosa", script, true);
+        }
+
+
 
 
 

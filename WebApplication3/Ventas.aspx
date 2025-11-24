@@ -69,7 +69,7 @@
         <asp:HiddenField ID="hdnIDProducto" runat="server" />
 
         <h4>Productos en la venta</h4>
-        <table class="table table-bordered" id="tablaVenta">
+        <table class="table table-bordered" id="tablaVenta" >
             <thead>
                 <tr>
                     <th>Nombre</th>
@@ -87,8 +87,11 @@
         <h4>Total: $ <span id="lblTotal">0.00</span></h4>
         <!-- -->
 
+        <asp:HiddenField ID="hdnProductosVenta" runat="server" />
+
         <asp:Button ID="btnConfirmar" runat="server" CssClass="btn btn-success"
-            Text="Confirmar Venta"  />
+            Text="Confirmar Venta" OnClick="btnConfirmar_Click" 
+            OnClientClick="return confirm('¿Está seguro que desea confirmar la venta?');" />
        
       <script>
           document.addEventListener("DOMContentLoaded", () => {
@@ -97,6 +100,8 @@
               const lista = document.getElementById("listaProductos");
               const tabla = document.querySelector("#tablaVenta tbody");
               const lblTotal = document.getElementById("lblTotal");
+
+              const hdnProductos = document.getElementById("<%= hdnProductosVenta.ClientID %>");
 
               lista.style.display = "none";
 
@@ -208,18 +213,35 @@
                   }
               });
 
+              const btnConfirmar = document.getElementById("<%= btnConfirmar.ClientID %>");
+                btnConfirmar.addEventListener("click", function () {
+                    const productosVenta = [...tabla.querySelectorAll("tr")].map(fila => ({
+                        IDProducto: fila.dataset.id,
+                        Nombre: fila.cells[0].textContent,
+                        Precio: parseFloat(fila.cells[1].textContent),
+                        Cantidad: parseInt(fila.querySelector(".cantidad").value),
+                        Subtotal: parseFloat(fila.cells[4].textContent)
+                    }));
+
+                    // guardar en el hidden field como JSON
+                    hdnProductos.value = JSON.stringify(productosVenta);
+
+              });
+
+              function actualizarHiddenField() {
+                  const productos = [...tabla.querySelectorAll("tr")].map(fila => ({
+                      IDProducto: parseInt(fila.dataset.id),
+                      Nombre: fila.cells[0].textContent,
+                      Precio: parseFloat(fila.cells[1].textContent),
+                      Cantidad: parseInt(fila.querySelector(".cantidad").value)
+                  }));
+
+                  hdnProductos.value = JSON.stringify(productos);
+
+              }
           });
       </script>
 
-        <script>            
-            if (typeof (Sys) !== "undefined") {
-                Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () {
-                    
-                    const event = new Event('DOMContentLoaded');
-                    document.dispatchEvent(event);
-                });
-            }
-        </script>
 
 
 
