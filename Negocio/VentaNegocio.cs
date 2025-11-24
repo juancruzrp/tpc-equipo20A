@@ -116,7 +116,118 @@ namespace Negocio
             }
         }
 
+        public List<DetalleVenta> listarDetalleVenta(int idVenta)
+        {
+            List<DetalleVenta> lista = new List<DetalleVenta>();
+            AccesoDatos datos = new AccesoDatos();
 
+            try
+            {
+                datos.setearConsulta(@"
+                    SELECT dv.IDDetalleVenta,
+                           p.Nombre AS NombreProducto,
+                           dv.Cantidad,
+                           dv.PrecioUnitario                           
+                    FROM Detalle_Venta dv
+                    INNER JOIN Productos p ON dv.IDProducto = p.IDProducto
+                    WHERE dv.IDVenta = @IDVenta");
+
+                datos.setearParametro("@IDVenta", idVenta);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    DetalleVenta det = new DetalleVenta
+                    {
+                        Producto = new Producto
+                        {
+                            Nombre = (string)datos.Lector["NombreProducto"]
+                        },
+                        Cantidad = (int)datos.Lector["Cantidad"],
+                        PrecioUnitario = (decimal)datos.Lector["PrecioUnitario"]                        
+                    };
+
+                    lista.Add(det);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public List<Venta> ListarVentasConDetalles()
+        {
+            List<Venta> ventas = listarVentas(); 
+
+            foreach (var venta in ventas)
+            {
+                venta.Detalles = listarDetalleVenta(venta.IDVenta); 
+            }
+
+            return ventas;
+        }
+
+        public Venta ObtenerVentaConDetalles(int idVenta)
+        {
+            Venta venta = new Venta();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                // Traer la venta principal
+                datos.setearConsulta(@"
+                    SELECT v.IDVenta, v.Fecha, v.Total,
+                           c.Nombre AS NombreCliente, 
+                           c.Apellido AS ApellidoCliente, 
+                           c.CUIT_CUIL AS CUIT_CUIL, 
+                           u.NombreUsuario AS NombreUsuario
+                    FROM Ventas v
+                    INNER JOIN Clientes c ON v.IDCliente = c.IDCliente
+                    INNER JOIN Usuarios u ON v.IDUsuario = u.IDUsuario
+                    WHERE v.IDVenta = @IDVenta");
+                datos.setearParametro("@IDVenta", idVenta);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    venta.IDVenta = (int)datos.Lector["IDVenta"];
+                    venta.Fecha = (DateTime)datos.Lector["Fecha"];
+                    venta.Total = (decimal)datos.Lector["Total"];
+
+                    venta.Cliente = new Cliente
+                    {
+                        Nombre = (string)datos.Lector["NombreCliente"],
+                        Apellido = (string)datos.Lector["ApellidoCliente"],
+                        CUIT_CUIL = (string)datos.Lector["Cuit_Cuil"]
+                    };
+
+                    venta.Usuario = new Usuario
+                    {
+                        NombreUsuario = (string)datos.Lector["NombreUsuario"]
+                    };
+                }
+                datos.cerrarConexion();
+
+                venta.Detalles = listarDetalleVenta(idVenta);
+
+                return venta;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
     }
 }

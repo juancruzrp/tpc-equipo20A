@@ -1,13 +1,17 @@
-﻿using System;
+﻿using Dominio;
+using Negocio;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Negocio;
-using Dominio;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+
 
 namespace WebApplication3
 {
@@ -22,9 +26,15 @@ namespace WebApplication3
         private void cargarVentas()
         {
             VentaNegocio negocio = new VentaNegocio();
-            dgvVentas.DataSource = negocio.listarVentas();
-            dgvVentas.DataBind();
+
+            List<Venta> ventasConDetalles = negocio.ListarVentasConDetalles();
+
+            repVentas.DataSource = ventasConDetalles;
+            repVentas.DataBind();
 
         }
+
+        
+
     }
 }
