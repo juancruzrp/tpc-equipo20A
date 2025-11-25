@@ -230,8 +230,7 @@ namespace WebApplication3
                 nuevaCompra.Proveedor.IDProveedor = int.Parse(hfIDProveedor.Value);
 
                 nuevaCompra.Usuario = new Usuario();
-                nuevaCompra.Usuario.IDUsuario = usuarioLogueado.IDUsuario; // ✔ AHORA SIEMPRE ES CORRECTO
-
+                nuevaCompra.Usuario.IDUsuario = usuarioLogueado.IDUsuario; 
                 nuevaCompra.Fecha = DateTime.Parse(txtFecha.Text);
                 nuevaCompra.Total = CarritoCompras.Sum(x => x.PrecioUnitario * x.Cantidad);
                 nuevaCompra.Detalles = CarritoCompras;
