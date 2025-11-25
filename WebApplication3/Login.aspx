@@ -2,7 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     
-    <main aria-labelledby="title">
+    <main aria-labelledby="title">a
         <h2 id="title">Pantalla de ingreso</h2>
                 
        <asp:Label ID="lblUsuario" runat="server" class="form-label" Text="Usuario"></asp:Label>
