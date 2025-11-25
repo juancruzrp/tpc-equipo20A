@@ -41,7 +41,9 @@ namespace WebApplication3
                 filtro = filtro.ToLower();
                 listaProductos = listaProductos.Where(p =>
                     p.Nombre.ToLower().Contains(filtro) ||
-                    p.Marca.Nombre.ToLower().Contains(filtro)
+                    p.Marca.Nombre.ToLower().Contains(filtro) ||
+                    p.NombreProveedor.ToLower().Contains(filtro)                    
+                    
                 ).ToList();
             }
 

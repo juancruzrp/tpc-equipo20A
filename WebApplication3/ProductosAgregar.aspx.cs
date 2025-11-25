@@ -23,16 +23,25 @@ namespace WebApplication3
                     // config inicial de pantalla
                     CategoriaNegocio catNegocio = new CategoriaNegocio();
                     MarcaNegocio marNegocio = new MarcaNegocio();
+                    ProveedoresNegocio provNegocio = new ProveedoresNegocio();
 
                     ddlCategoria.DataSource = catNegocio.listar();
                     ddlCategoria.DataValueField = "IDCategoria";
                     ddlCategoria.DataTextField = "Nombre";
                     ddlCategoria.DataBind();
+                    ddlCategoria.Items.Insert(0, new ListItem("Seleccione una categoría", "0"));
 
                     ddlMarca.DataSource = marNegocio.listar();
                     ddlMarca.DataValueField = "IDMarca";
                     ddlMarca.DataTextField = "Nombre";
                     ddlMarca.DataBind();
+                    ddlMarca.Items.Insert(0, new ListItem("Seleccione una marca", "0"));
+
+                    ddlProveedor.DataSource = provNegocio.listar();
+                    ddlProveedor.DataValueField = "IDProveedor";
+                    ddlProveedor.DataTextField = "Nombre";
+                    ddlProveedor.DataBind();
+                    ddlProveedor.Items.Insert(0, new ListItem("Seleccione un proveedor", "0"));
 
                     // si viene un id, se modifica
                     if (Request.QueryString["id"] != null)
@@ -90,21 +99,39 @@ namespace WebApplication3
                 Producto producto = new Producto();
                 ProductoNegocio negocio = new ProductoNegocio();
 
-                producto.Nombre = txtNombre.Text;
-                producto.Descripcion = txtDescripcion.Text;
-
                 if (!decimal.TryParse(txtPrecio.Text, out decimal precio))
                 {
                     lblMensaje.Text = "El precio no es válido.";
                     return;
                 }
-                producto.Precio = precio;
 
                 if (!int.TryParse(txtStock.Text, out int stock))
                 {
                     lblMensaje.Text = "El stock no es válido.";
                     return;
                 }
+
+                if (ddlCategoria.SelectedValue == "0")
+                {
+                    lblMensaje.Text = "Debe seleccionar una categoría.";
+                    return;
+                }
+
+                if (ddlMarca.SelectedValue == "0")
+                {
+                    lblMensaje.Text = "Debe seleccionar una marca.";
+                    return;
+                }
+
+                if (ddlProveedor.SelectedValue == "0")
+                {
+                    lblMensaje.Text = "Debe seleccionar un proveedor.";
+                    return;
+                }
+
+                producto.Nombre = txtNombre.Text;
+                producto.Descripcion = txtDescripcion.Text;
+                producto.Precio = precio;
                 producto.Stock = stock;
 
                 producto.Categoria = new Categoria();
@@ -113,6 +140,8 @@ namespace WebApplication3
                 producto.Marca = new Marca();
                 producto.Marca.IDMarca = int.Parse(ddlMarca.SelectedValue);
 
+                producto.IDProveedor = int.Parse(ddlProveedor.SelectedValue); 
+                
                 producto.ImagenUrl = string.IsNullOrWhiteSpace(txtImagenUrl.Text)
                     ? "https://us.123rf.com/450wm/koblizeek/koblizeek2208/koblizeek220800128/190320173-no-image-vector-symbol-missing-available-icon-no-gallery-for-this-moment-placeholder.jpg"
                     : txtImagenUrl.Text;

@@ -33,6 +33,7 @@ namespace WebApplication3
                         txtTelefono.Text = seleccionado.Telefono;
                         txtMail.Text = seleccionado.Mail;
                         txtDireccion.Text = seleccionado.Direccion;
+                        txtPorcentaje.Text = seleccionado.Porcentaje.ToString();
                     }
                 }
                 if (Session["Usuario"] == null)
@@ -59,6 +60,7 @@ namespace WebApplication3
             proveedor.Telefono = txtTelefono.Text;
             proveedor.Mail = txtMail.Text;
             proveedor.Direccion = txtDireccion.Text;
+            proveedor.Porcentaje = decimal.Parse(txtPorcentaje.Text);
             proveedor.Estado = true;
 
             if (string.IsNullOrEmpty(txtIdProveedor.Text))

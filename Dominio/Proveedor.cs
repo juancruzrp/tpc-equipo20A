@@ -15,6 +15,7 @@ namespace Dominio
         public string Direccion { get; set; }
         public bool Estado { get; set; }
         public string CUIT_CUIL { get; set; }
+        public decimal Porcentaje { get; set; }
 
     }
 }

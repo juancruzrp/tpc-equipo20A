@@ -45,6 +45,11 @@
             </div>
 
             <div class="mb-3">
+                <label for="lblProveedor" class="form-label">Proveedor</label>
+                <asp:DropDownList ID="ddlProveedor" runat="server" CssClass="form-select"></asp:DropDownList>
+            </div>
+
+            <div class="mb-3">
                 <label for="lblImagenUrl" class="form-label">URL de Imagen</label>
                 <asp:TextBox ID="txtImagenUrl" runat="server" CssClass="form-control" placeholder="https://..."></asp:TextBox>
                 <asp:Image ID="imgPreview" runat="server" CssClass="img-thumbnail mt-3" Width="150px" />

@@ -1,9 +1,9 @@
 ﻿INSERT INTO TiposUsuario (TipoUsuario) VALUES
-('Administrador'),('Vendedor');
+('Usuario Vendedor'),('Usuario Administrador');
 GO
 INSERT INTO Usuarios (NombreUsuario, Contraseña, IDTipoUsuario) VALUES
-('admin','admin',1),('usuario','usuario',2),('Juan','pass',1),('Ivana','pass1',1),
-('Gonzalo','pass2',1),('Ana','pass3',2),('Sofia','pass4',2),('Miguel','pass5',2);
+('admin','admin',2),('usuario','usuario',1),('Juan','pass',2),('Ivana','pass1',2),
+('Gonzalo','pass2',2),('Ana','pass3',1),('Sofia','pass4',1),('Miguel','pass5',1);
 GO
 INSERT INTO Clientes (Nombre, Apellido, Telefono, Mail, Direccion, CUIT_CUIL) VALUES
 ('Juan','Perez','111111111','juan@mail.com','Calle 1 123','20-12345678-9'),

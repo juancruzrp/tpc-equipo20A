@@ -30,6 +30,7 @@ namespace Negocio
                     P.Stock, 
                     P.Estado,
                     P.IDProveedor,
+                    PR.Nombre AS NombreProveedor,
                     P.IDMarca,
                     M.Marca AS NombreMarca,
                     P.IDCategoria,
@@ -37,6 +38,8 @@ namespace Negocio
                     ISNULL(MIN(I.ImagenUrl), 'https://via.placeholder.com/60x60?text=No+Image') AS ImagenUrl
                 FROM 
                     PRODUCTOS P
+                LEFT JOIN
+                    Proveedores PR ON P.IDProveedor = PR.IDProveedor
                 LEFT JOIN 
                     Imagenes I ON P.IDProducto = I.IDProducto
                 LEFT JOIN 
@@ -45,7 +48,7 @@ namespace Negocio
                     Categorias C ON P.IDCategoria = C.IDCategoria 
                 GROUP BY
                     P.IDProducto, P.Nombre, P.Descripcion, P.Precio, P.PrecioVenta, P.Stock, P.Estado, P.IDProveedor,
-                    P.IDMarca, M.Marca, P.IDCategoria, C.Categoria";
+                    PR.Nombre, P.IDMarca, M.Marca, P.IDCategoria, C.Categoria";
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
@@ -76,6 +79,9 @@ namespace Negocio
                         aux.Estado = false;
                     
                     aux.IDProveedor = (int)datos.Lector["IDProveedor"];
+
+                    aux.NombreProveedor = datos.Lector["NombreProveedor"] != DBNull.Value ? datos.Lector["NombreProveedor"].ToString() : "Sin proveedor";
+
 
                     aux.ImagenUrl = (string)datos.Lector["ImagenUrl"];
 
@@ -151,8 +157,8 @@ namespace Negocio
             try
             {
                 datos.setearConsulta(@"
-                    INSERT INTO Productos (Nombre, Descripcion, IDCategoria, IDMarca, Precio, Stock, Estado)
-                    VALUES (@Nombre, @Descripcion, @IDCategoria, @IDMarca, @Precio, @Stock, @Estado);
+                    INSERT INTO Productos (Nombre, Descripcion, IDCategoria, IDMarca, IDProveedor, Precio, Stock, Estado)
+                    VALUES (@Nombre, @Descripcion, @IDCategoria, @IDMarca, @IDProveedor, @Precio, @Stock, @Estado);
                     SELECT SCOPE_IDENTITY();
                 ");
 
@@ -163,6 +169,7 @@ namespace Negocio
                 datos.setearParametro("@Precio", nuevo.Precio);
                 datos.setearParametro("@Stock", nuevo.Stock);
                 datos.setearParametro("@Estado", nuevo.Estado);
+                datos.setearParametro("@IDProveedor", nuevo.IDProveedor);
 
                 object id = datos.ejecutarScalar();
                 int nuevoID = Convert.ToInt32(id);
@@ -203,6 +210,7 @@ namespace Negocio
                     Descripcion = @Descripcion,
                     IDCategoria = @IDCategoria,
                     IDMarca = @IDMarca,
+                    IDProveedor = @IDProveedor,
                     Precio = @Precio,
                     Stock = @Stock,
                     Estado = @Estado
@@ -217,6 +225,7 @@ namespace Negocio
                 datos.setearParametro("@Stock", producto.Stock);
                 datos.setearParametro("@Estado", producto.Estado);
                 datos.setearParametro("@IDProducto", producto.IDProducto);
+                datos.setearParametro("@IDProveedor", producto.IDProveedor);
 
                 datos.ejecutarAccion();
 

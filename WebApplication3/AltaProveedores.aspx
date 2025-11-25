@@ -35,6 +35,11 @@
                 <asp:TextBox ID="txtDireccion" runat="server" CssClass="form-control"></asp:TextBox>
             </div>
 
+            <div class="mb-3">
+                <label for="txtPorcentaje" class="form-label">Porcentaje:</label>
+                <asp:TextBox ID="txtPorcentaje" runat="server" CssClass="form-control"></asp:TextBox>
+            </div>
+
             <div class="d-flex justify-content-between">
                 <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-success" OnClick="btnGuardar_Click" />
                 <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" PostBackUrl="~/Proveedores.aspx" />
