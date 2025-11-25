@@ -17,8 +17,11 @@ namespace Dominio
         public int IDCompra { get; set; }
         public int IDProducto { get; set; }
         public string NombreProducto { get; set; }
+
+        public Usuario Usuario { get; set; }
     }
+}
 
   
        
-}
+

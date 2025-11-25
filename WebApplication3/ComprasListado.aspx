@@ -31,6 +31,7 @@
                         <th>ID</th>
                         <th>Fecha</th>
                         <th>Proveedor</th>
+                         <th>Usuario</th>
                         <th>Total</th>
                         <th>Acción</th>
                     </tr>
@@ -43,6 +44,7 @@
                 <td><%# Eval("IDCompra") %></td>
                 <td><%# ((DateTime)Eval("Fecha")).ToString("dd/MM/yyyy") %></td>
                 <td><%# Eval("Proveedor.Nombre") %></td> 
+                <td><%# Eval("Usuario.NombreUsuario") %></td>
                 <td>$<%# Eval("Total") %></td>
                 <td>
                     <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="collapse"
@@ -58,7 +60,7 @@
                 </td>
             </tr>
             <tr class="collapse" id="detalle_<%# Eval("IDCompra") %>">
-                <td colspan="5">
+                <td colspan="6">
                     <div class="p-3 bg-light border rounded">
                         <h6>Detalles de la compra</h6>
                         <asp:Repeater ID="repDetalles" runat="server" DataSource='<%# Eval("Detalles") %>'>
@@ -70,6 +72,7 @@
                                             <th>Cantidad</th>
                                             <th>Precio Unitario</th>
                                             <th>Subtotal</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -81,6 +84,7 @@
                                     <td><%# Eval("Producto.Nombre") %></td>
                                     <td><%# Eval("Cantidad") %></td>
                                     <td>$<%# Eval("PrecioUnitario", "{0:0.00}") %></td>
+                              
                                  
                                     <td>$<%# (Convert.ToDecimal(Eval("Cantidad")) * Convert.ToDecimal(Eval("PrecioUnitario"))).ToString("0.00") %></td>
                                 </tr>

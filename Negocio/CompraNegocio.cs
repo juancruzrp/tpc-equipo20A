@@ -28,7 +28,7 @@ namespace Negocio
                     cmd.Transaction = transaccion;
                     cmd.CommandType = System.Data.CommandType.Text;
 
-                    // IDCompra  generado automáticamente
+                   
                     cmd.CommandText = "INSERT INTO Compras (IDProveedor, IDUsuario, Fecha, Total) " +
                                       "OUTPUT INSERTED.IDCompra " +
                                       "VALUES (@IDProv, @IDUsu, @Fecha, @Total)";
@@ -76,7 +76,7 @@ namespace Negocio
             }
             finally
             {
-                // Cerramos la conexión manualmente
+                
                 if (datos.Conexion.State == System.Data.ConnectionState.Open)
                     datos.Conexion.Close();
             }
@@ -90,14 +90,16 @@ namespace Negocio
 
             try
             {
-              
                 datos.setearConsulta(@"
-                    SELECT C.IDCompra, C.Fecha, C.Total,
-                           P.IDProveedor, P.Nombre,
-                           U.IDUsuario, U.NombreUsuario
-                    FROM Compras C
-                    INNER JOIN Proveedores P ON P.IDProveedor = C.IDProveedor
-                    INNER JOIN Usuarios U ON U.IDUsuario = C.IDUsuario");
+            SELECT 
+                C.IDCompra, C.Fecha, C.Total,
+                P.IDProveedor, P.Nombre AS NombreProveedor,
+                U.IDUsuario, U.NombreUsuario,
+                TU.TipoUsuario AS TipoUsuario
+            FROM Compras C
+            INNER JOIN Proveedores P ON P.IDProveedor = C.IDProveedor
+            INNER JOIN Usuarios U ON U.IDUsuario = C.IDUsuario
+            INNER JOIN TiposUsuario TU ON TU.IDTipoUsuario = U.IDTipoUsuario");
 
                 datos.ejecutarLectura();
 
@@ -111,14 +113,17 @@ namespace Negocio
                     aux.Proveedor = new Proveedor
                     {
                         IDProveedor = (int)datos.Lector["IDProveedor"],
-                        
-                        Nombre = (string)datos.Lector["Nombre"]
+                        Nombre = datos.Lector["NombreProveedor"].ToString()
                     };
 
                     aux.Usuario = new Usuario
                     {
                         IDUsuario = (int)datos.Lector["IDUsuario"],
-                        NombreUsuario = (string)datos.Lector["NombreUsuario"]
+                        NombreUsuario = datos.Lector["NombreUsuario"].ToString(),
+                        TipoUsuario = new TipoUsuario
+                        {
+                            Descripcion = datos.Lector["TipoUsuario"].ToString()
+                        }
                     };
 
                     DetalleCompraNegocio detalleNegocio = new DetalleCompraNegocio();

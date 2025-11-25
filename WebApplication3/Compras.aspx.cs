@@ -103,12 +103,17 @@ namespace WebApplication3
 
         private void CargarUsuarioActual()
         {
-            
-            lblUsuario.Text = "Admin"; 
-         
-            Session["IDUsuarioActual"] = 1; 
-        }
+            Usuario usuarioLogueado = (Usuario)Session["Usuario"];
 
+            if (usuarioLogueado != null)
+            {
+                lblUsuario.Text = usuarioLogueado.NombreUsuario;
+            }
+            else
+            {
+                Response.Redirect("~/Login.aspx", false);
+            }
+        }
 
         private int ObtenerCantidad()
         {
@@ -196,7 +201,16 @@ namespace WebApplication3
         {
             try
             {
-                
+
+                if (Session["Usuario"] == null)
+                {
+                    Response.Write("<script>alert('La sesión expiró. Iniciá sesión nuevamente.');</script>");
+                    Response.Redirect("~/Login.aspx", false);
+                    return;
+                }
+
+                Usuario usuarioLogueado = (Usuario)Session["Usuario"];
+
                 if (string.IsNullOrEmpty(hfIDProveedor.Value))
                 {
                     Response.Write("<script>alert('Debe seleccionar un proveedor.');</script>");
@@ -209,19 +223,26 @@ namespace WebApplication3
                     return;
                 }
 
+
                 Compra nuevaCompra = new Compra();
 
                 nuevaCompra.Proveedor = new Proveedor();
                 nuevaCompra.Proveedor.IDProveedor = int.Parse(hfIDProveedor.Value);
+
                 nuevaCompra.Usuario = new Usuario();
-                nuevaCompra.Usuario.IDUsuario = Session["IDUsuarioActual"] != null ? (int)Session["IDUsuarioActual"] : 1;
+                nuevaCompra.Usuario.IDUsuario = usuarioLogueado.IDUsuario; // ✔ AHORA SIEMPRE ES CORRECTO
+
                 nuevaCompra.Fecha = DateTime.Parse(txtFecha.Text);
                 nuevaCompra.Total = CarritoCompras.Sum(x => x.PrecioUnitario * x.Cantidad);
                 nuevaCompra.Detalles = CarritoCompras;
 
+             
                 CompraNegocio negocio = new CompraNegocio();
                 int idGenerado = negocio.Agregar(nuevaCompra);
+
+           
                 Session["CarritoCompras"] = null;
+
                 string script = "<script>alert('Compra guardada exitosamente.'); window.location='ComprasListado.aspx';</script>";
                 ClientScript.RegisterStartupScript(this.GetType(), "alert", script);
             }
