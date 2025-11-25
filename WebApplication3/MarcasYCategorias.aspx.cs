@@ -89,6 +89,7 @@ namespace WebApplication3
                 {
                     bool estadoAnterior = seleccionado.Estado;
                     seleccionado.Estado = !estadoAnterior;
+                    negocio.CambiarEstado(seleccionado);
                     CargarMarcas();
                     string mensaje = estadoAnterior ? "Marca inactivada exitosamente." : "Marca activada exitosamente.";
                     ScriptManager.RegisterStartupScript(this, GetType(), "alertMessage", $"alert('{mensaje}');", true);

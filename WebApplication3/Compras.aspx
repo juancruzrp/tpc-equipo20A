@@ -70,9 +70,10 @@
             <div class="form-group">
         <label for="txtPrecioUnitario">Precio Unitario:</label>
         <asp:TextBox ID="txtPrecioUnitario" runat="server" CssClass="form-control" 
-                     TextMode="Number" step="0.01" 
+                     TextMode="Number" step="0.01" min="0"
                      ClientIDMode="Static" 
-                     oninput="calcularSubtotal()"></asp:TextBox>
+                     oninput="calcularSubtotal()"
+                     onchange="validarPrecio()"></asp:TextBox>
     </div>
 </div>
 
@@ -82,6 +83,7 @@
         <label for="txtCantidad">Cantidad:</label>
         <asp:TextBox ID="txtCantidad" runat="server" CssClass="form-control" 
                      TextMode="Number" Text="1" 
+                       min="1" step="1" 
                      ClientIDMode="Static" 
                      oninput="calcularSubtotal()"></asp:TextBox>
     </div>
@@ -129,106 +131,108 @@
 </div>
 
     <script>
-        var txtBuscar = document.getElementById('<%= txtBuscarProveedor.ClientID %>');
-        var lista = document.getElementById('listaProveedores');
+        document.addEventListener('DOMContentLoaded', function () {
 
-        txtBuscar.addEventListener('focus', function () {
-            lista.style.display = 'block';
-        });
-        document.addEventListener('click', function (e) {
-            if (e.target !== txtBuscar && e.target.parentNode !== lista) {
-                lista.style.display = 'none';
-            }
-        });
-
-        function filtrarProveedor() {
-            let input = txtBuscar.value.toLowerCase();
-            let items = document.querySelectorAll("#listaProveedores .dropdown-item");
-
-            lista.style.display = 'block'; 
-
-            items.forEach(item => {
-                let texto = item.textContent.toLowerCase();
-                item.style.display = texto.includes(input) ? "block" : "none";
-            });
-        }
-
-        function seleccionarProveedor(id, nombre, cuit) {
-            document.getElementById('<%= txtBuscarProveedor.ClientID %>').value = nombre;
-        
-        document.getElementById('<%= hfIDProveedor.ClientID %>').value = id;
-
-      
-        lista.style.display = 'none';
-        document.getElementById('<%= btnCargarCuit.ClientID %>').click();
-        }
-
-        var txtBuscarProd = document.getElementById('txtBuscarProducto');
-        var listaProd = document.getElementById('listaProductos');
-
-        txtBuscarProd.addEventListener('focus', function () {
             
-            var proveedorID = document.getElementById('<%= hfIDProveedor.ClientID %>').value;
-                if (listaProd.innerHTML.trim() !== "" && proveedorID !== "") {
-            listaProd.style.display = 'block';
-                } else if (proveedorID === "") {
-                     alert("Primero seleccioná un proveedor.");
-                         txtBuscarProd.blur(); 
-                     }
-                        });
+    const txtBuscarProveedor = document.getElementById('<%= txtBuscarProveedor.ClientID %>');
+    const listaProveedores = document.getElementById('listaProveedores');
+    const txtBuscarProducto = document.getElementById('txtBuscarProducto');
+    const listaProductos = document.getElementById('listaProductos');
+    const txtPrecioUnitario = document.getElementById('txtPrecioUnitario');
+    const txtCantidad = document.getElementById('txtCantidad');
+    const spanSubtotal = document.getElementById('spanSubtotal');
+    let precioAnterior = parseFloat(txtPrecioUnitario.value) || 1;
 
-        function filtrarProducto() {
-            var proveedorID = document.getElementById('<%= hfIDProveedor.ClientID %>').value;
-            if (proveedorID === "") return; 
+   
+    function calcularSubtotal() {
+        let cantidad = parseFloat(txtCantidad.value) || 1;
+        let precio = parseFloat(txtPrecioUnitario.value) || 0;
+        spanSubtotal.innerText = (precio * cantidad).toFixed(2);
+    }
 
-            let input = txtBuscarProd.value.toLowerCase();
-            let items = listaProd.querySelectorAll('.dropdown-item');
-            listaProd.style.display = 'block';
-
-            items.forEach(item => {
-                let texto = item.textContent.toLowerCase();
-                item.style.display = texto.includes(input) ? "block" : "none";
-            });
+    function validarCantidad() {
+        if (txtCantidad.value < 1 || txtCantidad.value === "") {
+            txtCantidad.value = 1;
         }
+        calcularSubtotal();
+    }
 
-        function seleccionarProducto(id, nombre, precio) {
-            txtBuscarProd.value = nombre;
-            document.getElementById('hfIDProducto').value = id;
-            let precioStr = precio.toString().replace(',', '.');
-            document.getElementById('txtPrecioUnitario').value = precioStr;
-
-            listaProd.style.display = 'none';
+    function validarPrecio() {
+        let valor = parseFloat(txtPrecioUnitario.value);
+        if (isNaN(valor) || valor <= 0) {
+            txtPrecioUnitario.value = precioAnterior.toFixed(2);
+        } else {
+            precioAnterior = valor;
         }
+        calcularSubtotal();
+    }
 
+    txtPrecioUnitario.addEventListener('change', validarPrecio);
+    txtPrecioUnitario.addEventListener('input', calcularSubtotal);
 
+    txtCantidad.addEventListener('change', validarCantidad);
+    txtCantidad.addEventListener('input', calcularSubtotal);
 
-        function seleccionarProducto(id, nombre, precio) {
-            document.getElementById('txtBuscarProducto').value = nombre;
-            document.getElementById('hfIDProducto').value = id;
+    
+    txtBuscarProveedor.addEventListener('focus', function () {
+        listaProveedores.style.display = 'block';
+    });
 
-            let precioStr = precio.toString().replace(',', '.');
-
-            let inputPrecio = document.getElementById('txtPrecioUnitario');
-            inputPrecio.value = precioStr;
-
-            document.getElementById('listaProductos').style.display = 'none';
-            calcularSubtotal();
-
-            inputPrecio.focus();
-            inputPrecio.select();
+    document.addEventListener('click', function (e) {
+        if (e.target !== txtBuscarProveedor && !listaProveedores.contains(e.target)) {
+            listaProveedores.style.display = 'none';
         }
+    });
 
-        function calcularSubtotal() {
-            let precio = parseFloat(document.getElementById('txtPrecioUnitario').value) || 0;
-            let cantidad = parseFloat(document.getElementById('txtCantidad').value) || 0;
-            document.getElementById('spanSubtotal').innerText = (precio * cantidad).toFixed(2);
-        }
-
-        document.addEventListener('click', function (e) {
-            if (e.target !== txtBuscar && !lista.contains(e.target)) lista.style.display = 'none';
-            if (e.target !== txtBuscarProd && !listaProd.contains(e.target)) listaProd.style.display = 'none';
+    window.filtrarProveedor = function () {
+        let input = txtBuscarProveedor.value.toLowerCase();
+        let items = listaProveedores.querySelectorAll(".dropdown-item");
+        listaProveedores.style.display = 'block';
+        items.forEach(item => {
+            let texto = item.textContent.toLowerCase();
+            item.style.display = texto.includes(input) ? "block" : "none";
         });
+    }
 
+    window.seleccionarProveedor = function (id, nombre, cuit) {
+        txtBuscarProveedor.value = nombre;
+        document.getElementById('<%= hfIDProveedor.ClientID %>').value = id;
+        listaProveedores.style.display = 'none';
+        document.getElementById('<%= btnCargarCuit.ClientID %>').click();
+    }
+
+    txtBuscarProducto.addEventListener('focus', function () {
+        let proveedorID = document.getElementById('<%= hfIDProveedor.ClientID %>').value;
+        if (listaProductos.innerHTML.trim() !== "" && proveedorID !== "") {
+            listaProductos.style.display = 'block';
+        } else if (proveedorID === "") {
+            alert("Primero seleccioná un proveedor.");
+            txtBuscarProducto.blur();
+        }
+    });
+
+    window.filtrarProducto = function () {
+        let proveedorID = document.getElementById('<%= hfIDProveedor.ClientID %>').value;
+        if (proveedorID === "") return;
+        let input = txtBuscarProducto.value.toLowerCase();
+        let items = listaProductos.querySelectorAll(".dropdown-item");
+        listaProductos.style.display = 'block';
+        items.forEach(item => {
+            let texto = item.textContent.toLowerCase();
+            item.style.display = texto.includes(input) ? "block" : "none";
+        });
+    }
+
+    window.seleccionarProducto = function (id, nombre, precio) {
+        txtBuscarProducto.value = nombre;
+        document.getElementById('hfIDProducto').value = id;
+        txtPrecioUnitario.value = parseFloat(precio).toFixed(2);
+        precioAnterior = parseFloat(precio);
+        listaProductos.style.display = 'none';
+        calcularSubtotal();
+    }
+
+});
     </script>
 
 

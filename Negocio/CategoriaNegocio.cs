@@ -69,9 +69,8 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("INSERT INTO Categorias (Categoria,Estado) VALUES (@nombre, @estado)");
+                datos.setearConsulta("INSERT INTO Categorias (Categoria,Estado) VALUES (@nombre, 1)");
                 datos.setearParametro("@nombre", nuevo.Nombre);
-                datos.setearParametro("@estado", nuevo.Estado);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -91,12 +90,10 @@ namespace Negocio
             {
                 datos.setearConsulta(@"
             UPDATE Categorias
-            SET Categoria = @nombre,
-                Estado = @estado
+            SET Categoria = @nombre
             WHERE IDCategoria = @idCategoria");
 
                 datos.setearParametro("@nombre", categoria.Nombre);
-                datos.setearParametro("@estado", categoria.Estado);
                 datos.setearParametro("@idCategoria", categoria.IDCategoria);
 
                 datos.ejecutarAccion();

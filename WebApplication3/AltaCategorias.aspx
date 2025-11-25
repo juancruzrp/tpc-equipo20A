@@ -15,11 +15,6 @@
                 <asp:TextBox ID="txtNombreCategoria" runat="server" CssClass="form-control"></asp:TextBox>
             </div>
             
-            <div class="form-check mb-3">
-                <asp:CheckBox ID="chkEstadoCategoria" runat="server"  />
-                <label class="form-check-label" for="chkEstadoCategoria">Activa</label>
-            </div>
-         
             <div class="d-flex justify-content-between">
                 <asp:Button ID="btnGuardarCategoria" runat="server" Text="Guardar" CssClass="btn btn-success" OnClick="btnGuardarCategoria_Click" />
                 <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" PostBackUrl="~/MarcasYCategorias.aspx" />
