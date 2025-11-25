@@ -1,4 +1,4 @@
-CREATE TRIGGER TR_ActualizarPrecioVenta_Producto
+﻿CREATE TRIGGER TR_ActualizarPrecioVenta_Producto
 ON Productos
 AFTER INSERT, UPDATE
 AS
@@ -23,7 +23,7 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    -- Solo ejecutar si se modific� el Porcentaje
+    -- Solo ejecutar si se modificó el Porcentaje
     IF UPDATE(Porcentaje)
     BEGIN
         UPDATE p
@@ -34,4 +34,3 @@ BEGIN
     END
 END
 GO
-

@@ -2,6 +2,7 @@
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <SSDTUnitTestPath Condition="'$(SSDTUnitTestPath)' == ''">$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB</SSDTUnitTestPath>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup>
     <SSDTPath Condition="'$(SSDTPath)' == ''">$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB\DAC</SSDTPath>
@@ -20,7 +21,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebApplication3</RootNamespace>
     <AssemblyName>WebApplication3</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44346</IISExpressSSLPort>
@@ -60,10 +61,8 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
@@ -89,6 +88,7 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -117,6 +117,9 @@
     <Content Include="AltaProveedores.aspx" />
     <Content Include="ComprobanteVenta.aspx" />
     <Content Include="HistorialVentas.aspx" />
+    <Content Include="ScriptsSql\ScriptCreacion.txt" />
+    <Content Include="ScriptsSql\Triggers.txt" />
+    <Content Include="ScriptsSql\ScriptDatos.txt" />
     <Content Include="VerFactura.aspx" />
     <Content Include="MarcasYCategorias.aspx" />
     <Content Include="ProductosAgregar.aspx" />
@@ -147,8 +150,6 @@
     <Content Include="Login.aspx" />
     <Content Include="Productos.aspx" />
     <Content Include="Proveedores.aspx" />
-    <Content Include="ScriptsSql\ScripDeDatos.sql" />
-    <Content Include="ScriptsSql\ScriptBDComercioTPC.sql" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -177,7 +178,6 @@
     <Content Include="Content\bootstrap-grid.rtl.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
-    <Content Include="ScriptsSql\app.config" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -258,10 +258,6 @@
     <Compile Include="HistorialVentas.aspx.designer.cs">
       <DependentUpon>HistorialVentas.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ScriptsSql\sq.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ScriptsSql\SqlDatabaseSetup.cs" />
     <Compile Include="VerFactura.aspx.cs">
       <DependentUpon>VerFactura.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -416,7 +412,6 @@
       <Name>Negocio</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup Condition="$(VisualStudioVersion) == '17.0'">
     <Reference Include="Microsoft.Data.Tools.Schema.Sql, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>$(SSDTPath)\Microsoft.Data.Tools.Schema.Sql.dll</HintPath>
