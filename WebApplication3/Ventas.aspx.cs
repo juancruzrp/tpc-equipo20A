@@ -132,7 +132,8 @@ namespace WebApplication3
 
             int idCliente = int.Parse(hdnIDCliente.Value);
 
-            int idUsuario = 1;
+            Usuario usuario = (Usuario)Session["Usuario"];
+            int idUsuario = usuario.IDUsuario;            
 
             DateTime fecha = DateTime.Now;
 
