@@ -85,6 +85,7 @@ namespace WebApplication3
                 txtStock.Text = seleccionado.Stock.ToString();
                 ddlCategoria.SelectedValue = seleccionado.Categoria.IDCategoria.ToString();
                 ddlMarca.SelectedValue = seleccionado.Marca.IDMarca.ToString();
+                ddlProveedor.SelectedValue = seleccionado.IDProveedor.ToString();
                 txtImagenUrl.Text = seleccionado.ImagenUrl;
                 imgPreview.ImageUrl = seleccionado.ImagenUrl;
                 chkEstado.Checked = seleccionado.Estado;

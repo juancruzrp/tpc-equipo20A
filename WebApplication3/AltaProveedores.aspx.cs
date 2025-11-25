@@ -52,6 +52,38 @@ namespace WebApplication3
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
+
+            if (string.IsNullOrWhiteSpace(txtCUITCUIL.Text))
+            {
+                lblError.Text = "El CUIT/CUIL es obligatorio.";
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtNombre.Text))
+            {
+                lblError.Text = "El nombre del proveedor es obligatorio.";
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtPorcentaje.Text))
+            {
+                lblError.Text = "El porcentaje es obligatorio.";
+                return;
+            }
+
+            if (!decimal.TryParse(txtPorcentaje.Text, out decimal porcentaje))
+            {
+                lblError.Text = "El porcentaje debe ser un número válido.";
+                return;
+            }
+
+            if (porcentaje < 0 || porcentaje > 100)
+            {
+                lblError.Text = "El porcentaje debe estar entre 0 y 100.";
+                return;
+            }
+
+            // crear el proveedor
             ProveedoresNegocio negocio = new ProveedoresNegocio();
             Proveedor proveedor = new Proveedor();
 
@@ -60,8 +92,10 @@ namespace WebApplication3
             proveedor.Telefono = txtTelefono.Text;
             proveedor.Mail = txtMail.Text;
             proveedor.Direccion = txtDireccion.Text;
-            proveedor.Porcentaje = decimal.Parse(txtPorcentaje.Text);
+            proveedor.Porcentaje = porcentaje;
             proveedor.Estado = true;
+
+            
 
             if (string.IsNullOrEmpty(txtIdProveedor.Text))
                 negocio.agregar(proveedor);

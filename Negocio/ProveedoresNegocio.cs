@@ -70,7 +70,7 @@ namespace Negocio
             try
             {
                 
-                datos.setearConsulta("SELECT IDProveedor, Nombre, CUIT_CUIL, Telefono, Mail, Direccion, Estado FROM PROVEEDORES WHERE IDProveedor = @IDProveedor");
+                datos.setearConsulta("SELECT IDProveedor, Nombre, CUIT_CUIL, Telefono, Mail, Direccion, Porcentaje, Estado FROM PROVEEDORES WHERE IDProveedor = @IDProveedor");
                 datos.setearParametro("@IDProveedor", id);
                 datos.ejecutarLectura();
 
@@ -83,6 +83,7 @@ namespace Negocio
                     aux.Telefono = !(datos.Lector["Telefono"] is DBNull) ? (string)datos.Lector["Telefono"] : string.Empty;
                     aux.Mail = !(datos.Lector["Mail"] is DBNull) ? (string)datos.Lector["Mail"] : string.Empty;
                     aux.Direccion = !(datos.Lector["Direccion"] is DBNull) ? (string)datos.Lector["Direccion"] : string.Empty;
+                    aux.Porcentaje = !(datos.Lector["Porcentaje"] is DBNull) ? Convert.ToDecimal(datos.Lector["Porcentaje"]) : 0m;
                     aux.Estado = (bool)datos.Lector["Estado"]; 
                     return aux;
                 }
@@ -107,14 +108,15 @@ namespace Negocio
             {
                 
                 datos.setearConsulta(@"
-                    INSERT INTO Proveedores (Nombre, CUIT_CUIL, Telefono, Mail, Direccion, Estado)
-                    VALUES (@Nombre, @CUIT_CUIL, @Telefono, @Mail, @Direccion, 1)");
+                    INSERT INTO Proveedores (Nombre, CUIT_CUIL, Telefono, Mail, Direccion, Porcentaje, Estado)
+                    VALUES (@Nombre, @CUIT_CUIL, @Telefono, @Mail, @Direccion, @Porcentaje, 1)");
 
                 datos.setearParametro("@Nombre", nuevo.Nombre);
                 datos.setearParametro("@CUIT_CUIL", nuevo.CUIT_CUIL ?? (object)DBNull.Value);
                 datos.setearParametro("@Telefono", nuevo.Telefono ?? (object)DBNull.Value);
                 datos.setearParametro("@Mail", nuevo.Mail ?? (object)DBNull.Value);
                 datos.setearParametro("@Direccion", nuevo.Direccion ?? (object)DBNull.Value);
+                datos.setearParametro("@Porcentaje", nuevo.Porcentaje);
 
                 datos.ejecutarAccion();
             }
@@ -140,7 +142,8 @@ namespace Negocio
                         CUIT_CUIL = @CUIT_CUIL,
                         Telefono = @Telefono,
                         Mail = @Mail,
-                        Direccion = @Direccion
+                        Direccion = @Direccion,
+                        Porcentaje = @Porcentaje,
                         Estado = @Estado
                     WHERE IDProveedor = @IDProveedor");
 
@@ -149,6 +152,7 @@ namespace Negocio
                 datos.setearParametro("@Telefono", proveedor.Telefono ?? (object)DBNull.Value);
                 datos.setearParametro("@Mail", proveedor.Mail ?? (object)DBNull.Value);
                 datos.setearParametro("@Direccion", proveedor.Direccion ?? (object)DBNull.Value);
+                datos.setearParametro("@Porcentaje", proveedor.Porcentaje);
                 datos.setearParametro("@Estado", proveedor.Estado);
                 datos.setearParametro("@IDProveedor", proveedor.IDProveedor);
 

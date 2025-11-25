@@ -40,10 +40,14 @@
                 <asp:TextBox ID="txtPorcentaje" runat="server" CssClass="form-control"></asp:TextBox>
             </div>
 
-            <div class="d-flex justify-content-between">
+        <asp:Label class="mb-3" ID="lblError" runat="server" CssClass="text-danger"></asp:Label>
+
+            <div class="mt-3 d-flex justify-content-between">
                 <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-success" OnClick="btnGuardar_Click" />
                 <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" PostBackUrl="~/Proveedores.aspx" />
             </div>
         </div>
     </div>
+
+
 </asp:Content>

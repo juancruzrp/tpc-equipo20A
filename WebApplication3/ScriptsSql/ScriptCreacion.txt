@@ -35,7 +35,7 @@ CREATE TABLE Proveedores(
     Telefono VARCHAR(15),
     Mail NVARCHAR(50),
     Direccion VARCHAR(75),
-    CUIT_CUIL VARCHAR(15),
+    CUIT_CUIL VARCHAR(15) NOT NULL,
     Porcentaje DECIMAL (5,2) NOT NULL,
     Estado BIT NOT NULL DEFAULT 1
 )
