@@ -13,6 +13,15 @@
           <div class="dropdown">
             <asp:TextBox ID="txtBuscarProveedor" runat="server" CssClass="form-control" 
                          placeholder="Buscar proveedor..." onkeyup="filtrarProveedor()" AutoCompleteType="Disabled"></asp:TextBox>
+              <div class="col-md-3">
+    <div class="form-group">
+        <label for="ddlMarca">Filtrar por Marca:</label>
+        <asp:DropDownList ID="ddlMarca" runat="server" CssClass="form-control" 
+            ClientIDMode="Static" onchange="filtrarProductoPorMarca()">
+            <asp:ListItem Text="-- Todas --" Value="0" />
+        </asp:DropDownList>
+    </div>
+</div>
 
             <div class="dropdown-menu show w-100" id="listaProveedores" style="max-height: 200px; overflow-y: auto; display:none;">
                 <asp:Literal ID="litProveedores" runat="server"></asp:Literal>
@@ -184,16 +193,43 @@
         }
     });
 
-    window.filtrarProveedor = function () {
-        let input = txtBuscarProveedor.value.toLowerCase();
-        let items = listaProveedores.querySelectorAll(".dropdown-item");
-        listaProveedores.style.display = 'block';
-        items.forEach(item => {
+           window.filtrarProductoPorMarca = function () {
+               
+            let idMarcaSeleccionada = document.getElementById("ddlMarca").value;
+            let listaProductos = document.getElementById('listaProductos');
+            let items = listaProductos.querySelectorAll(".dropdown-item");
+
+             items.forEach(item => {
+                    let idMarcaProducto = item.getAttribute("data-idmarca");
+
+                    if (idMarcaSeleccionada == "0" || idMarcaSeleccionada == idMarcaProducto) {
+                        item.style.display = "block";
+                    } else {
+                        item.style.display = "none";
+                    }
+                });
+
+                document.getElementById('txtBuscarProducto').value = "";
+            }
+
+            window.filtrarProducto = function () {
+                let proveedorID = document.getElementById('<%= hfIDProveedor.ClientID %>').value;
+            if (proveedorID === "") return;
+
+             let input = txtBuscarProducto.value.toLowerCase();
+            let idMarcaSeleccionada = document.getElementById("ddlMarca").value; 
+
+            let items = listaProductos.querySelectorAll(".dropdown-item");
+            listaProductos.style.display = 'block';
+
+            items.forEach(item => {
             let texto = item.textContent.toLowerCase();
-            item.style.display = texto.includes(input) ? "block" : "none";
+            let idMarcaProducto = item.getAttribute("data-idmarca"); 
+            let coincideTexto = texto.includes(input);
+            let coincideMarca = (idMarcaSeleccionada == "0" || idMarcaSeleccionada == idMarcaProducto);
+            item.style.display = (coincideTexto && coincideMarca) ? "block" : "none";
         });
     }
-
     window.seleccionarProveedor = function (id, nombre, cuit) {
         txtBuscarProveedor.value = nombre;
         document.getElementById('<%= hfIDProveedor.ClientID %>').value = id;
