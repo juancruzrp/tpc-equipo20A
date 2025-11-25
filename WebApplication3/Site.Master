@@ -48,12 +48,42 @@
 
                         <div style="border-right: 2px solid #ccc; height: 100vh; width: 220px; padding: 15px;">
                             <ul class="nav flex-column">
+                                
 
-                                <a class="btn btn-dark" style="color: white;" aria-current="true" runat="server" href="~/Inicio"
-                                    onmouseover="this.style.color='gray';"
-                                    onmouseout="this.style.color='white';">INICIO 
-                                </a>
+                                <!-- ---------------- Productos -------------- -->
 
+
+                                <div class="accordion accordion-flush" id="accordionProductos">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseProductos" aria-expanded="false" aria-controls="flush-collapseProductos">
+                                                <strong>Productos</strong>
+                                            </button>
+
+                                        </h2>
+
+                                        <div id="flush-collapseProductos" class="accordion-collapse collapse">
+                                            <div class="accordion-body">
+                                                <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/Productos"
+                                                    onmouseover="this.style.color='gray';"
+                                                    onmouseout="this.style.color='black';"><strong>Lista de productos</strong>
+                                                </a>
+                                                <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/MarcasYCategorias"
+                                                    onmouseover="this.style.color='gray';"
+                                                    onmouseout="this.style.color='black';"><strong>Lista de Marcas y Categorias</strong>
+                                                </a>
+                                                <%if (SesionHelper.EsUsuarioAdmin(Session))
+                                                    { %>
+                                                <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/ProductosAgregar"
+                                                    onmouseover="this.style.color='gray';"
+                                                    onmouseout="this.style.color='black';"><strong>Agregar Producto</strong>
+                                                </a>
+                                                <%} %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;"></li>
 
                                 <!-- -------------- Ventas ---------------- -->
                                 <div class="accordion accordion-flush" id="accordionFlushExample">
@@ -108,40 +138,6 @@
                                 </div>
                                 <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;"></li>
 
-                                <!-- ---------------- Productos -------------- -->
-
-
-                                <div class="accordion accordion-flush" id="accordionProductos">
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseProductos" aria-expanded="false" aria-controls="flush-collapseProductos">
-                                                <strong>Productos</strong>
-                                            </button>
-
-                                        </h2>
-
-                                        <div id="flush-collapseProductos" class="accordion-collapse collapse">
-                                            <div class="accordion-body">
-                                                <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/Productos"
-                                                    onmouseover="this.style.color='gray';"
-                                                    onmouseout="this.style.color='black';"><strong>Lista de productos</strong>
-                                                </a>
-                                                <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/MarcasYCategorias"
-                                                    onmouseover="this.style.color='gray';"
-                                                    onmouseout="this.style.color='black';"><strong>Lista de Marcas y Categorias</strong>
-                                                </a>
-                                                <%if (SesionHelper.EsUsuarioAdmin(Session))
-                                                    { %>
-                                                <a class="nav-link" style="color: black;" aria-current="true" runat="server" href="~/ProductosAgregar"
-                                                    onmouseover="this.style.color='gray';"
-                                                    onmouseout="this.style.color='black';"><strong>Agregar Producto</strong>
-                                                </a>
-                                                <%} %>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <li class="nav-item" style="border-bottom: 1px solid #ccc; padding: 5px 0;"></li>
 
 
 

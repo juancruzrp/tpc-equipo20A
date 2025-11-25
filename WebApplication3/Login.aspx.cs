@@ -42,7 +42,7 @@ namespace WebApplication3
                         return;
                     }
                     Session.Add("Usuario", usuario);
-                    Response.Redirect("~/Inicio.aspx", false);
+                    Response.Redirect("~/Productos.aspx", false);
                     return;
                 }
                 else
