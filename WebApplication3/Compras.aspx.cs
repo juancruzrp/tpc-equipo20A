@@ -56,7 +56,7 @@ namespace WebApplication3
         {
             
             MarcaNegocio negocio = new MarcaNegocio();
-            List<Marca> lista = negocio.listar(); /
+            List<Marca> lista = negocio.listar(); 
             ddlMarca.DataSource = lista;
             ddlMarca.DataTextField = "Nombre"; 
             ddlMarca.DataValueField = "IDMarca";
