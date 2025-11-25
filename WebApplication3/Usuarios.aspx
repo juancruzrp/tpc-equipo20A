@@ -55,8 +55,8 @@
             </Columns>
         </asp:GridView>
         <asp:Button Text="Agregar Usuario" ID="btnAgregar" runat="server" CssClass="btn btn-outline-primary" OnClick="btnAgregar_Click" />
-
         <asp:Button Text="Modificar Usuario" ID="btnModificar" runat="server" CssClass="btn btn-outline-info" OnClick="btnModificar_Click" Enabled="false" />
+        <asp:Button Text="Inactivar Usuario" ID="btnInactivar" runat="server" CssClass="btn btn-outline-danger" OnClick="btnInactivar_Click" Enabled="false" />
 
     </main>
 </asp:Content>

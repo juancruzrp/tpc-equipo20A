@@ -24,20 +24,20 @@ namespace WebApplication3
                 Session.Add("Error", "No tienes permisos para acceder a esta sección.");
                 Response.Redirect("Error.aspx");
             }
-            if (Request.QueryString["id"] != null)
-            {
-                int idCategoria = int.Parse(Request.QueryString["id"]);
-                CargarCategoria(idCategoria);
-                ViewState["IdCategoria"] = idCategoria;
-            }
-
+            
             if (!IsPostBack)
             {
-                if (Request.QueryString["id"] != null)
+                if (int.TryParse(Request.QueryString["id"], out int idCategoria))
                 {
-                    int idCategoria = int.Parse(Request.QueryString["id"]);
-                    CargarCategoria(idCategoria);
                     ViewState["IdCategoria"] = idCategoria;
+
+                    txtIdCategoria.Visible = false;
+
+                    CargarCategoria(idCategoria);
+                }
+                else
+                {
+                    txtIdCategoria.Visible = false;
                 }
             }
         }
@@ -66,7 +66,6 @@ namespace WebApplication3
                 CategoriaNegocio negocio = new CategoriaNegocio();
 
                 categoria.Nombre = txtNombreCategoria.Text;
-                categoria.Estado = chkEstadoCategoria.Checked;
 
                 if (ViewState["IdCategoria"] != null)
                 {

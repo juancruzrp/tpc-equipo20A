@@ -110,16 +110,16 @@ namespace WebApplication3
                 {
                     bool estadoAnterior = seleccionado.Estado;
 
-                    // Invertir estado
+                    // Invertir estado en caso de estar activo o inactivo
                     seleccionado.Estado = !estadoAnterior;
 
-                    // Aplicar cambio
+                    // Aplicar cambio de estado
                     negocio.CambiarEstado(seleccionado);
 
-                    // Refrescar grilla
+                    // Recargar grilla de proveedores
                     CargarGrilla();
 
-                    // Mostrar mensaje dinámico
+                    // Mensaje que cambia segun el estado
                     string mensaje = estadoAnterior ? "Proveedor inactivado exitosamente." : "Proveedor activado exitosamente.";
                     ScriptManager.RegisterStartupScript(this, GetType(), "alertMessage", $"alert('{mensaje}');", true);
 

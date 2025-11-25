@@ -69,9 +69,8 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("INSERT INTO Marcas (Marca,Estado) VALUES (@nombre, @estado)");
+                datos.setearConsulta("INSERT INTO Marcas (Marca,Estado) VALUES (@nombre, 1)");
                 datos.setearParametro("@nombre", nuevo.Nombre);
-                datos.setearParametro("@estado", nuevo.Estado);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -91,12 +90,10 @@ namespace Negocio
             {
                 datos.setearConsulta(@"
             UPDATE Marcas
-            SET Marca = @nombre,
-                Estado = @estado
+            SET Marca = @nombre
             WHERE IDMarca = @idMarca");
 
                 datos.setearParametro("@nombre", marca.Nombre);
-                datos.setearParametro("@estado", marca.Estado);
                 datos.setearParametro("@idMarca", marca.IDMarca);
 
                 datos.ejecutarAccion();

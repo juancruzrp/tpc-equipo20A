@@ -223,6 +223,27 @@ namespace Negocio
             }
         }
 
+        public void CambiarEstado(Usuario usuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                // Cambia Estado a 0 (inactivo) y establece FechaBaja a la fecha actual si se inactiva
+                datos.setearConsulta("UPDATE Usuarios SET Estado = @estado,FechaBaja = @fechabaja WHERE IDUsuario = @id"); 
+                datos.setearParametro("@estado", usuario.Estado);
+                datos.setearParametro("@fechabaja", (object)usuario.FechaBaja ?? DBNull.Value);
+                datos.setearParametro("@id", usuario.IDUsuario);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 
 }

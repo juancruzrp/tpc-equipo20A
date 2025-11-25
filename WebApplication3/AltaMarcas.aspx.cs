@@ -28,12 +28,6 @@ namespace WebApplication3
 
             }                              
 
-            if (Request.QueryString["id"] != null)
-            {
-                int idMarca = int.Parse(Request.QueryString["id"]);
-                CargarMarca(idMarca);
-                ViewState["IdMarca"] = idMarca;
-            }
 
             if (!IsPostBack)
             {                
@@ -49,8 +43,6 @@ namespace WebApplication3
                 else
                 {                    
                     divIdMarca.Visible = false;
-                    
-                    chkEstadoMarca.Checked = true;
                 }
             }
         }
@@ -75,7 +67,6 @@ namespace WebApplication3
                 MarcaNegocio negocio = new MarcaNegocio();
 
                 marca.Nombre = txtNombreMarca.Text;
-                marca.Estado = chkEstadoMarca.Checked;
 
                 if (ViewState["IdMarca"] != null)
                 {

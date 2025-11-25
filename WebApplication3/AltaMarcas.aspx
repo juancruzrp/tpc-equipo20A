@@ -17,12 +17,6 @@
                 <asp:TextBox ID="txtNombreMarca" runat="server" CssClass="form-control"></asp:TextBox>
             </div>
 
-            <!-- Estado -->
-            <div class="mb-3">
-                <label class="form-label">Estado:</label><br />
-                <asp:CheckBox ID="chkEstadoMarca" runat="server" Checked="true" Text=" Activo" />
-            </div>
-
             <div class="mb-3">
                 <div class="d-flex justify-content-between">
                     <asp:Button ID="btnGuardarMarca" runat="server" Text="Guardar" CssClass="btn btn-success" OnClick="btnGuardarMarca_Click" />
