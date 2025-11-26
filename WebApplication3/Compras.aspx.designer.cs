@@ -78,24 +78,6 @@ namespace WebApplication3
         protected global::System.Web.UI.WebControls.TextBox txtFecha;
 
         /// <summary>
-        /// Control lblUsuario.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUsuario;
-
-        /// <summary>
-        /// Control lblTotalCompra.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTotalCompra;
-
-        /// <summary>
         /// Control hfIDProducto.
         /// </summary>
         /// <remarks>
@@ -157,6 +139,15 @@ namespace WebApplication3
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView dgvDetalleCompra;
+
+        /// <summary>
+        /// Control lblTotalCompra.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTotalCompra;
 
         /// <summary>
         /// Control btnGuardarCompra.

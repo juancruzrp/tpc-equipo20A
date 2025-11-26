@@ -122,7 +122,7 @@ namespace WebApplication3
 
             if (usuarioLogueado != null)
             {
-                lblUsuario.Text = usuarioLogueado.NombreUsuario;
+               // lblUsuario.Text = usuarioLogueado.NombreUsuario;
             }
             else
             {
