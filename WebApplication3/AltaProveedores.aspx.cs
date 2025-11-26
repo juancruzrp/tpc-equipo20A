@@ -166,10 +166,17 @@ namespace WebApplication3
             proveedor.Porcentaje = porcentaje;
             proveedor.Estado = true;
 
-            
-
             if (string.IsNullOrEmpty(txtIdProveedor.Text))
+            {
+                // Validar que no exista el CUIT
+                if (negocio.ExisteProveedor(proveedor))
+                {
+                    lblError.Text = "Ya existe un proveedor con ese CUIT/CUIL.";
+                    return;
+                }
+
                 negocio.agregar(proveedor);
+            }
             else
             {
                 proveedor.IDProveedor = int.Parse(txtIdProveedor.Text);
@@ -179,5 +186,9 @@ namespace WebApplication3
             Response.Redirect("Proveedores.aspx");
         }
 
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Proveedores.aspx");
+        }
     }
 }
