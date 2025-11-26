@@ -8,7 +8,7 @@
     <!-- Fecha -->
     <div class="mb-3">
         <label>Fecha</label>
-        <asp:TextBox ID="txtFecha" runat="server" CssClass="form-control" TextMode="Date" />
+        <asp:TextBox ID="txtFecha" runat="server" CssClass="form-control" TextMode="Date" ReadOnly="true" />
     </div>
 
     <!-- Cliente -->
