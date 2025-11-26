@@ -33,7 +33,9 @@ namespace WebApplication3
             {
                 CargarProveedores();
                 CargarUsuarioActual();
-               
+                CargarMarcas();
+
+
                 txtFecha.Text = DateTime.Today.ToString("yyyy-MM-dd"); 
             }
            
@@ -49,6 +51,17 @@ namespace WebApplication3
                 html += $"<a href='#' class='dropdown-item' onclick='seleccionarProveedor({item.IDProveedor}, \"{item.Nombre}\", \"{item.CUIT_CUIL}\"); return false;'>{item.Nombre}</a>";
             }
             litProveedores.Text = html;
+        }
+        private void CargarMarcas()
+        {
+            
+            MarcaNegocio negocio = new MarcaNegocio();
+            List<Marca> lista = negocio.listar(); 
+            ddlMarca.DataSource = lista;
+            ddlMarca.DataTextField = "Nombre"; 
+            ddlMarca.DataValueField = "IDMarca";
+            ddlMarca.DataBind();
+            ddlMarca.Items.Insert(0, new ListItem("-- Todas --", "0"));
         }
 
         protected void btnCargarCuit_Click(object sender, EventArgs e)
@@ -88,6 +101,8 @@ namespace WebApplication3
             foreach (var item in lista)
             {
                 string precioFormateado = item.Precio.ToString("0.00");
+
+                int idMarca = item.Marca != null ? item.Marca.IDMarca : 0;
 
                 html += $"<a href='#' class='dropdown-item' onclick='seleccionarProducto({item.IDProducto}, \"{item.Nombre}\", \"{precioFormateado}\"); return false;'>{item.Nombre}</a>";
             }
