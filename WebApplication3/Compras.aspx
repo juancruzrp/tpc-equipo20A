@@ -10,24 +10,30 @@
         <div class="row">
             <div class="col-md-6">
 
-          <div class="dropdown">
-            <asp:TextBox ID="txtBuscarProveedor" runat="server" CssClass="form-control" 
+          <div class="row">
+   
+    <div class="col-md-6">
+        <div class="dropdown">
+            <asp:TextBox ID="txtBuscarProveedor" runat="server" CssClass="form-control"
                          placeholder="Buscar proveedor..." onkeyup="filtrarProveedor()" AutoCompleteType="Disabled"></asp:TextBox>
-              <div class="col-md-3">
-    <div class="form-group">
-        <label for="ddlMarca">Filtrar por Marca:</label>
-        <asp:DropDownList ID="ddlMarca" runat="server" CssClass="form-control" 
-            ClientIDMode="Static" onchange="filtrarProductoPorMarca()">
-            <asp:ListItem Text="-- Todas --" Value="0" />
-        </asp:DropDownList>
-    </div>
-</div>
 
             <div class="dropdown-menu show w-100" id="listaProveedores" style="max-height: 200px; overflow-y: auto; display:none;">
                 <asp:Literal ID="litProveedores" runat="server"></asp:Literal>
-                </div>
             </div>
         </div>
+    </div>
+
+    
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="ddlMarca">Filtrar por Marca:</label>
+            <asp:DropDownList ID="ddlMarca" runat="server" CssClass="form-control"
+                ClientIDMode="Static" onchange="filtrarProductoPorMarca()">
+                <asp:ListItem Text="-- Todas --" Value="0" />
+            </asp:DropDownList>
+        </div>
+    </div>
+</div>
 
         <div class="form-group">
             <label>CUIT/CUIL del Proveedor:</label>
