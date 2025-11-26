@@ -34,3 +34,38 @@ BEGIN
     END
 END
 GO
+
+------------------------------------------------------
+
+CREATE TRIGGER TRG_ActualizarStock_Compra
+ON Detalle_Compra
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Actualiza la tabla Productos
+    -- Suma la Cantidad insertada al Stock actual
+    UPDATE P
+    SET P.Stock = P.Stock + I.Cantidad
+    FROM Productos P
+    INNER JOIN inserted I ON P.IDProducto = I.IDProducto;
+END
+GO
+
+------------------------------------------------------
+
+CREATE TRIGGER TR_ActualizarStock_Venta
+ON Detalle_Venta
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Actualiza el stock de cada producto restando la cantidad vendida
+    UPDATE P
+    SET P.Stock = P.Stock - I.Cantidad
+    FROM Productos P
+    INNER JOIN inserted I
+        ON P.IDProducto = I.IDProducto;
+END
