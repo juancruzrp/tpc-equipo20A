@@ -10,24 +10,30 @@
         <div class="row">
             <div class="col-md-6">
 
-          <div class="dropdown">
-            <asp:TextBox ID="txtBuscarProveedor" runat="server" CssClass="form-control" 
+          <div class="row">
+   
+    <div class="col-md-6">
+        <div class="dropdown">
+            <asp:TextBox ID="txtBuscarProveedor" runat="server" CssClass="form-control"
                          placeholder="Buscar proveedor..." onkeyup="filtrarProveedor()" AutoCompleteType="Disabled"></asp:TextBox>
-              <div class="col-md-3">
-    <div class="form-group">
-        <label for="ddlMarca">Filtrar por Marca:</label>
-        <asp:DropDownList ID="ddlMarca" runat="server" CssClass="form-control" 
-            ClientIDMode="Static" onchange="filtrarProductoPorMarca()">
-            <asp:ListItem Text="-- Todas --" Value="0" />
-        </asp:DropDownList>
-    </div>
-</div>
 
             <div class="dropdown-menu show w-100" id="listaProveedores" style="max-height: 200px; overflow-y: auto; display:none;">
                 <asp:Literal ID="litProveedores" runat="server"></asp:Literal>
-                </div>
             </div>
         </div>
+    </div>
+
+    
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="ddlMarca">Filtrar por Marca:</label>
+            <asp:DropDownList ID="ddlMarca" runat="server" CssClass="form-control"
+                ClientIDMode="Static" onchange="filtrarProductoPorMarca()">
+                <asp:ListItem Text="-- Todas --" Value="0" />
+            </asp:DropDownList>
+        </div>
+    </div>
+</div>
 
         <div class="form-group">
             <label>CUIT/CUIL del Proveedor:</label>
@@ -38,23 +44,14 @@
                     <label for="txtFecha">Fecha de Compra:</label>
                     <asp:TextBox ID="txtFecha" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
                 </div>
+             
             </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                    <label>Usuario:</label>
-                    <asp:Label ID="lblUsuario" runat="server" CssClass="form-control-static"></asp:Label>
-                </div>
-                    <div class="form-group">
-                    <label>Total de la Compra:</label>
-                    <asp:Label ID="lblTotalCompra" runat="server" CssClass="form-control-static" Text="0.00"></asp:Label>
-                </div>
-            </div>
-
+     
 
 
         <asp:HiddenField ID="hfIDProducto" runat="server" ClientIDMode="Static" />
 
-        <h3>Detalle de Productos</h3>
+        <h3 class="mt-4 pt-3 border-top">Detalle de Productos</h3>
         <div class="row align-items-end"> 
              <div class="col-md-4">
                  <div class="form-group">
@@ -129,6 +126,14 @@
             <asp:CommandField ShowDeleteButton="True" ButtonType="Button" DeleteText="Quitar" ControlStyle-CssClass="btn btn-danger btn-sm" />
          </Columns>
     </asp:GridView>
+
+        <div class="row mt-3">
+    <div class="col-12 text-end">
+        <h4>Total: $ 
+            <asp:Label ID="lblTotalCompra" runat="server" Text="0.00"></asp:Label>
+        </h4>
+    </div>
+</div>
 
        <div class="mt-4">
     <asp:Button ID="btnGuardarCompra" runat="server" Text="Guardar Compra" 
