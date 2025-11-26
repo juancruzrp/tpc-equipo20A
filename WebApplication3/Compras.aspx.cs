@@ -44,11 +44,15 @@ namespace WebApplication3
         private void CargarProveedores()
         {
             ProveedoresNegocio negocio = new ProveedoresNegocio();
-            List<Proveedor> lista = negocio.listar(); 
+            List<Proveedor> lista = negocio.listar();
             string html = "";
+
             foreach (var item in lista)
             {
-                html += $"<a href='#' class='dropdown-item' onclick='seleccionarProveedor({item.IDProveedor}, \"{item.Nombre}\", \"{item.CUIT_CUIL}\"); return false;'>{item.Nombre}</a>";
+                if (item.Estado)
+                {
+                    html += $"<a href='#' class='dropdown-item' onclick='seleccionarProveedor({item.IDProveedor}, \"{item.Nombre}\", \"{item.CUIT_CUIL}\"); return false;'>{item.Nombre}</a>";
+                }
             }
             litProveedores.Text = html;
         }
