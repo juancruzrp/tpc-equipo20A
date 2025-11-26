@@ -124,7 +124,11 @@ namespace WebApplication3
                 }
                 else
                 {
-                    
+                    if (negocio.ExisteCliente(nuevo))
+                    {
+                        lblError.Text = "Ya existe un cliente con ese CUIT/CUIL.";
+                        return;
+                    }
                     negocio.agregar(nuevo);
                 }
                 Response.Redirect("Clientes.aspx", false);
@@ -151,6 +155,11 @@ namespace WebApplication3
 
                 ViewState["IdCliente"] = id;
             }
+        }
+
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Clientes.aspx", false);
         }
     }
 }

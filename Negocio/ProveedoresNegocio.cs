@@ -188,6 +188,30 @@ namespace Negocio
             }
         }
 
+        public bool ExisteProveedor(Proveedor proveedor)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) FROM Proveedores WHERE CUIT_CUIL = @cuit");
+                datos.setearParametro("@cuit", proveedor.CUIT_CUIL);
+                datos.ejecutarLectura();
 
+                if (datos.Lector.Read())
+                {
+                    int count = (int)datos.Lector[0];
+                    return count > 0;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

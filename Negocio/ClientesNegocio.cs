@@ -171,6 +171,32 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public bool ExisteCliente(Cliente cliente)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) FROM Clientes WHERE CUIT_CUIL = @cuit");
+                datos.setearParametro("@cuit", cliente.CUIT_CUIL);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    int count = (int)datos.Lector[0];
+                    return count > 0;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
 

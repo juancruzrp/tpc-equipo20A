@@ -44,7 +44,8 @@
 
             <div class="mt-3 d-flex justify-content-between">
                 <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-success" OnClick="btnGuardar_Click" />
-                <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" PostBackUrl="~/Proveedores.aspx" />
+                <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" OnClick="btnCancelar_Click"
+                     OnClientClick="return confirm('¿Seguro desea cancelar esta operación?');"/>
             </div>
         </div>
     </div>

@@ -42,7 +42,7 @@
 
                 <div class="form-group">
                     <label for="txtFecha">Fecha de Compra:</label>
-                    <asp:TextBox ID="txtFecha" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
+                    <asp:TextBox ID="txtFecha" runat="server" CssClass="form-control" TextMode="Date" ReadOnly="true"></asp:TextBox>
                 </div>
              
             </div>
@@ -146,136 +146,142 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+        const txtBuscarProveedor = document.getElementById('<%= txtBuscarProveedor.ClientID %>');
+        const listaProveedores = document.getElementById('listaProveedores');
+        const txtBuscarProducto = document.getElementById('<%= txtBuscarProducto.ClientID %>');
+        const listaProductos = document.getElementById('listaProductos');
 
-            
-    const txtBuscarProveedor = document.getElementById('<%= txtBuscarProveedor.ClientID %>');
-    const listaProveedores = document.getElementById('listaProveedores');
-    const txtBuscarProducto = document.getElementById('txtBuscarProducto');
-    const listaProductos = document.getElementById('listaProductos');
-    const txtPrecioUnitario = document.getElementById('txtPrecioUnitario');
-    const txtCantidad = document.getElementById('txtCantidad');
-    const spanSubtotal = document.getElementById('spanSubtotal');
-    let precioAnterior = parseFloat(txtPrecioUnitario.value) || 1;
+        const txtPrecioUnitario = document.getElementById('txtPrecioUnitario');
+        const txtCantidad = document.getElementById('txtCantidad');
+        const spanSubtotal = document.getElementById('spanSubtotal');
+        const hfIDProveedor = document.getElementById('<%= hfIDProveedor.ClientID %>');
+        const hfIDProducto = document.getElementById('hfIDProducto');
 
-   
-    function calcularSubtotal() {
-        let cantidad = parseFloat(txtCantidad.value) || 1;
-        let precio = parseFloat(txtPrecioUnitario.value) || 0;
-        spanSubtotal.innerText = (precio * cantidad).toFixed(2);
-    }
+        let precioAnterior = parseFloat(txtPrecioUnitario.value) || 0;
 
-    function validarCantidad() {
-        if (txtCantidad.value < 1 || txtCantidad.value === "") {
-            txtCantidad.value = 1;
+        
+        function calcularSubtotal() {
+            let cantidad = parseFloat(txtCantidad.value) || 1;
+            let precio = parseFloat(txtPrecioUnitario.value) || 0;
+            spanSubtotal.innerText = (precio * cantidad).toFixed(2);
         }
-        calcularSubtotal();
-    }
 
-    function validarPrecio() {
-        let valor = parseFloat(txtPrecioUnitario.value);
-        if (isNaN(valor) || valor <= 0) {
-            txtPrecioUnitario.value = precioAnterior.toFixed(2);
-        } else {
-            precioAnterior = valor;
-        }
-        calcularSubtotal();
-    }
-
-    txtPrecioUnitario.addEventListener('change', validarPrecio);
-    txtPrecioUnitario.addEventListener('input', calcularSubtotal);
-
-    txtCantidad.addEventListener('change', validarCantidad);
-    txtCantidad.addEventListener('input', calcularSubtotal);
-
-    
-    txtBuscarProveedor.addEventListener('focus', function () {
-        listaProveedores.style.display = 'block';
-    });
-
-    document.addEventListener('click', function (e) {
-        if (e.target !== txtBuscarProveedor && !listaProveedores.contains(e.target)) {
-            listaProveedores.style.display = 'none';
-        }
-    });
-
-           window.filtrarProductoPorMarca = function () {
-               
-            let idMarcaSeleccionada = document.getElementById("ddlMarca").value;
-            let listaProductos = document.getElementById('listaProductos');
-            let items = listaProductos.querySelectorAll(".dropdown-item");
-
-             items.forEach(item => {
-                    let idMarcaProducto = item.getAttribute("data-idmarca");
-
-                    if (idMarcaSeleccionada == "0" || idMarcaSeleccionada == idMarcaProducto) {
-                        item.style.display = "block";
-                    } else {
-                        item.style.display = "none";
-                    }
-                });
-
-                document.getElementById('txtBuscarProducto').value = "";
+        function validarCantidad() {
+            if (txtCantidad.value < 1 || txtCantidad.value === "") {
+                txtCantidad.value = 1;
             }
+            calcularSubtotal();
+        }
 
-            window.filtrarProducto = function () {
-                let proveedorID = document.getElementById('<%= hfIDProveedor.ClientID %>').value;
+        function validarPrecio() {
+            let valor = parseFloat(txtPrecioUnitario.value);
+            if (isNaN(valor) || valor < 0) { 
+                txtPrecioUnitario.value = precioAnterior.toFixed(2);
+            } else {
+                precioAnterior = valor;
+            }
+            calcularSubtotal();
+        }
+
+        txtPrecioUnitario.addEventListener('change', validarPrecio);
+        txtPrecioUnitario.addEventListener('input', calcularSubtotal);
+        txtCantidad.addEventListener('change', validarCantidad);
+        txtCantidad.addEventListener('input', calcularSubtotal);
+
+
+        
+        txtBuscarProveedor.addEventListener('focus', function () {
+            listaProveedores.style.display = 'block';
+        });
+        window.filtrarProveedor = function () {
+            let input = txtBuscarProveedor.value.toLowerCase();
+            let items = listaProveedores.querySelectorAll(".dropdown-item");
+
+            if (items.length > 0) listaProveedores.style.display = 'block';
+
+            items.forEach(item => {
+                let texto = item.textContent.toLowerCase();
+                item.style.display = texto.includes(input) ? "block" : "none";
+            });
+        }
+
+        window.seleccionarProveedor = function (id, nombre, cuit) {
+            txtBuscarProveedor.value = nombre;
+            hfIDProveedor.value = id;
+            listaProveedores.style.display = 'none';
+            document.getElementById('<%= btnCargarCuit.ClientID %>').click();
+        }
+
+
+     
+        window.filtrarProducto = function () {
+            let proveedorID = hfIDProveedor.value;
             if (proveedorID === "") return;
 
-             let input = txtBuscarProducto.value.toLowerCase();
-            let idMarcaSeleccionada = document.getElementById("ddlMarca").value; 
-
+            let input = txtBuscarProducto.value.toLowerCase();
+            let idMarcaSeleccionada = document.getElementById("ddlMarca").value;
             let items = listaProductos.querySelectorAll(".dropdown-item");
+
             listaProductos.style.display = 'block';
 
             items.forEach(item => {
-            let texto = item.textContent.toLowerCase();
-            let idMarcaProducto = item.getAttribute("data-idmarca"); 
-            let coincideTexto = texto.includes(input);
-            let coincideMarca = (idMarcaSeleccionada == "0" || idMarcaSeleccionada == idMarcaProducto);
-            item.style.display = (coincideTexto && coincideMarca) ? "block" : "none";
-        });
-    }
-    window.seleccionarProveedor = function (id, nombre, cuit) {
-        txtBuscarProveedor.value = nombre;
-        document.getElementById('<%= hfIDProveedor.ClientID %>').value = id;
-        listaProveedores.style.display = 'none';
-        document.getElementById('<%= btnCargarCuit.ClientID %>').click();
-    }
+                let texto = item.textContent.toLowerCase();
+                let idMarcaProducto = item.getAttribute("data-idmarca") || "0";
 
-    txtBuscarProducto.addEventListener('focus', function () {
-        let proveedorID = document.getElementById('<%= hfIDProveedor.ClientID %>').value;
-        if (listaProductos.innerHTML.trim() !== "" && proveedorID !== "") {
-            listaProductos.style.display = 'block';
-        } else if (proveedorID === "") {
-            alert("Primero seleccioná un proveedor.");
-            txtBuscarProducto.blur();
+                let coincideTexto = texto.includes(input);
+                let coincideMarca = (idMarcaSeleccionada == "0" || idMarcaSeleccionada == idMarcaProducto);
+
+                item.style.display = (coincideTexto && coincideMarca) ? "block" : "none";
+            });
         }
-    });
 
-    window.filtrarProducto = function () {
-        let proveedorID = document.getElementById('<%= hfIDProveedor.ClientID %>').value;
-        if (proveedorID === "") return;
-        let input = txtBuscarProducto.value.toLowerCase();
-        let items = listaProductos.querySelectorAll(".dropdown-item");
-        listaProductos.style.display = 'block';
-        items.forEach(item => {
-            let texto = item.textContent.toLowerCase();
-            item.style.display = texto.includes(input) ? "block" : "none";
+        window.filtrarProductoPorMarca = function () {
+            txtBuscarProducto.value = "";
+            window.filtrarProducto();
+        }
+
+        window.seleccionarProducto = function (id, nombre, precio) {
+            txtBuscarProducto.value = nombre;
+            hfIDProducto.value = id;
+            txtPrecioUnitario.value = parseFloat(precio).toFixed(2);
+            precioAnterior = parseFloat(precio);
+
+            listaProductos.style.display = 'none';
+            calcularSubtotal();
+        }
+
+
+        function abrirListaProductos() {
+            let proveedorID = hfIDProveedor.value;
+            if (listaProductos.innerHTML.trim() !== "" && proveedorID !== "") {
+                listaProductos.style.display = 'block';
+                window.filtrarProducto();
+            } else if (proveedorID === "") {
+             
+            }
+        }
+
+       
+        txtBuscarProducto.addEventListener('focus', abrirListaProductos);
+        txtBuscarProducto.addEventListener('click', abrirListaProductos);
+
+        
+        if (document.activeElement === txtBuscarProducto) {
+            abrirListaProductos();
+        }
+
+        document.addEventListener('click', function (e) {
+            if (e.target !== txtBuscarProveedor && !listaProveedores.contains(e.target)) {
+                listaProveedores.style.display = 'none';
+            }
+
+            if (e.target !== txtBuscarProducto && !listaProductos.contains(e.target) && e.target.id !== "ddlMarca") {
+                listaProductos.style.display = 'none';
+            }
         });
-    }
 
-    window.seleccionarProducto = function (id, nombre, precio) {
-        txtBuscarProducto.value = nombre;
-        document.getElementById('hfIDProducto').value = id;
-        txtPrecioUnitario.value = parseFloat(precio).toFixed(2);
-        precioAnterior = parseFloat(precio);
-        listaProductos.style.display = 'none';
-        calcularSubtotal();
-    }
-
-});
+    });
     </script>
-
 
     </main>
 </asp:Content>
