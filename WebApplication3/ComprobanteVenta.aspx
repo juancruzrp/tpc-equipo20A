@@ -41,14 +41,14 @@
                 <div class="text-center mb-4 no-imprimir">
                     <button type="button" class="btn btn-primary btn-lg" onclick="window.print()">🖨️ Imprimir</button>
                     <a href="HistorialVentas.aspx" class="btn btn-secondary btn-lg ms-2">Volver</a>
-                </div>
+                </div>                              
 
                 <div class="factura">
                     <!-- Encabezado -->
                     <div class="row mb-4">
                         <div class="col-8">
                             <h2 class="fw-bold mb-0">COMPROBANTE DE VENTA</h2>
-                            <p>Sistema de gestion de comercios</p>
+                            <p>| Sistema de gestion - Ferretería |</p>
                         </div>
                         <div class="col-4 text-end">
                             <h4>ID Venta: <asp:Label ID="lblIDVenta" runat="server"></asp:Label></h4>

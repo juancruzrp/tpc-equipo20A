@@ -14,7 +14,6 @@
     <!-- Cliente -->
     <div class="mb-3">
         <label>Cliente</label>
-        <asp:Label ID="lblError" runat="server" ForeColor="Red"></asp:Label>
         <asp:DropDownList ID="ddlClientes" runat="server" CssClass="form-control" AutoPostBack="true" 
             OnSelectedIndexChanged="ddlClientes_SelectedIndexChanged">    
         </asp:DropDownList>
@@ -88,6 +87,9 @@
         <!-- -->
 
         <asp:HiddenField ID="hdnProductosVenta" runat="server" />
+
+        <asp:Label class="mb -3" ID="lblError" runat="server" ForeColor="Red"></asp:Label>
+        <br />
 
         <asp:Button ID="btnConfirmar" runat="server" CssClass="btn btn-success"
             Text="Confirmar Venta" OnClick="btnConfirmar_Click" 
