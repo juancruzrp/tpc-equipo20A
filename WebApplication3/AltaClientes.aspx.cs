@@ -126,7 +126,7 @@ namespace WebApplication3
                 {
                     if (negocio.ExisteCliente(nuevo))
                     {
-                        lblError.Text = "Ya existe un cliente con ese CUIT/CUIL.";
+                        lblError.Text = "Ya existe un cliente con ese CUIT/CUIL .";
                         return;
                     }
                     negocio.agregar(nuevo);
