@@ -44,11 +44,15 @@ namespace WebApplication3
         private void CargarProveedores()
         {
             ProveedoresNegocio negocio = new ProveedoresNegocio();
-            List<Proveedor> lista = negocio.listar(); 
+            List<Proveedor> lista = negocio.listar();
             string html = "";
+
             foreach (var item in lista)
             {
-                html += $"<a href='#' class='dropdown-item' onclick='seleccionarProveedor({item.IDProveedor}, \"{item.Nombre}\", \"{item.CUIT_CUIL}\"); return false;'>{item.Nombre}</a>";
+                if (item.Estado)
+                {
+                    html += $"<a href='#' class='dropdown-item' onclick='seleccionarProveedor({item.IDProveedor}, \"{item.Nombre}\", \"{item.CUIT_CUIL}\"); return false;'>{item.Nombre}</a>";
+                }
             }
             litProveedores.Text = html;
         }
@@ -93,18 +97,18 @@ namespace WebApplication3
         private void CargarProductosDelProveedor(int idProveedor)
         {
             ProductoNegocio negocio = new ProductoNegocio();
-
-            
             List<Producto> lista = negocio.listarPorProveedor(idProveedor);
 
             string html = "";
             foreach (var item in lista)
             {
                 string precioFormateado = item.Precio.ToString("0.00");
-
                 int idMarca = item.Marca != null ? item.Marca.IDMarca : 0;
+                string nombreSeguro = item.Nombre
+                                        .Replace("'", "&#39;")
+                                        .Replace("\"", "\\\"");
 
-                html += $"<a href='#' class='dropdown-item' onclick='seleccionarProducto({item.IDProducto}, \"{item.Nombre}\", \"{precioFormateado}\"); return false;'>{item.Nombre}</a>";
+                html += $"<a href='#' class='dropdown-item' onclick='seleccionarProducto({item.IDProducto}, \"{nombreSeguro}\", \"{precioFormateado}\"); return false;'>{item.Nombre}</a>";
             }
 
             if (string.IsNullOrEmpty(html))
@@ -115,14 +119,13 @@ namespace WebApplication3
             litProductos.Text = html;
         }
 
-
         private void CargarUsuarioActual()
         {
             Usuario usuarioLogueado = (Usuario)Session["Usuario"];
 
             if (usuarioLogueado != null)
             {
-                lblUsuario.Text = usuarioLogueado.NombreUsuario;
+               // lblUsuario.Text = usuarioLogueado.NombreUsuario;
             }
             else
             {

@@ -112,8 +112,9 @@ namespace WebApplication3
                 usuario.TipoUsuario = new TipoUsuario();
                 usuario.TipoUsuario.IDTipoUsuario = int.Parse(ddlTipoUsuario.SelectedValue);
                 usuario.FechaAlta = DateTime.Parse(txtFecha.Text);
+                usuario.Estado = true;
 
-                
+
                 if (ViewState["IdUsuario"] != null)
                 {
                     usuario.IDUsuario = (int)ViewState["IdUsuario"];
