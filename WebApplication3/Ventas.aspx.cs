@@ -15,19 +15,6 @@ namespace WebApplication3
 {
     public partial class Ventas : System.Web.UI.Page
     {
-        private List<Cliente> Clientes
-        {
-            get
-            {
-                if (Session["Clientes"] == null)
-                {
-                    ClientesNegocio negocio = new ClientesNegocio();
-                    Session["Clientes"] = negocio.listar();
-                }
-                return (List<Cliente>)Session["Clientes"];
-            }
-        }
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -50,7 +37,10 @@ namespace WebApplication3
 
             ddlClientes.Items.Add(new System.Web.UI.WebControls.ListItem("Seleccionar cliente...", ""));
 
-            foreach (var c in Clientes)
+            ClientesNegocio negocio = new ClientesNegocio();
+            var lista = negocio.listar();
+
+            foreach (var c in lista)
             {
                 ddlClientes.Items.Add(new System.Web.UI.WebControls.ListItem(c.NombreCompleto, c.IDCliente.ToString()));
             }
@@ -69,7 +59,9 @@ namespace WebApplication3
             }
 
             int idCliente = int.Parse(ddlClientes.SelectedValue);
-            var cliente = Clientes.FirstOrDefault(c => c.IDCliente == idCliente);
+
+            ClientesNegocio negocio = new ClientesNegocio();
+            var cliente = negocio.listar().FirstOrDefault(c => c.IDCliente == idCliente);
 
             if (cliente != null)
             {
@@ -170,15 +162,7 @@ namespace WebApplication3
             ClientScript.RegisterStartupScript(this.GetType(), "VentaExitosa", script, true);
         }
 
-
-
-
-
     }
-
-
-
-
 }
 
 
