@@ -88,6 +88,9 @@ namespace WebApplication3
             }
         }
 
-
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("MarcasyCategorias.aspx", false);
+        }
     }
 }

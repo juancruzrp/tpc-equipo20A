@@ -48,11 +48,11 @@ namespace WebApplication3
         {
             ddlClientes.Items.Clear();
 
-            ddlClientes.Items.Add(new System.Web.UI.WebControls.ListItem("Seleccionar cliente...", ""));
+            ddlClientes.Items.Add(new ListItem("Seleccionar cliente...", ""));
 
             foreach (var c in Clientes)
             {
-                ddlClientes.Items.Add(new System.Web.UI.WebControls.ListItem(c.NombreCompleto, c.IDCliente.ToString()));
+                ddlClientes.Items.Add(new ListItem(c.NombreCompleto, c.IDCliente.ToString()));
             }
 
             ddlClientes.SelectedIndex = 0; 

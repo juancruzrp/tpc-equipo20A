@@ -12,19 +12,27 @@
             </div>
 
             <!-- Nombre -->
-            <div class="mb-3">
-                <label for="txtNombreMarca" class="form-label">Nombre de la Marca:</label>
-                <asp:TextBox ID="txtNombreMarca" runat="server" CssClass="form-control"></asp:TextBox>
-            </div>
+            <asp:Panel runat="server" DefaultButton="btnGuardarMarca">
 
-            <div class="mb-3">
-                <div class="d-flex justify-content-between">
-                    <asp:Button ID="btnGuardarMarca" runat="server" Text="Guardar" CssClass="btn btn-success" OnClick="btnGuardarMarca_Click" />
-                    <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" PostBackUrl="~/MarcasYCategorias.aspx" />
+                <div class="mb-3">
+                    <label for="txtNombreMarca" class="form-label">Nombre de la Marca:</label>
+                    <asp:TextBox ID="txtNombreMarca" runat="server" CssClass="form-control"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="rfvNombreMarca" runat="server"
+                        ControlToValidate="txtNombreMarca"
+                        ErrorMessage="El nombre de la marca es obligatorio"
+                        CssClass="text-danger" />
                 </div>
 
-                <asp:Label ID="lblError" runat="server" CssClass="text-danger mt-3"></asp:Label>
-            </div>
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between">
+                        <asp:Button ID="btnGuardarMarca" runat="server" Text="Guardar" CssClass="btn btn-success" OnClick="btnGuardarMarca_Click" />
+                        <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" PostBackUrl="~/MarcasYCategorias.aspx"
+                            CausesValidation="false" OnClick="btnCancelar_Click"
+                            OnClientClick="return confirm('¿Seguro desea cancelar esta operación?');" />
+                    </div>
+
+                    <asp:Label ID="lblError" runat="server" CssClass="text-danger mt-3"></asp:Label>
+            </asp:Panel>
         </div>
     </div>
 </asp:Content>
