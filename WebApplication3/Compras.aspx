@@ -15,7 +15,8 @@
     <div class="col-md-6">
         <div class="dropdown">
             <asp:TextBox ID="txtBuscarProveedor" runat="server" CssClass="form-control"
-                         placeholder="Buscar proveedor..." onkeyup="filtrarProveedor()" AutoCompleteType="Disabled"></asp:TextBox>
+                         placeholder="Buscar proveedor..." onkeyup="filtrarProveedor()" AutoCompleteType="Disabled"
+                onkeydown="return (event.keyCode!=13);"></asp:TextBox>
 
             <div class="dropdown-menu show w-100" id="listaProveedores" style="max-height: 200px; overflow-y: auto; display:none;">
                 <asp:Literal ID="litProveedores" runat="server"></asp:Literal>
@@ -37,12 +38,14 @@
 
         <div class="form-group">
             <label>CUIT/CUIL del Proveedor:</label>
-            <asp:TextBox ID="txtCuit" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
+            <asp:TextBox ID="txtCuit" runat="server" CssClass="form-control" ReadOnly="true"
+                onkeydown="if(event.keyCode===13){event.preventDefault(); return false;}"></asp:TextBox>
          </div>
 
                 <div class="form-group">
                     <label for="txtFecha">Fecha de Compra:</label>
-                    <asp:TextBox ID="txtFecha" runat="server" CssClass="form-control" TextMode="Date" ReadOnly="true"></asp:TextBox>
+                    <asp:TextBox ID="txtFecha" runat="server" CssClass="form-control" TextMode="Date" ReadOnly="true"
+                        onkeydown="if(event.keyCode===13){event.preventDefault(); return false;}"></asp:TextBox>
                 </div>
              
             </div>
@@ -79,7 +82,8 @@
                      TextMode="Number" step="0.01" min="0"
                      ClientIDMode="Static" 
                      oninput="calcularSubtotal()"
-                     onchange="validarPrecio()"></asp:TextBox>
+                     onchange="validarPrecio()"
+            onkeydown="if(event.keyCode===13){event.preventDefault(); return false;}"></asp:TextBox>
     </div>
 </div>
 
@@ -91,7 +95,8 @@
                      TextMode="Number" Text="1" 
                        min="1" step="1" 
                      ClientIDMode="Static" 
-                     oninput="calcularSubtotal()"></asp:TextBox>
+                     oninput="calcularSubtotal()"
+              onkeydown="if(event.keyCode===13){event.preventDefault(); return false;}"></asp:TextBox>
     </div>
 </div>
 
