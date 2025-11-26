@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container py-4">
         <div class="card shadow-sm border-0 p-4 mx-auto" style="max-width: 600px;">
-            <h3 class="text-center mb-4">Agregar nuevo usuario</h3>
+            <h3 class="text-center mb-4">Agregar nuevo cliente</h3>
 
             <div class="mb-3">
                 <label for="txtIdCliente" class="form-label">ID del Cliente:</label>

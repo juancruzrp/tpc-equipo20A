@@ -1,10 +1,38 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="HistorialVentas.aspx.cs" Inherits="WebApplication3.HistorialVentas" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <asp:Label ID="LabelBuscar" runat="server" Text="Buscar Venta:" ></asp:Label>
-    <asp:TextBox ID="txtBuscar" runat="server" placeholder="Ingrese Fecha..." CssClass="form-control" Width="300px" />
-    <br />
-    
+    <h4 class="mb-3">Filtrar ventas por:</h4>
+
+        <div class="d-flex gap-4 mb-3 align-items-end">
+
+            <div>
+                <asp:Label ID="lblFecha" runat="server" Text="Fecha" CssClass="form-label"></asp:Label>
+                <asp:TextBox ID="txtBuscarFecha" runat="server" CssClass="form-control" Width="180px"
+                    placeholder="dd/mm/yyyy" />
+            </div>
+
+            <div>
+                <asp:Label ID="lblCliente" runat="server" Text="Cliente" CssClass="form-label"></asp:Label>
+                <asp:DropDownList ID="ddlClientes" runat="server" CssClass="form-select" Width="200px" 
+                    AutoPostBack="true" OnSelectedIndexChanged="ddlClientes_SelectedIndexChanged">
+                </asp:DropDownList>
+            </div>
+
+            <div>
+                <asp:Label ID="lblUsuario" runat="server" Text="Usuario" CssClass="form-label"></asp:Label>
+                <asp:DropDownList ID="ddlUsuarios" runat="server" CssClass="form-select" Width="200px" 
+                    AutoPostBack="true" OnSelectedIndexChanged="ddlUsuarios_SelectedIndexChanged">
+                </asp:DropDownList>
+            </div>
+
+            <div>
+                <asp:Button ID="btnFiltrar" runat="server" Text="Filtrar" CssClass="btn btn-primary" 
+                    OnClick="btnFiltrar_Click" />
+            </div>
+
+        </div>
+
+
         <asp:Repeater ID="repVentas" runat="server">
             <HeaderTemplate>
                 <table class="table table-hover align-middle">

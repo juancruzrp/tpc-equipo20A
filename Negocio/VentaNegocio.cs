@@ -23,10 +23,12 @@ namespace Negocio
                 datos.setearConsulta(@"
                     SELECT v.IDVenta,
                            v.Fecha,
+                           v.Total,
+                           c.IDCliente,
                            c.Nombre AS NombreCliente,
                            c.Apellido AS ApellidoCliente,
-                           u.NombreUsuario AS NombreUsuario,
-                           v.Total
+                           u.IDUsuario,
+                           u.NombreUsuario AS NombreUsuario
                     FROM Ventas v
                     INNER JOIN Clientes c ON v.IDCliente = c.IDCliente
                     INNER JOIN Usuarios u ON v.IDUsuario = u.IDUsuario
@@ -43,12 +45,14 @@ namespace Negocio
                     venta.Total = (decimal)datos.Lector["Total"];
                     venta.Cliente = new Cliente
                     {
+                        IDCliente = (int)datos.Lector["IDCliente"],
                         Nombre = (string)datos.Lector["NombreCliente"],
                         Apellido = (string)datos.Lector["ApellidoCliente"]
                     };
 
                     venta.Usuario = new Usuario
                     {
+                        IDUsuario = (int)datos.Lector["IDUsuario"],
                         NombreUsuario = (string)datos.Lector["NombreUsuario"]
                     };
 

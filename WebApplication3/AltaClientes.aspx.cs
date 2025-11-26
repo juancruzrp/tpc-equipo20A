@@ -19,7 +19,7 @@ namespace WebApplication3
             {
                 try
                 {                 
-                    // 🔹 Si viene un id por query, es modificación
+                    // Si viene un id por query, es modificación
                     if (Request.QueryString["id"] != null)
                     {
                         int id = int.Parse(Request.QueryString["id"]);
