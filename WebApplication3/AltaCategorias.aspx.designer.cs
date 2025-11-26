@@ -42,6 +42,33 @@ namespace WebApplication3
         protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvNombreCategoria;
 
         /// <summary>
+        /// Control revNombreCategoria.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator revNombreCategoria;
+
+        /// <summary>
+        /// Control revMinLetras.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator revMinLetras;
+
+        /// <summary>
+        /// Control ErroresCat.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ValidationSummary ErroresCat;
+
+        /// <summary>
         /// Control btnGuardarCategoria.
         /// </summary>
         /// <remarks>
