@@ -31,15 +31,25 @@ namespace WebApplication3
         {
             if (!IsPostBack)
             {
+                
                 CargarProveedores();
                 CargarUsuarioActual();
-                CargarMarcas();
+                CargarMarcas(); 
 
-
-                txtFecha.Text = DateTime.Today.ToString("yyyy-MM-dd"); 
+                txtFecha.Text = DateTime.Today.ToString("yyyy-MM-dd");
             }
-           
+            else
+            {
+                if (!string.IsNullOrEmpty(hfIDProveedor.Value))
+                {
+                    int idProveedor = int.Parse(hfIDProveedor.Value);
+                    CargarProductosDelProveedor(idProveedor);
+                }
+            }
+
+            txtPrecioUnitario.Attributes.Add("readonly", "readonly");
         }
+
 
         private void CargarProveedores()
         {
@@ -162,15 +172,30 @@ namespace WebApplication3
 
         protected void btnAgregarProducto_Click(object sender, EventArgs e)
         {
-
-           if (string.IsNullOrEmpty(hfIDProducto.Value))
+           
+            if (string.IsNullOrEmpty(hfIDProducto.Value))
+            {
+                Response.Write("<script>alert('Debes seleccionar un producto de la lista.');</script>");
                 return;
+            }
 
+            int idProductoNuevo = int.Parse(hfIDProducto.Value);
+
+            bool yaExisteEnElCarrito = CarritoCompras.Exists(x => x.Producto.IDProducto == idProductoNuevo);
+
+            if (yaExisteEnElCarrito)
+            {
+                Response.Write("<script>alert('Este producto ya fue agregado al carrito. No se puede repetir.');</script>");
+
+                LimpiarCamposProducto();
+                return; 
+            }
+         
             DetalleCompra detalle = new DetalleCompra()
             {
                 Producto = new Producto()
                 {
-                    IDProducto = int.Parse(hfIDProducto.Value),
+                    IDProducto = idProductoNuevo,
                     Nombre = txtBuscarProducto.Text
                 },
                 Cantidad = ObtenerCantidad(),
@@ -219,6 +244,19 @@ namespace WebApplication3
         {
             try
             {
+
+                DateTime fechaSeleccionada;
+                if (!DateTime.TryParse(txtFecha.Text, out fechaSeleccionada))
+                {
+                    Response.Write("<script>alert('Formato de fecha inválido.');</script>");
+                    return;
+                }
+
+                if (fechaSeleccionada < DateTime.Today)
+                {
+                    Response.Write("<script>alert('La fecha no puede ser anterior a la actual.');</script>");
+                    return;
+                }
 
                 if (Session["Usuario"] == null)
                 {
