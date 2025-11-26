@@ -88,7 +88,7 @@ namespace WebApplication3
                 ddlProveedor.SelectedValue = seleccionado.IDProveedor.ToString();
                 txtImagenUrl.Text = seleccionado.ImagenUrl;
                 imgPreview.ImageUrl = seleccionado.ImagenUrl;
-                chkEstado.Checked = seleccionado.Estado;
+                
             }
         }
 
@@ -106,9 +106,21 @@ namespace WebApplication3
                     return;
                 }
 
+                if (precio <= 0)
+                {
+                    lblMensaje.Text = "El precio debe ser mayor a 0.";
+                    return;
+                }
+
                 if (!int.TryParse(txtStock.Text, out int stock))
                 {
                     lblMensaje.Text = "El stock no es válido.";
+                    return;
+                }
+
+                if (stock <= 0)
+                {
+                    lblMensaje.Text = "El stock debe ser mayor a 0.";
                     return;
                 }
 
@@ -147,7 +159,7 @@ namespace WebApplication3
                     ? "https://us.123rf.com/450wm/koblizeek/koblizeek2208/koblizeek220800128/190320173-no-image-vector-symbol-missing-available-icon-no-gallery-for-this-moment-placeholder.jpg"
                     : txtImagenUrl.Text;
 
-                producto.Estado = chkEstado.Checked;
+                producto.Estado = true;
 
                 // detectar si es modificación o alta
                 if (!string.IsNullOrEmpty(hfIDProducto.Value))

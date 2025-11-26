@@ -53,11 +53,7 @@
                 <label for="lblImagenUrl" class="form-label">URL de Imagen</label>
                 <asp:TextBox ID="txtImagenUrl" runat="server" CssClass="form-control" placeholder="https://..."></asp:TextBox>
                 <asp:Image ID="imgPreview" runat="server" CssClass="img-thumbnail mt-3" Width="150px" />
-            </div>
-
-            <div class="form-check form-switch mb-4">         
-                <asp:CheckBox ID="chkEstado" runat="server" Text="Activo" Checked="true" />
-            </div>
+            </div>                      
 
             <asp:Label ID="lblMensaje" runat="server" ForeColor="Red" />
 

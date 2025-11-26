@@ -101,7 +101,13 @@ namespace WebApplication3
             CategoriaNegocio catNeg = new CategoriaNegocio();
             MarcaNegocio marcaNeg = new MarcaNegocio();
 
-            ddlProveedor.DataSource = provNeg.listar();
+            var todosProv = provNeg.listar();
+
+            var proveedoresActivos = todosProv.Where(p => p.Estado).ToList();
+
+            ddlProveedor.DataSource = proveedoresActivos;
+            ddlProveedor.DataTextField = "Nombre"; // valor que se muestra
+            ddlProveedor.DataValueField = "IDProveedor"; // valor que se guarda
             ddlProveedor.DataBind();
             ddlProveedor.Items.Insert(0, new ListItem("Todos los proveedores", ""));
 
