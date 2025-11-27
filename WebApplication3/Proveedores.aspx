@@ -32,7 +32,7 @@
                 <asp:BoundField DataField="Telefono" HeaderText="Teléfono" />
                 <asp:BoundField DataField="Mail" HeaderText="Mail" />
                 <asp:BoundField DataField="Direccion" HeaderText="Dirección" />
-                <asp:BoundField DataField="Porcentaje" HeaderText="Porcentaje" />
+                <asp:BoundField DataField="Porcentaje" HeaderText="Porcentaje de ganancia" />
                 <asp:CheckBoxField DataField="Estado" HeaderText="Activo" />
                 <asp:CommandField ShowSelectButton="True" SelectText="Seleccionar"
                     HeaderStyle-CssClass="d-none" ItemStyle-CssClass="d-none" />
