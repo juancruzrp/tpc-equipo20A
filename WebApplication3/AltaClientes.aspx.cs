@@ -46,7 +46,7 @@ namespace WebApplication3
         {
             lblError.Text = "";
 
-           
+
             if (string.IsNullOrWhiteSpace(txtCUITCUIL.Text) ||
                 string.IsNullOrWhiteSpace(txtNombreCliente.Text) ||
                 string.IsNullOrWhiteSpace(txtApellidoCliente.Text) ||
@@ -70,7 +70,7 @@ namespace WebApplication3
                 return;
             }
 
-            
+
             if (txtApellidoCliente.Text.Length < 2 || !txtApellidoCliente.Text.All(c => char.IsLetter(c) || char.IsWhiteSpace(c)))
             {
                 lblError.Text = "El apellido debe tener al menos 2 letras y no puede contener números ni símbolos.";
@@ -78,14 +78,14 @@ namespace WebApplication3
             }
 
 
-            
+
             if (txtTelefono.Text.Length < 8 || txtTelefono.Text.Length > 15 || !txtTelefono.Text.All(char.IsDigit))
             {
                 lblError.Text = "El teléfono debe tener entre 8 y 15 dígitos numéricos.";
                 return;
             }
 
-           
+
             if (!txtMail.Text.Contains("@") || !txtMail.Text.Contains("."))
             {
                 lblError.Text = "El correo electrónico no tiene un formato válido.";
@@ -116,21 +116,31 @@ namespace WebApplication3
             nuevo.Direccion = txtDireccion.Text;
             try
             {
-                
                 if (ViewState["IdCliente"] != null)
                 {
+                    // Modo modificación
                     nuevo.IDCliente = (int)ViewState["IdCliente"];
+
+                    if (negocio.ExisteCliente(nuevo))
+                    {
+                        lblError.Text = "Ya existe otro cliente con ese CUIT/CUIL o Mail.";
+                        return;
+                    }
+
                     negocio.modificar(nuevo);
                 }
                 else
                 {
+                    // Modo alta
                     if (negocio.ExisteCliente(nuevo))
                     {
-                        lblError.Text = "Ya existe un cliente con ese CUIT/CUIL .";
+                        lblError.Text = "Ya existe un cliente con ese CUIT/CUIL o Mail.";
                         return;
                     }
+
                     negocio.agregar(nuevo);
                 }
+
                 Response.Redirect("Clientes.aspx", false);
             }
             catch (Exception ex)

@@ -117,12 +117,26 @@ namespace WebApplication3
 
                 if (ViewState["IdUsuario"] != null)
                 {
+                    // Modo modificación
                     usuario.IDUsuario = (int)ViewState["IdUsuario"];
+
+                    if (negocio.ExisteUsuario(usuario))
+                    {
+                        lblError.Text = "Ya existe otro usuario con ese nombre.";
+                        return;
+                    }
+
                     negocio.modificar(usuario);
                 }
                 else
                 {
-                    
+                    // Modo alta
+                    if (negocio.ExisteUsuario(usuario))
+                    {
+                        lblError.Text = "Ya existe un usuario con ese nombre.";
+                        return;
+                    }
+
                     negocio.agregar(usuario);
                 }
 

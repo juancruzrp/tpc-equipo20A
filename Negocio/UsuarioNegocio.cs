@@ -229,7 +229,7 @@ namespace Negocio
             try
             {
                 // Cambia Estado a 0 (inactivo) y establece FechaBaja a la fecha actual si se inactiva
-                datos.setearConsulta("UPDATE Usuarios SET Estado = @estado,FechaBaja = @fechabaja WHERE IDUsuario = @id"); 
+                datos.setearConsulta("UPDATE Usuarios SET Estado = @estado,FechaBaja = @fechabaja WHERE IDUsuario = @id");
                 datos.setearParametro("@estado", usuario.Estado);
                 datos.setearParametro("@fechabaja", (object)usuario.FechaBaja ?? DBNull.Value);
                 datos.setearParametro("@id", usuario.IDUsuario);
@@ -238,6 +238,37 @@ namespace Negocio
             catch (Exception ex)
             {
                 throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public bool ExisteUsuario(Usuario usuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                string consulta = "SELECT COUNT(*) FROM Usuarios WHERE NombreUsuario = @NombreUsuario";
+
+                // Si es modificación (ya tiene ID), excluimos ese registro
+                if (usuario.IDUsuario > 0)
+                    consulta += " AND IDUsuario <> @id";
+
+                datos.setearConsulta(consulta);
+                datos.setearParametro("@NombreUsuario", usuario.NombreUsuario);
+
+                if (usuario.IDUsuario > 0)
+                    datos.setearParametro("@id", usuario.IDUsuario);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    int count = (int)datos.Lector[0];
+                    return count > 0;
+                }
+                return false;
             }
             finally
             {

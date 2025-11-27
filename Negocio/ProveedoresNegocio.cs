@@ -193,8 +193,16 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("SELECT COUNT(*) FROM Proveedores WHERE CUIT_CUIL = @cuit");
+                string consulta = "SELECT COUNT(*) FROM Proveedores WHERE (CUIT_CUIL = @cuit)";
+                if (proveedor.IDProveedor > 0) // si es modificación
+                    consulta += " AND IDProveedor <> @id";
+
+                datos.setearConsulta(consulta);
                 datos.setearParametro("@cuit", proveedor.CUIT_CUIL);
+
+                if (proveedor.IDProveedor > 0)
+                    datos.setearParametro("@id", proveedor.IDProveedor);
+
                 datos.ejecutarLectura();
 
                 if (datos.Lector.Read())
@@ -203,10 +211,6 @@ namespace Negocio
                     return count > 0;
                 }
                 return false;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
             }
             finally
             {

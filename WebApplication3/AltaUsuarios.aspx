@@ -18,7 +18,15 @@
             <div class="mb-3">
                 <label for="txtNombreUsuario" class="form-label">Nombre de Usuario:</label>
                 <asp:TextBox ID="txtNombreUsuario" runat="server" CssClass="form-control"></asp:TextBox>
-
+                <asp:RequiredFieldValidator ID="rfvNombre" runat="server"
+                    ControlToValidate="txtNombreusuario"
+                    ErrorMessage="El nombre de usuario es obligatorio."
+                    Display="Dynamic" CssClass="text-danger" />
+                <asp:RegularExpressionValidator ID="revNombreUsuario" runat="server"
+                    ControlToValidate="txtNombreUsuario"
+                    ValidationExpression="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$"
+                    ErrorMessage="El nombre de usuario debe tener al menos 6 caracteres, incluyendo letras y números."
+                    Display="Dynamic" CssClass="text-danger" />
             </div>
 
             <div class="mb-3">
@@ -30,8 +38,8 @@
                     Display="Dynamic" CssClass="text-danger" />
                 <asp:RegularExpressionValidator ID="revContraseña" runat="server"
                     ControlToValidate="txtContraseña"
-                    ValidationExpression="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$"
-                    ErrorMessage="La contraseña debe tener al menos 6 caracteres, incluyendo letras y números."
+                    ValidationExpression="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                    ErrorMessage="La contraseña debe tener al menos 8 caracteres, incluyendo letras y números."
                     Display="Dynamic" CssClass="text-danger" />
 
             </div>

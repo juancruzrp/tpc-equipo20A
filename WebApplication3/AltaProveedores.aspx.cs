@@ -110,39 +110,52 @@ namespace WebApplication3
                 lblError.Text = "El porcentaje debe ser un número válido entre 1 y 100.";
                 return;
             }
-
-            // crear el proveedor
-            ProveedoresNegocio negocio = new ProveedoresNegocio();
-            Proveedor proveedor = new Proveedor();
-
-            proveedor.Nombre = txtNombre.Text;
-            proveedor.CUIT_CUIL = txtCUITCUIL.Text;
-            proveedor.Telefono = txtTelefono.Text;
-            proveedor.Mail = txtMail.Text;
-            proveedor.Direccion = txtDireccion.Text;
-            proveedor.Porcentaje = porcentaje;
-            proveedor.Estado = true;
-
-            if (string.IsNullOrEmpty(txtIdProveedor.Text))
+            try
             {
-                // Validar que no exista el CUIT
-                if (negocio.ExisteProveedor(proveedor))
+                Proveedor proveedor = new Proveedor();
+                ProveedoresNegocio negocio = new ProveedoresNegocio();
+
+                proveedor.Nombre = txtNombre.Text;
+                proveedor.CUIT_CUIL = txtCUITCUIL.Text;
+                proveedor.Telefono = txtTelefono.Text;
+                proveedor.Mail = txtMail.Text;
+                proveedor.Direccion = txtDireccion.Text;
+                proveedor.Porcentaje = decimal.Parse(txtPorcentaje.Text);
+                proveedor.Estado = true;
+
+                if (ViewState["IdProveedor"] != null)
                 {
-                    lblError.Text = "Ya existe un proveedor con ese CUIT/CUIL.";
-                    return;
+                    // Modo modificación
+                    proveedor.IDProveedor = (int)ViewState["IdProveedor"];
+
+                    if (negocio.ExisteProveedor(proveedor))
+                    {
+                        lblError.Text = "Ya existe otro proveedor con ese CUIT/CUIL o Mail.";
+                        return;
+                    }
+
+                    negocio.modificar(proveedor);
+                }
+                else
+                {
+                    // Modo alta
+                    if (negocio.ExisteProveedor(proveedor))
+                    {
+                        lblError.Text = "Ya existe un proveedor con ese CUIT/CUIL o Mail.";
+                        return;
+                    }
+
+                    negocio.agregar(proveedor);
                 }
 
-                negocio.agregar(proveedor);
+                Response.Redirect("Proveedores.aspx", false);
             }
-            else
+            catch (Exception ex)
             {
-                proveedor.IDProveedor = int.Parse(txtIdProveedor.Text);
-                negocio.modificar(proveedor);
+                Session.Add("Error", ex.ToString());
+                Response.Redirect("Error.aspx");
             }
-
-            Response.Redirect("Proveedores.aspx");
         }
-
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
             Response.Redirect("Proveedores.aspx");
