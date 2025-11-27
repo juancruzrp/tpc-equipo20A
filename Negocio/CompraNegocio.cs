@@ -65,7 +65,7 @@ namespace Negocio
                 }
                 catch (Exception ex)
                 {
-                   // deshacemos todos los cambios 
+                  
                     transaccion.Rollback();
                     throw ex;
                 }
