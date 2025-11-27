@@ -34,7 +34,7 @@ namespace WebApplication3
                 
                 CargarProveedores();
                 CargarUsuarioActual();
-                CargarMarcas(); 
+               
 
                 txtFecha.Text = DateTime.Today.ToString("yyyy-MM-dd");
             }
@@ -66,17 +66,7 @@ namespace WebApplication3
             }
             litProveedores.Text = html;
         }
-        private void CargarMarcas()
-        {
-            
-            MarcaNegocio negocio = new MarcaNegocio();
-            List<Marca> lista = negocio.listar(); 
-            ddlMarca.DataSource = lista;
-            ddlMarca.DataTextField = "Nombre"; 
-            ddlMarca.DataValueField = "IDMarca";
-            ddlMarca.DataBind();
-            ddlMarca.Items.Insert(0, new ListItem("-- Todas --", "0"));
-        }
+    
 
         protected void btnCargarCuit_Click(object sender, EventArgs e)
         {

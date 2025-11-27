@@ -7,15 +7,12 @@
         <asp:HiddenField ID="hfIDProveedor" runat="server" ClientIDMode="Static" />
         <asp:Button ID="btnCargarCuit" runat="server" OnClick="btnCargarCuit_Click" Style="display:none;" ClientIDMode="Static" />
 
-        <div class="row">
-            <div class="col-md-6">
-
-          <div class="row">
-   
-    <div class="col-md-6">
+       <div class="row">
+    <div class="col-md-12">
+        <label>Buscar Proveedor:</label> 
         <div class="dropdown">
             <asp:TextBox ID="txtBuscarProveedor" runat="server" CssClass="form-control"
-                         placeholder="Buscar proveedor..." onkeyup="filtrarProveedor()" AutoCompleteType="Disabled"
+                         placeholder="Escribe para buscar..." onkeyup="filtrarProveedor()" AutoCompleteType="Disabled"
                 onkeydown="return (event.keyCode!=13);"></asp:TextBox>
 
             <div class="dropdown-menu show w-100" id="listaProveedores" style="max-height: 200px; overflow-y: auto; display:none;">
@@ -23,32 +20,21 @@
             </div>
         </div>
     </div>
-
     
-    <div class="col-md-3">
-        <div class="form-group">
-            <label for="ddlMarca">Filtrar por Marca:</label>
-            <asp:DropDownList ID="ddlMarca" runat="server" CssClass="form-control"
-                ClientIDMode="Static" onchange="filtrarProductoPorMarca()">
-                <asp:ListItem Text="-- Todas --" Value="0" />
-            </asp:DropDownList>
-        </div>
-    </div>
+   
 </div>
 
-        <div class="form-group">
-            <label>CUIT/CUIL del Proveedor:</label>
-            <asp:TextBox ID="txtCuit" runat="server" CssClass="form-control" ReadOnly="true"
-                onkeydown="if(event.keyCode===13){event.preventDefault(); return false;}"></asp:TextBox>
-         </div>
+<div class="form-group mt-3"> 
+    <label>CUIT/CUIL del Proveedor:</label>
+    <asp:TextBox ID="txtCuit" runat="server" CssClass="form-control" ReadOnly="true"
+        onkeydown="if(event.keyCode===13){event.preventDefault(); return false;}"></asp:TextBox>
+</div>
 
-                <div class="form-group">
-                    <label for="txtFecha">Fecha de Compra:</label>
-                    <asp:TextBox ID="txtFecha" runat="server" CssClass="form-control" TextMode="Date" ReadOnly="true"
-                        onkeydown="if(event.keyCode===13){event.preventDefault(); return false;}"></asp:TextBox>
-                </div>
-             
-            </div>
+<div class="form-group">
+    <label for="txtFecha">Fecha de Compra:</label>
+    <asp:TextBox ID="txtFecha" runat="server" CssClass="form-control" TextMode="Date" ReadOnly="true"
+        onkeydown="if(event.keyCode===13){event.preventDefault(); return false;}"></asp:TextBox>
+</div>
      
 
 
