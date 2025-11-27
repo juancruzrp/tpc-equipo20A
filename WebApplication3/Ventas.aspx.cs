@@ -168,6 +168,11 @@ namespace WebApplication3
             ClientScript.RegisterStartupScript(this.GetType(), "VentaExitosa", script, true);
         }
 
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("HistorialVentas.aspx");
+        }
+
     }
 }
 

@@ -97,8 +97,12 @@
 
         <asp:Button ID="btnConfirmar" runat="server" CssClass="btn btn-success"
             Text="Confirmar Venta" OnClick="btnConfirmar_Click" 
-            OnClientClick="return confirm('¿Está seguro que desea confirmar la venta?');" />
-       
+            OnClientClick="return confirm('¿Está seguro que desea confirmar la venta?');"/>
+
+        <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" 
+                    class="btn btn-secondary" CausesValidation="false" 
+                    OnClick="btnCancelar_Click"/>
+        
       <script>
           document.addEventListener("DOMContentLoaded", () => {
 
