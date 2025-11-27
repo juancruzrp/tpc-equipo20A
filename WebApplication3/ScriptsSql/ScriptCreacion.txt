@@ -14,7 +14,7 @@ CREATE TABLE Usuarios (
     Contraseña NVARCHAR(15) NOT NULL,
     IDTipoUsuario INT NOT NULL,
     FechaAlta DATETIME NOT NULL DEFAULT GETDATE(),
-    FechaBaja DATETIME NULL,
+    FechaBaja DATETIME NULL DEFAULT GETDATE(),
     Estado BIT NOT NULL DEFAULT 1,
     FOREIGN KEY (IDTipoUsuario) REFERENCES TiposUsuario(IDTipoUsuario)
 )
@@ -26,7 +26,8 @@ CREATE TABLE Clientes(
     Telefono VARCHAR(15),
     Mail NVARCHAR(50),
     Direccion VARCHAR(75),
-    CUIT_CUIL VARCHAR(15) NOT NULL UNIQUE
+    CUIT_CUIL VARCHAR(15) NOT NULL UNIQUE,
+    Estado BIT NOT NULL DEFAULT 1
 )
 GO
 CREATE TABLE Proveedores(
