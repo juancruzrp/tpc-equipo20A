@@ -52,38 +52,24 @@ namespace WebApplication3
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
-
-            if (string.IsNullOrWhiteSpace(txtCUITCUIL.Text))
+            if (string.IsNullOrWhiteSpace(txtCUITCUIL.Text) ||
+                string.IsNullOrWhiteSpace(txtNombre.Text) ||
+                string.IsNullOrWhiteSpace(txtTelefono.Text) ||
+                string.IsNullOrWhiteSpace(txtMail.Text) ||
+                string.IsNullOrWhiteSpace(txtDireccion.Text) ||
+                string.IsNullOrWhiteSpace(txtPorcentaje.Text))
             {
-                lblError.Text = "El CUIT/CUIL es obligatorio.";
+                lblError.Text = "Todos los campos son obligatorios.";
                 return;
             }
 
-            if (!txtCUITCUIL.Text.All(char.IsDigit))
+            if (!txtCUITCUIL.Text.All(char.IsDigit) || txtCUITCUIL.Text.Length != 11)
             {
-                lblError.Text = "El CUIT/CUIL debe contener solo números.";
-                return;
-            }
-
-            if (txtCUITCUIL.Text.Length != 11)
-            {
-                lblError.Text = "El CUIT/CUIL debe tener 11 dígitos.";
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(txtNombre.Text))
-            {
-                lblError.Text = "El nombre del proveedor es obligatorio.";
+                lblError.Text = "El CUIT/CUIL debe tener exactamente 11 dígitos numéricos.";
                 return;
             }
 
             string nombre = txtNombre.Text.Trim();
-            if (nombre.Length < 2)
-            {
-                lblError.Text = "El nombre debe tener al menos 2 caracteres.";
-                return;
-            }
-
             int cantidadLetras = nombre.Count(char.IsLetter);
             if (cantidadLetras < 2)
             {
@@ -91,67 +77,38 @@ namespace WebApplication3
                 return;
             }
 
-
-            if (string.IsNullOrWhiteSpace(txtPorcentaje.Text))
+            string telefono = txtTelefono.Text.Trim();
+            if (!telefono.All(char.IsDigit) || telefono.Length < 8 || telefono.Length > 15)
             {
-                lblError.Text = "El porcentaje es obligatorio.";
+                lblError.Text = "El teléfono debe contener entre 8 y 15 dígitos numéricos.";
                 return;
             }
 
-            if (!decimal.TryParse(txtPorcentaje.Text, out decimal porcentaje))
+            try
             {
-                lblError.Text = "El porcentaje debe ser un número válido.";
+                var mail = new System.Net.Mail.MailAddress(txtMail.Text.Trim());
+                if (mail.Address != txtMail.Text.Trim())
+                {
+                    lblError.Text = "El correo electrónico no tiene un formato válido.";
+                    return;
+                }
+            }
+            catch
+            {
+                lblError.Text = "El correo electrónico no tiene un formato válido.";
                 return;
             }
 
-            if (porcentaje < 0 || porcentaje > 100)
+            if (txtDireccion.Text.Trim().Length < 5)
             {
-                lblError.Text = "El porcentaje debe estar entre 0 y 100.";
+                lblError.Text = "La dirección debe tener al menos 5 caracteres.";
                 return;
             }
 
-            if (!string.IsNullOrWhiteSpace(txtTelefono.Text))
+            if (!decimal.TryParse(txtPorcentaje.Text, out decimal porcentaje) || porcentaje < 1 || porcentaje > 100)
             {
-                // solo numeros
-                if (!txtTelefono.Text.All(char.IsDigit))
-                {
-                    lblError.Text = "El teléfono debe contener solo números.";
-                    return;
-                }
-
-                // minimo 7 digitos
-                if (txtTelefono.Text.Length < 7)
-                {
-                    lblError.Text = "El teléfono debe tener al menos 7 dígitos.";
-                    return;
-                }
-            }
-
-            if (!string.IsNullOrWhiteSpace(txtMail.Text))
-            {
-                try
-                {
-                    var mail = new System.Net.Mail.MailAddress(txtMail.Text);
-                    if (mail.Address != txtMail.Text)
-                    {
-                        lblError.Text = "El mail ingresado no es válido.";
-                        return;
-                    }
-                }
-                catch
-                {
-                    lblError.Text = "El mail ingresado no es válido.";
-                    return;
-                }
-            }
-
-            if (!string.IsNullOrWhiteSpace(txtDireccion.Text))
-            {
-                if (txtDireccion.Text.Trim().Length < 5)
-                {
-                    lblError.Text = "La dirección debe tener al menos 5 caracteres.";
-                    return;
-                }
+                lblError.Text = "El porcentaje debe ser un número válido entre 1 y 100.";
+                return;
             }
 
             // crear el proveedor
