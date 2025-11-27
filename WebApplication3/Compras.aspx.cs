@@ -48,6 +48,7 @@ namespace WebApplication3
             }
 
             txtPrecioUnitario.Attributes.Add("readonly", "readonly");
+            BloquearSelectorProveedor();
         }
 
 
@@ -196,6 +197,7 @@ namespace WebApplication3
 
             ActualizarGrilla();
             LimpiarCamposProducto();
+            BloquearSelectorProveedor();
         }
 
 
@@ -220,6 +222,7 @@ namespace WebApplication3
         {
             CarritoCompras.RemoveAt(e.RowIndex);
             ActualizarGrilla();
+            BloquearSelectorProveedor();
         }
 
 
@@ -295,6 +298,23 @@ namespace WebApplication3
             {
                 Session["Error"] = ex.Message;
                 Response.Write("<script>alert('Error: " + ex.Message + "');</script>");
+            }
+        }
+
+        private void BloquearSelectorProveedor()
+        {
+       
+            if (CarritoCompras != null && CarritoCompras.Count > 0)
+            {
+                txtBuscarProveedor.Enabled = false; 
+                txtBuscarProveedor.CssClass = "form-control bg-light"; 
+                txtBuscarProveedor.Attributes["placeholder"] = "Elimine los productos para cambiar de proveedor.";
+            }
+            else
+            {
+                txtBuscarProveedor.Enabled = true; 
+                txtBuscarProveedor.CssClass = "form-control";
+                txtBuscarProveedor.Attributes["placeholder"] = "Buscar proveedor...";
             }
         }
     }

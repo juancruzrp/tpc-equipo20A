@@ -128,7 +128,8 @@
 
        <div class="mt-4">
     <asp:Button ID="btnGuardarCompra" runat="server" Text="Guardar Compra" 
-                CssClass="btn btn-success btn-lg" OnClick="btnGuardarCompra_Click" />
+                CssClass="btn btn-success btn-lg" OnClick="btnGuardarCompra_Click"
+         OnClientClick="return confirm('¿Está seguro que desea confirmar la compra?');"/> 
     
     <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" 
                 CssClass="btn btn-secondary btn-lg" CausesValidation="false" 
