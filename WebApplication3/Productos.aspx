@@ -51,8 +51,8 @@
                                             OnClientClick='<%# (bool)Eval("Estado") 
                                             ? "return confirm(\"¿Seguro que desea inactivar este producto?\");" 
                                             : "return confirm(\"¿Seguro que desea activar este producto?\");" %>' />
-                                        <%} %>
                                     </div>
+                                        <%} %>
                                 </div>
                             </div>
                         </div>
