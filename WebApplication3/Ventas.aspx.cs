@@ -164,7 +164,7 @@ namespace WebApplication3
             
             hdnProductosVenta.Value = "";
 
-            string script = "alert('Venta registrada con éxito.');";
+            string script = "alert('Venta registrada con éxito.'); window.location='Ventas.aspx';";
             ClientScript.RegisterStartupScript(this.GetType(), "VentaExitosa", script, true);
         }
 
