@@ -25,6 +25,7 @@
                                     style="max-height: 150px; object-fit: contain;"
                                     onerror="this.src='https://us.123rf.com/450wm/koblizeek/koblizeek2208/koblizeek220800128/190320173-no-image-vector-symbol-missing-available-icon-no-gallery-for-this-moment-placeholder.jpg';" />
                             </div>
+                            <!--Comentario bue-->
 
                             <div class="col-md-9">
                                 <div class="card-body text-start">
