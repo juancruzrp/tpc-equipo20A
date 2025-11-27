@@ -8,13 +8,15 @@
     <!-- Fecha -->
     <div class="mb-3">
         <label>Fecha</label>
-        <asp:TextBox ID="txtFecha" runat="server" CssClass="form-control" TextMode="Date" ReadOnly="true" />
+        <asp:TextBox ID="txtFecha" runat="server" CssClass="form-control" TextMode="Date" ReadOnly="true"
+            onkeydown="if(event.keyCode===13){event.preventDefault(); return false;}" />
     </div>
 
     <!-- Cliente -->
     <div class="mb-3">
         <label>Cliente</label>
-        <asp:DropDownList ID="ddlClientes" runat="server" CssClass="form-control" AutoPostBack="true" 
+        <asp:DropDownList ID="ddlClientes" runat="server" CssClass="form-control" AutoPostBack="true"
+            
             OnSelectedIndexChanged="ddlClientes_SelectedIndexChanged">    
         </asp:DropDownList>
         <asp:Label ID="lblMensaje" runat="server" ForeColor="Green"></asp:Label>
@@ -22,7 +24,8 @@
 
     <div class="mb-3">
         <label>CUIT / CUIL</label>
-        <asp:TextBox ID="txtCUIT" runat="server" CssClass="form-control" ReadOnly="true" />
+        <asp:TextBox ID="txtCUIT" runat="server" CssClass="form-control" ReadOnly="true"
+             onkeydown="if(event.keyCode===13){event.preventDefault(); return false;}"/>
     </div>
 
     <asp:HiddenField ID="hdnIDCliente" runat="server" />
@@ -53,7 +56,7 @@
             </div>
         </div>
 
-        <asp:Literal ID="litProductos" runat="server" />
+        <asp:Literal ID="litProductos" runat="server"/>
             </ContentTemplate>
         </asp:UpdatePanel>
 
@@ -61,7 +64,8 @@
         <!-- -->
         <div class="mb-3" style="position: relative;">
             <label>Producto</label>
-            <input type="text" id="txtBuscarProducto" class="form-control" placeholder="Escriba para buscar..." autocomplete="off" />
+            <input type="text" id="txtBuscarProducto" class="form-control" placeholder="Escriba para buscar..." autocomplete="off" 
+                onkeydown="if(event.keyCode===13){event.preventDefault(); return false;}"/>
             <ul id="listaProductos" class="list-group mt-1" style="position: absolute; width: 100%; max-height: 200px; overflow-y: auto; z-index: 1000;"></ul>
         </div>
 
