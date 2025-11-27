@@ -1,4 +1,5 @@
-﻿using Negocio;
+﻿using Dominio;
+using Negocio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,11 +46,34 @@ namespace WebApplication3
 
         protected void dgvClientes_SelectedIndexChanged(object sender, EventArgs e)
         {
+          
             foreach (GridViewRow row in dgvClientes.Rows)
                 row.CssClass = row.RowIndex == dgvClientes.SelectedIndex ? "selectedRowHighlight" : "";
 
-           btnModificar.Enabled = true;
+            btnModificar.Enabled = true;
+            btnInactivar.Enabled = true; 
 
+            int idCliente = Convert.ToInt32(dgvClientes.SelectedDataKey.Value);
+
+            ClientesNegocio negocio = new ClientesNegocio();
+            List<Cliente> lista = negocio.listar();
+            Cliente seleccionado = lista.Find(x => x.IDCliente == idCliente);
+
+            if (seleccionado != null)
+            {
+                if (seleccionado.Estado)
+                {
+                    btnInactivar.Text = "Inactivar Cliente";
+                    btnInactivar.CssClass = "btn btn-outline-danger";
+                    btnInactivar.OnClientClick = "return confirm('¿Estás seguro de que quieres inactivar a este cliente?');";
+                }
+                else
+                {
+                    btnInactivar.Text = "Activar Cliente";
+                    btnInactivar.CssClass = "btn btn-outline-success";
+                    btnInactivar.OnClientClick = "return confirm('¿Estás seguro de que quieres activar a este cliente?');";
+                }
+            }
         }
         protected override void Render(HtmlTextWriter writer)
         {
@@ -71,6 +95,40 @@ namespace WebApplication3
                 Response.Redirect("AltaClientes.aspx?id=" + idUsuario);
             }
         }
+
+        protected void btnInactivar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int idCliente = Convert.ToInt32(dgvClientes.SelectedDataKey.Value);
+
+                ClientesNegocio negocio = new ClientesNegocio();
+                List<Cliente> lista = negocio.listar();
+                Cliente seleccionado = lista.Find(x => x.IDCliente == idCliente);
+
+                if (seleccionado.Estado)
+                {
+                    negocio.eliminarLogico(idCliente);
+                }
+                else
+                {
+                    negocio.activar(idCliente);
+                }
+
+                CargarClientes();
+
+                btnModificar.Enabled = false;
+                btnInactivar.Enabled = false;
+                btnInactivar.Text = "Inactivar Cliente"; 
+                btnInactivar.CssClass = "btn btn-outline-danger";
+            }
+            catch (Exception ex)
+            {
+                Session.Add("Error", ex.Message);
+                Response.Redirect("Error.aspx");
+            }
+        }
+
 
 
     }

@@ -33,11 +33,16 @@
                 <asp:BoundField DataField="Telefono" HeaderText="Telefono del cliente" />
                 <asp:BoundField DataField="Mail" HeaderText="Mail del cliente" />
                 <asp:BoundField DataField="Direccion" HeaderText="Direccion del cliente" />
+                 <asp:CheckBoxField DataField="Estado" HeaderText="Activo" ReadOnly="True">
+            <ItemStyle HorizontalAlign="Center" />
+        </asp:CheckBoxField>
+
                 <asp:CommandField ShowSelectButton="True" SelectText="Seleccionar"
                     HeaderStyle-CssClass="d-none" ItemStyle-CssClass="d-none" />
             </Columns>
         </asp:GridView>
         <asp:Button Text="Agregar Cliente" ID="btnAgregar" runat="server" class="btn btn-outline-primary" OnClick="btnAgregar_Click" />
         <asp:Button Text="Modificar Cliente" ID="btnModificar" runat="server" CssClass="btn btn-outline-info" OnClick="btnModificar_Click" Enabled="false" />
+         <asp:Button Text="Inactivar Cliente" ID="btnInactivar" runat="server" CssClass="btn btn-outline-danger" OnClick="btnInactivar_Click" Enabled="false" />
     </main>
 </asp:Content>

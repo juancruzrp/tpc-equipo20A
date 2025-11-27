@@ -17,7 +17,7 @@ namespace Negocio
             try
             {
 
-                string consulta = "SELECT IDCliente, Nombre, Apellido, Telefono, Mail, Direccion, CUIT_CUIL FROM Clientes";
+                string consulta = "SELECT IDCliente, Nombre, Apellido, Telefono, Mail, Direccion, CUIT_CUIL, Estado FROM Clientes";
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
@@ -41,11 +41,12 @@ namespace Negocio
                     if (!(datos.Lector["Direccion"] is DBNull))
                         aux.Direccion = (string)datos.Lector["Direccion"];
 
-
                     if (!(datos.Lector["CUIT_CUIL"] is DBNull))
                         aux.CUIT_CUIL = (string)datos.Lector["CUIT_CUIL"];
                     else
                         aux.CUIT_CUIL = "";
+
+                    aux.Estado = (bool)datos.Lector["Estado"];
 
                     lista.Add(aux);
                 }
@@ -53,7 +54,6 @@ namespace Negocio
             }
             catch (Exception ex)
             {
-
                 throw new Exception("Error al listar clientes: " + ex.Message, ex);
             }
             finally
@@ -95,7 +95,7 @@ namespace Negocio
             Cliente cliente = null;
             try
             {
-                string consulta = "SELECT IDCliente, Nombre, Apellido, Telefono, Mail, Direccion, CUIT_CUIL " +
+                string consulta = "SELECT IDCliente, Nombre, Apellido, Telefono, Mail, Direccion, CUIT_CUIL, Estado " +
                                   "FROM Clientes WHERE IDCliente = @IDCliente";
                 datos.setearConsulta(consulta);
                 datos.setearParametro("@IDCliente", id);
@@ -110,6 +110,7 @@ namespace Negocio
                     cliente.Mail = (string)datos.Lector["Mail"];
                     cliente.Direccion = (string)datos.Lector["Direccion"];
                     cliente.CUIT_CUIL = (string)datos.Lector["CUIT_CUIL"];
+                    cliente.Estado = (bool)datos.Lector["Estado"];
                 }
                 return cliente;
             }
@@ -197,6 +198,46 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+
+        public void eliminarLogico(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("UPDATE Clientes SET Estado = 0 WHERE IDCliente = @id");
+                datos.setearParametro("@id", id);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void activar(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("UPDATE Clientes SET Estado = 1 WHERE IDCliente = @id");
+                datos.setearParametro("@id", id);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }
 

@@ -19,5 +19,6 @@ namespace Dominio
 
         public string NombreCompleto => Nombre + " " + Apellido;
 
+        public bool Estado { get; set; }
     }
 }
